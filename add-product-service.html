@@ -473,8 +473,10 @@
                         throw new Error('A contact WhatsApp number is required.');
                     }
 
-                    if (locations.length === 0) {
-                        throw new Error('Please add at least one service or delivery location.');
+                    // Capture any pending location text that wasn't added as a tag yet
+                    const pendingLocation = document.getElementById('locations-input').value.trim();
+                    if (pendingLocation) {
+                        locations.push(pendingLocation);
                     }
 
                     const { error } = await supabase.from('services').insert({
