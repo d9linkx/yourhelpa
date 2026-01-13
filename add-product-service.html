@@ -393,17 +393,22 @@
 
             const renderImagePreviews = () => {
                 previewContainer.innerHTML = '';
-                uploadedFiles.forEach((file, index) => {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        const thumb = `
-                            <div class="preview-thumbnail">
-                                <img src="${e.target.result}" alt="${file.name}">
-                                <button type="button" class="remove-image-btn" data-index="${index}">&times;</button>
-                            </div>`;
-                        previewContainer.innerHTML += thumb;
-                    };
-                    reader.readAsDataURL(file);
+                previewContainer.style.display = uploadedFiles.length > 0 ? 'grid' : 'none';
+
+                const promises = uploadedFiles.map((file, index) => {
+                    return new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = (e) => resolve({ src: e.target.result, name: file.name, index });
+                        reader.readAsDataURL(file);
+                    });
+                });
+
+                Promise.all(promises).then(images => {
+                    previewContainer.innerHTML = images.map(img => `
+                        <div class="preview-thumbnail">
+                            <img src="${img.src}" alt="${img.name}">
+                            <button type="button" class="remove-image-btn" data-index="${img.index}">&times;</button>
+                        </div>`).join('');
                 });
             };
 
@@ -414,6 +419,7 @@
                     uploadedFiles.push(...newFiles);
                     renderImagePreviews();
                 }
+                imageInput.value = '';
             });
 
             previewContainer.addEventListener('click', (e) => {
@@ -494,56 +500,6 @@
                         locations = [];
                         renderImagePreviews();
                         renderLocationTags();
-                        // Reset type to service
-                        typeOptions.forEach(o => o.classList.remove('active'));
-                        document.getElementById('opt-service').classList.add('active');
-                        document.querySelector('input[value="service"]').checked = true;
-                        updateCategories('service');
-                    } else {
-                        window.location.href = `business-view.html?id=${businessId}`;
-                    }
-
-                } catch (err) {
-                    console.error('Error adding item:', err);
-                    alert('Error adding item: ' + err.message);
-                } finally {
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                }
-            });
-        });
-    </script>
-</body>
-</html>
-                            
-                        if (uploadError) throw uploadError;
-                        
-                        const { data: { publicUrl } } = supabase.storage
-                            .from('service-images')
-                            .getPublicUrl(fileName);
-                            
-                        imageUrls.push(publicUrl);
-                    }
-
-                    const { error } = await supabase.from('services').insert({
-                        helpa_id: currentUser.id,
-                        business_id: businessId,
-                        name,
-                        type,
-                        category,
-                        price,
-                        description,
-                        images: imageUrls,
-                        is_active: true
-                    });
-
-                    if (error) throw error;
-
-                    if (confirm('Item added successfully! Do you want to add another?')) {
-                        // Reset form for next item
-                        document.getElementById('add-item-form').reset();
-                        document.getElementById('preview-container').style.display = 'none';
-                        document.getElementById('upload-placeholder').style.display = 'block';
                         // Reset type to service
                         typeOptions.forEach(o => o.classList.remove('active'));
                         document.getElementById('opt-service').classList.add('active');
