@@ -155,6 +155,18 @@
                     <div id="business-name-badge" class="business-badge">Loading Business...</div>
                 </div>
 
+                <div id="success-message-container" style="display: none; text-align: center; padding: 1rem;">
+                    <div style="color: var(--primary-color); margin-bottom: 1rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <h3>Item Added Successfully!</h3>
+                    <p style="color: var(--text-muted-color); margin-bottom: 2rem;">Your product or service has been added to your business profile.</p>
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button type="button" id="btn-add-another" class="button-primary">Add Another Item</button>
+                        <a id="btn-return-business" href="#" class="button-outline">Return to Business</a>
+                    </div>
+                </div>
+
                 <form id="add-item-form">
                     <div class="form-group">
                         <label>What are you adding?</label>
@@ -495,7 +507,18 @@
 
                     if (error) throw error;
 
-                    if (confirm('Item added successfully! Do you want to add another?')) {
+                    // Show success message instead of alert
+                    document.getElementById('add-item-form').style.display = 'none';
+                    document.querySelector('.form-header').style.display = 'none';
+                    document.getElementById('success-message-container').style.display = 'block';
+                    document.getElementById('btn-return-business').href = `business-view.html?id=${businessId}`;
+
+                    // Setup Add Another button
+                    document.getElementById('btn-add-another').onclick = () => {
+                        document.getElementById('success-message-container').style.display = 'none';
+                        document.querySelector('.form-header').style.display = 'block';
+                        document.getElementById('add-item-form').style.display = 'block';
+                        
                         // Reset form for next item
                         document.getElementById('add-item-form').reset();
                         uploadedFiles = [];
@@ -507,9 +530,8 @@
                         document.getElementById('opt-service').classList.add('active');
                         document.querySelector('input[value="service"]').checked = true;
                         updateCategories('service');
-                    } else {
-                        window.location.href = `business-view.html?id=${businessId}`;
-                    }
+                        window.scrollTo(0, 0);
+                    };
 
                 } catch (err) {
                     console.error('Error adding item:', err);
