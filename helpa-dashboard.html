@@ -117,12 +117,6 @@
         .mini-stat-card:nth-child(4) .icon-bg { background-color: rgba(239, 68, 68, 0.1); } .mini-stat-card:nth-child(4) .icon-bg svg { color: #ef4444; }
         .mini-stat-card:nth-child(5) .icon-bg { background-color: rgba(59, 130, 246, 0.1); } .mini-stat-card:nth-child(5) .icon-bg svg { color: #3b82f6; }
 
-        /* Financial Health */
-        .financial-stat { margin-bottom: 1.5rem; }
-        .financial-stat .label { font-size: 0.9rem; color: var(--text-muted-color); }
-        .financial-stat .value { font-size: 2rem; font-weight: 700; }
-        .quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-
         /* Stats Filters */
         .stats-header {
             display: flex;
@@ -386,23 +380,6 @@
 
                 <!-- Sidebar Column -->
                 <div class="sidebar-column">
-                    <!-- Financial Health -->
-                    <div class="grid-item">
-                        <h2>Financial Health</h2>
-                        <div class="financial-stat">
-                            <span class="label">This Month's Revenue</span>
-                            <p class="value" id="monthly-earnings-value">...</p>
-                        </div>
-                        <div class="financial-stat">
-                            <span class="label">Pending Payments (in Escrow)</span>
-                            <p class="value" id="in-escrow-value">...</p>
-                        </div>
-                        <div class="quick-actions">
-                            <button class="button-primary">Create Invoice</button>
-                            <button class="button-outline">Log Expense</button>
-                        </div>
-                    </div>
-
                     <!-- Business Management -->
                     <div class="grid-item">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
@@ -625,28 +602,12 @@
                 }, {});
             const recurringCustomers = Object.values(completedJobsByClient).filter(count => count > 1).length;
 
-            // Financials
-            const inEscrow = filteredJobs.filter(j => j.status === 'ongoing' || j.status === 'in_progress').reduce((sum, j) => sum + j.amount, 0);
-            const earnings = filteredJobs.filter(j => j.status === 'completed').reduce((sum, j) => sum + j.amount, 0);
-
             // Update UI
             document.getElementById('ongoing-jobs-value').textContent = ongoingJobs;
             document.getElementById('completed-jobs-value').textContent = completedJobs;
             document.getElementById('profile-views-value').textContent = helpaProfileData?.profile_views || 0;
             document.getElementById('new-leads-value').textContent = '0'; // Placeholder
             document.getElementById('recurring-customers-value').textContent = recurringCustomers;
-
-            // Update Financial Health Label
-            const earningsLabel = document.querySelector('.financial-stat .label');
-            if (earningsLabel) {
-                if (period === 'today') earningsLabel.textContent = "Today's Revenue";
-                else if (period === 'week') earningsLabel.textContent = "This Week's Revenue";
-                else if (period === 'month') earningsLabel.textContent = "This Month's Revenue";
-                else earningsLabel.textContent = "Total Revenue";
-            }
-
-            document.getElementById('in-escrow-value').textContent = formatCurrency(inEscrow);
-            document.getElementById('monthly-earnings-value').textContent = formatCurrency(earnings);
         }
 
         async function fetchAndRenderBusinesses(userId) {
