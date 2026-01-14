@@ -59,17 +59,19 @@
             font-size: 1rem;
         }
 
-        /* Style for the new outline button */
         .button-outline {
-            background-color: white;
-            border: 1px solid #324d35;
-            color: #324d35;
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
             padding: 0.75rem 1.5rem; /* Matching button-primary padding */
             border-radius: 8px;
             text-decoration: none;
             transition: all 0.3s ease;
         }
-
+        .button-outline:hover {
+            border-color: var(--text-heading-color);
+            color: var(--text-heading-color);
+        }
         /* Set menu text color to grey */
         #main-nav ul li a {
             color: var(--text-muted-color);

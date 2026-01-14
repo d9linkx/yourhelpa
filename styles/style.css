@@ -360,19 +360,19 @@ p {
 /* --- Interactive Buttons --- */
 .button-primary {
     display: inline-block;
-    background-color: var(--primary-color);
+    background-color: var(--text-heading-color);
     color: white;
     padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    transition: all 0.2s ease;
     box-shadow: var(--shadow-sm);
 }
 
 .button-primary:hover {
-    background-color: var(--primary-hover);
+    background-color: #0A0A0A;
     color: white;
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
@@ -380,18 +380,18 @@ p {
 
 .button-secondary {
     display: inline-block;
-    background-color: #324d35;
-    color: #ffffff;
+    background-color: transparent;
+    color: var(--text-heading-color);
     padding: 0.5rem 1rem;
     border-radius: 8px;
     font-weight: 600;
-    border: 1px solid transparent;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
 }
 
 .button-secondary:hover {
-    background-color: #2a402c; /* A slightly darker shade of the green */
-    color: #ffffff;
+    background-color: var(--surface-color);
+    border-color: var(--text-heading-color);
     transform: translateY(-2px);
     box-shadow: var(--shadow-sm);
 }
@@ -966,7 +966,7 @@ main {
 }
 
 .step-card {
-    background-color: #324d35;
+    background-color: var(--text-heading-color);
     color: #f8f9fa; /* Light text for paragraphs */
     padding: 2.5rem;
     border-radius: 16px;
@@ -974,8 +974,8 @@ main {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .step-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 30px -10px rgba(50, 77, 53, 0.4);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
 }
 .step-card h3 {
     margin-top: 1.5rem;
@@ -1016,7 +1016,7 @@ main {
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    border: 2px solid #324d35; /* Match new card background */
+    border: 2px solid var(--text-heading-color); /* Match new card background */
 }
 
 .categories {
@@ -1381,11 +1381,11 @@ main {
 .trust-item:hover { background-color: var(--primary-color); color: white; }
 .trust-item:hover svg { color: white; }
 .dual-value-prop { 
-    background-color: #324d35; 
-    color: #f8f9fa; /* Light text color for readability on dark background */
+    background-color: var(--text-heading-color); 
+    color: #f8f9fa;
 }
 .dual-value-prop h2, .dual-value-prop .value-block h4 {
-    color: #fff; /* White for main headings */
+    color: #fff;
 }
 .dual-value-prop p { color: #dee2e6; } /* Lighter grey for paragraphs */
 .dual-value-prop .container {
@@ -1409,7 +1409,7 @@ main {
 }
 
 .value-block { 
-    background-color: #05aa16; /* Brand primary color */
+    background-color: #0A0A0A;
     padding: 3rem; border-radius: 16px; 
     border: 1px solid transparent; 
 }
@@ -1423,9 +1423,9 @@ main {
     background-color: rgba(255, 255, 255, 0.15);
     color: #ffffff;
 }
-.value-block h4 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary-color); }
-.final-cta { background: linear-gradient(145deg, var(--primary-color), var(--primary-hover)); color: #0A0A0A; text-align: center; }
-.final-cta h2 { color: #0A0A0A; font-size: clamp(2rem, 5vw, 3rem); }
+.value-block h4 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.05em; color: #fff; }
+.final-cta { background-color: var(--text-heading-color); color: #fff; text-align: center; }
+.final-cta h2 { color: #fff; font-size: clamp(2rem, 5vw, 3rem); }
 .fomo-notification { position: fixed; bottom: 1.5rem; left: 1.5rem; background-color: var(--surface-color); color: var(--text-color); padding: 1rem 1.5rem; border-radius: 12px; box-shadow: var(--shadow-lg); z-index: 1001; opacity: 0; transform: translateY(20px); transition: opacity 0.5s, transform 0.5s; font-size: 0.9rem; border: 1px solid var(--border-color); }
 .fomo-notification.visible { opacity: 1; transform: translateY(0); }
 .location-reminder { text-align: center; padding: 1rem; background-color: var(--surface-color); font-weight: 600; color: var(--primary-color); }
@@ -1557,7 +1557,7 @@ main {
 .cta-glass-card {
     position: relative;
     z-index: 2;
-    background: #324d35; /* Solid brand color */
+    background: var(--text-heading-color);
     border: 1px solid rgba(255, 255, 255, 0.2); /* A subtle light border */
     border-radius: 24px;
     padding: 3rem;
@@ -1580,7 +1580,7 @@ main {
 .futuristic-cta .button-secondary,
 .futuristic-cta .button-primary,
 .dual-value-prop .button-secondary {
-    border: 1px solid #05aa16;
+    border: 1px solid #444;
 }
 
 /* Carousel Animation */
