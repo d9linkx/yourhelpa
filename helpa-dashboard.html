@@ -117,15 +117,6 @@
         .mini-stat-card:nth-child(4) .icon-bg { background-color: rgba(239, 68, 68, 0.1); } .mini-stat-card:nth-child(4) .icon-bg svg { color: #ef4444; }
         .mini-stat-card:nth-child(5) .icon-bg { background-color: rgba(59, 130, 246, 0.1); } .mini-stat-card:nth-child(5) .icon-bg svg { color: #3b82f6; }
 
-        /* Today's Tasks */
-        .task-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--border-color); }
-        .task-item:last-child { border-bottom: none; padding-bottom: 0; }
-        .task-item:first-child { padding-top: 0; }
-        .task-info h3 { font-size: 1rem; margin: 0 0 0.25rem; }
-        .task-info p { font-size: 0.9rem; color: var(--text-muted-color); margin: 0; }
-        .status-dot { width: 10px; height: 10px; border-radius: 50%; }
-        .status-amber { background-color: #f59e0b; }
-
         /* Financial Health */
         .financial-stat { margin-bottom: 1.5rem; }
         .financial-stat .label { font-size: 0.9rem; color: var(--text-muted-color); }
@@ -391,14 +382,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Today's Tasks -->
-                    <div class="grid-item">
-                        <h2>Today's Tasks</h2>
-                        <div id="tasks-list-container">
-                            <p>Loading tasks...</p>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Sidebar Column -->
@@ -501,7 +484,6 @@
             // This is more efficient than fetching one by one
             await Promise.all([
                 fetchAndRenderStats(user.id),
-                fetchAndRenderTodaysTasks(user.id),
                 fetchAndRenderBusinesses(user.id)
             ]).catch(error => {
                 console.error("An error occurred while loading dashboard data:", error);
@@ -665,46 +647,6 @@
 
             document.getElementById('in-escrow-value').textContent = formatCurrency(inEscrow);
             document.getElementById('monthly-earnings-value').textContent = formatCurrency(earnings);
-        }
-
-        async function fetchAndRenderTodaysTasks(userId) {
-            const container = document.getElementById('tasks-list-container');
-            try {
-                const { data: jobs, error } = await supabase
-                    .from('jobs')
-                    .select(`id, title, status, client:client_id ( first_name, last_name )`)
-                    .eq('helpa_id', userId)
-                    .in('status', ['ongoing', 'in_progress']);
-
-                if (error) throw error;
-
-                container.innerHTML = ''; // Clear loading message
-
-                if (!jobs || jobs.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                            <h3>All Clear!</h3>
-                            <p>You have no active jobs for today.</p>
-                        </div>`;
-                } else {
-                    jobs.forEach(job => {
-                        const clientName = job.client ? `${job.client.first_name} ${job.client.last_name.charAt(0)}.` : 'N/A';
-                        const taskHTML = `
-                            <div class="task-item">
-                                <div class="task-info">
-                                    <h3>${job.title}</h3>
-                                    <p>Client: ${clientName}</p>
-                                </div>
-                                <a href="job-details.html?id=${job.id}" class="button-outline" style="padding: 0.5rem 1rem; font-size: 0.9rem;">View</a>
-                            </div>`;
-                        container.insertAdjacentHTML('beforeend', taskHTML);
-                    });
-                }
-            } catch (error) {
-                console.error('Error fetching jobs:', error.message);
-                container.innerHTML = '<p class="error-text">Could not load your jobs at this time.</p>';
-            }
         }
 
         async function fetchAndRenderBusinesses(userId) {
