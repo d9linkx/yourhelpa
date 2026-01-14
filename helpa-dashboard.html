@@ -490,6 +490,7 @@
 
         // Global state for stats to allow filtering without re-fetching
         let allJobsData = [];
+        let allStatsData = [];
         let helpaProfileData = null;
 
         async function fetchAndRenderStats(userId) {
@@ -501,6 +502,12 @@
                     .eq('helpa_id', userId);
                 if (jobsError) throw jobsError;
 
+                // Fetch historical stats from the new table
+                const { data: stats, error: statsError } = await supabase
+                    .from('helpa_statistics')
+                    .select('*')
+                    .eq('helpa_id', userId);
+                
                 // Fetch profile views
                 const { data: profile, error: profileError } = await supabase
                     .from('helpas')
@@ -510,6 +517,7 @@
                 if (profileError) throw profileError;
                 
                 allJobsData = jobs || [];
+                allStatsData = stats || [];
                 helpaProfileData = profile;
 
                 // Populate Filters
@@ -561,6 +569,7 @@
             const serviceId = document.getElementById('stats-service').value;
 
             let filteredJobs = allJobsData;
+            let filteredStats = allStatsData;
 
             // Filter by Period
             const now = new Date();
@@ -577,16 +586,27 @@
                     }
                     return true;
                 });
+
+                // Filter Stats Table by Period
+                filteredStats = filteredStats.filter(s => {
+                    const d = new Date(s.month);
+                    if (period === 'today') return false; // Monthly stats don't track daily
+                    if (period === 'week') return false; // Monthly stats don't track weekly
+                    if (period === 'month') return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+                    return true;
+                });
             }
 
             // Filter by Business
             if (businessId !== 'all') {
                 filteredJobs = filteredJobs.filter(j => j.business_id === businessId);
+                filteredStats = filteredStats.filter(s => s.business_id === businessId);
             }
 
             // Filter by Service
             if (serviceId !== 'all') {
                 filteredJobs = filteredJobs.filter(j => j.service_id === serviceId);
+                filteredStats = filteredStats.filter(s => s.service_id === serviceId);
             }
 
             // --- Calculate Stats ---
@@ -602,11 +622,14 @@
                 }, {});
             const recurringCustomers = Object.values(completedJobsByClient).filter(count => count > 1).length;
 
+            // Calculate New Leads from the stats table
+            const newLeads = filteredStats.reduce((sum, item) => sum + (item.new_leads || 0), 0);
+
             // Update UI
             document.getElementById('ongoing-jobs-value').textContent = ongoingJobs;
             document.getElementById('completed-jobs-value').textContent = completedJobs;
             document.getElementById('profile-views-value').textContent = helpaProfileData?.profile_views || 0;
-            document.getElementById('new-leads-value').textContent = '0'; // Placeholder
+            document.getElementById('new-leads-value').textContent = newLeads;
             document.getElementById('recurring-customers-value').textContent = recurringCustomers;
         }
 

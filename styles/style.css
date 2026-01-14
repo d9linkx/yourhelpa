@@ -360,7 +360,7 @@ p {
 /* --- Interactive Buttons --- */
 .button-primary {
     display: inline-block;
-    background-color: var(--text-heading-color);
+    background-color: var(--primary-color);
     color: white;
     padding: 0.75rem 1.5rem;
     border: none;
@@ -372,7 +372,7 @@ p {
 }
 
 .button-primary:hover {
-    background-color: #343a40;
+    background-color: var(--primary-hover);
     color: white;
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
@@ -966,7 +966,7 @@ main {
 }
 
 .step-card {
-    background-color: var(--text-heading-color);
+    background-color: #324d35;
     color: #f8f9fa; /* Light text for paragraphs */
     padding: 2.5rem;
     border-radius: 16px;
@@ -1016,7 +1016,7 @@ main {
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    border: 2px solid var(--text-heading-color); /* Match new card background */
+    border: 2px solid #324d35; /* Match new card background */
 }
 
 .categories {
@@ -1409,7 +1409,7 @@ main {
 }
 
 .value-block { 
-    background-color: #111;
+    background-color: #05aa16; /* Brand primary color */
     padding: 3rem; border-radius: 16px; 
     border: 1px solid transparent; 
 }
@@ -1557,7 +1557,7 @@ main {
 .cta-glass-card {
     position: relative;
     z-index: 2;
-    background: var(--text-heading-color);
+    background: #324d35; /* Solid brand color */
     border: 1px solid rgba(255, 255, 255, 0.2); /* A subtle light border */
     border-radius: 24px;
     padding: 3rem;
