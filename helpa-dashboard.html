@@ -8,11 +8,14 @@
     <link rel="stylesheet" href="styles/style.css">
     <style>
         body {
-            background-color: var(--background-color);
+            background-color: #f8fafc;
+        }
+        :root.dark-mode body {
+            background-color: #0c131a;
         }
 
         .dashboard-container {
-            max-width: 1100px;
+            max-width: 1280px;
             margin: 2rem auto;
             padding: 0 1.5rem;
         }
@@ -21,306 +24,99 @@
         .dashboard-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 2.5rem;
-        }
-
-        .dashboard-header h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .dashboard-header .header-actions .button-secondary {
-            display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .dashboard-header p {
-            color: var(--text-muted-color);
-            font-size: 1.1rem;
-        }
-
-        /* --- Stat Cards --- */
-        .stat-cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .stat-card {
-            background-color: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .stat-card .icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-            background-color: rgba(var(--primary-color-rgb), 0.1);
-            color: var(--primary-color);
-        }
-
-        .stat-card .value {
-            font-size: 2.25rem;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-
-        .stat-card .label {
-            color: var(--text-muted-color);
-            font-size: 0.9rem;
-        }
-
-        .stat-card .sub-value {
-            margin-top: 0.5rem;
-            font-size: 0.85rem;
-            color: var(--text-muted-color);
-            font-weight: 500;
-        }
-
-        /* --- Main Content Sections --- */
-        .dashboard-section {
-            background-color: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 2rem;
-        }
-
-        .section-title-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             flex-wrap: wrap;
             gap: 1rem;
         }
+        .dashboard-header h1 { font-size: 2rem; font-weight: 700; margin: 0; }
+        .dashboard-header .text-muted { color: var(--text-muted-color); font-size: 1rem; margin-top: 0.25rem; }
+        .header-actions { display: flex; align-items: center; gap: 1rem; }
 
-        .section-title-bar h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
+        /* Availability Toggle */
+        .availability-toggle { display: flex; align-items: center; gap: 0.75rem; font-weight: 500; }
+        .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 28px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--primary-color); }
+        input:checked + .slider:before { transform: translateX(22px); }
+
+        /* Setup Hero (Onboarding) */
+        .setup-hero { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; }
+        .setup-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem; }
+        .setup-header h2 { font-size: 1.25rem; margin: 0; }
+        .progress-info { font-size: 0.9rem; color: var(--text-muted-color); }
+        .progress-info strong { color: var(--text-heading-color); font-size: 1rem; }
+        .progress-bar-container { width: 100%; background-color: var(--background-color); border-radius: 99px; height: 8px; overflow: hidden; margin-bottom: 1.5rem; }
+        .progress-bar { background-color: var(--primary-color); height: 100%; border-radius: 99px; transition: width 0.5s ease-in-out; }
+        .setup-checklist { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+        .checklist-item { display: flex; align-items: center; gap: 0.75rem; font-weight: 500; }
+        .checklist-item a { color: var(--primary-color); text-decoration: none; display: flex; align-items: center; gap: 0.75rem; }
+        .checklist-item a:hover { text-decoration: underline; }
+        .checklist-item .icon { width: 20px; height: 20px; }
+        .checklist-item.complete .icon { color: var(--primary-color); }
+        .checklist-item.incomplete .icon { color: var(--text-muted-color); }
+
+        /* Dashboard Grid Layout */
+        .dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .main-column { grid-column: span 2; display: flex; flex-direction: column; gap: 1.5rem; }
+        .sidebar-column { grid-column: span 1; display: flex; flex-direction: column; gap: 1.5rem; }
+
+        /* Grid Items (Cards) */
+        .grid-item { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 16px; padding: 1.5rem; }
+        .grid-item h2 { font-size: 1.25rem; margin-top: 0; margin-bottom: 1.5rem; }
+
+        /* Snapshot Stats */
+        .snapshot-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
+        .mini-stat { background-color: var(--background-color); padding: 1rem; border-radius: 12px; }
+        .mini-stat .label { font-size: 0.85rem; color: var(--text-muted-color); margin-bottom: 0.25rem; display: block; }
+        .mini-stat .value { font-size: 1.75rem; font-weight: 700; }
+
+        /* Today's Tasks */
+        .task-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--border-color); }
+        .task-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .task-item:first-child { padding-top: 0; }
+        .task-info h3 { font-size: 1rem; margin: 0 0 0.25rem; }
+        .task-info p { font-size: 0.9rem; color: var(--text-muted-color); margin: 0; }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .status-amber { background-color: #f59e0b; }
+
+        /* Financial Health */
+        .financial-stat { margin-bottom: 1.5rem; }
+        .financial-stat .label { font-size: 0.9rem; color: var(--text-muted-color); }
+        .financial-stat .value { font-size: 2rem; font-weight: 700; }
+        .quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+        /* Business Management */
+        .business-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background-color: var(--background-color); border-radius: 12px; margin-bottom: 0.75rem; }
+        .business-info h3 { font-size: 1rem; margin: 0; }
+        .business-info p { font-size: 0.85rem; color: var(--text-muted-color); margin: 0.25rem 0 0; }
+        .copy-link-btn { background: none; border: none; cursor: pointer; color: var(--primary-color); padding: 0.5rem; border-radius: 8px; }
+        .copy-link-btn:hover { background-color: rgba(var(--primary-color-rgb), 0.1); }
+
+        /* Calendar Widget */
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; text-align: center; }
+        .calendar-header { font-size: 0.8rem; font-weight: 600; color: var(--text-muted-color); margin-bottom: 0.5rem; }
+        .calendar-day { font-size: 0.9rem; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        .calendar-day.today { background-color: var(--primary-color); color: white; font-weight: 700; }
+        .calendar-day.booked { background-color: rgba(var(--primary-color-rgb), 0.1); font-weight: 500; }
+
+        /* Empty State */
+        .empty-state { text-align: center; padding: 2rem 1rem; border: 2px dashed var(--border-color); border-radius: 12px; }
+        .empty-state svg { color: var(--primary-color); margin-bottom: 1rem; }
+        .empty-state h3 { margin: 0 0 0.5rem; }
+        .empty-state p { color: var(--text-muted-color); margin: 0 0 1.5rem; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .main-column, .sidebar-column { grid-column: span 1; }
         }
-
-        /* --- Filters --- */
-        .filter-bar {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .filter-bar .filter-btn {
-            background-color: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-muted-color);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .filter-bar .filter-btn:hover {
-            background-color: var(--background-color);
-            color: var(--text-color);
-        }
-
-        .filter-bar .filter-btn.active {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            color: white;
-        }
-
-        /* --- Job & Offering Cards --- */
-        .job-card {
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .job-card:last-child {
-            margin-bottom: 0;
-        }
-
-        .job-card h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .job-details {
-            display: flex;
-            gap: 1.5rem;
-            color: var(--text-muted-color);
-            font-size: 0.9rem;
-            flex-wrap: wrap;
-        }
-
-        .job-details span {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .job-actions {
-            display: flex;
-            gap: 0.75rem;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 999px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            background-color: rgba(var(--primary-color-rgb), 0.1);
-            color: var(--primary-color);
-        }
-
-        .dashboard-section + .dashboard-section {
-            margin-top: 2.5rem;
-        }
-
-        .mobile-nav-grid {
-            display: none; /* Hidden on desktop by default */
-        }
-        .mobile-divider-container {
-            display: none;
-        }
-
-
         @media (max-width: 768px) {
-            .job-card {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            .job-actions {
-                justify-self: start;
-            }
-            .dashboard-header {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            /* Override global style to ensure settings button is always visible */
-            .dashboard-header .header-actions {
-                display: flex;
-                align-self: flex-start;
-            }
-
-            /* --- Mobile Navigation Grid --- */
-            .mobile-nav-grid {
-                    display: grid;
-                    grid-template-columns: 1fr 1fr;
-                    gap: 1rem;
-                    margin-bottom: 2.5rem;
-            }
-            .mobile-nav-card {
-                background: linear-gradient(145deg, #ffffff, #f0fdf4);
-                border: 1px solid rgba(5, 170, 22, 0.3);
-                border-radius: 20px;
-                padding: 1.5rem 1rem;
-                text-align: center;
-                font-weight: 700;
-                font-size: 0.9rem;
-                color: var(--text-heading-color);
-                text-decoration: none;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 0.75rem;
-                transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-                box-shadow: 0 8px 20px -5px rgba(5, 170, 22, 0.15);
-                cursor: pointer;
-                -webkit-tap-highlight-color: transparent;
-                position: relative;
-                overflow: hidden;
-            }
-            .mobile-nav-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 12px 25px -5px rgba(5, 170, 22, 0.25);
-                border-color: var(--primary-color);
-            }
-            .mobile-nav-card:active {
-                transform: scale(0.95);
-            }
-            .mobile-nav-card svg {
-                width: 32px;
-                height: 32px;
-                color: var(--primary-color);
-                filter: drop-shadow(0 4px 6px rgba(5, 170, 22, 0.2));
-                transition: transform 0.3s ease;
-            }
-            .mobile-nav-card:hover svg {
-                transform: scale(1.1) rotate(5deg);
-                color: var(--primary-hover);
-            }
-            .mobile-nav-card svg.nav-arrow {
-                display: block;
-                position: absolute;
-                top: 12px;
-                right: 12px;
-                width: 18px;
-                height: 18px;
-                color: rgba(5, 170, 22, 0.4);
-                filter: none;
-                transform: none;
-            }
-            .mobile-nav-card:hover svg.nav-arrow {
-                transform: translateX(3px);
-                color: var(--primary-color);
-            }
-
-            /* --- Minimalist Stat Grid for Mobile --- */
-            .stat-cards-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.75rem;
-                margin-bottom: 2rem;
-            }
-
-            .stat-card {
-                padding: 1rem;
-                border-radius: 12px;
-            }
-
-            .stat-card .icon {
-                width: 32px;
-                height: 32px;
-                margin-bottom: 0.5rem;
-            }
-
-            .stat-card .value {
-                font-size: 1.25rem;
-            }
-
-            .stat-card .label {
-                font-size: 0.8rem;
-            }
-
-            .mobile-divider-container {
-                display: block;
-                margin-bottom: 2rem;
-                text-align: center;
-            }
-            .mobile-divider-container p {
-                font-size: 0.9rem;
-                color: var(--text-muted-color);
-                margin-bottom: 1.5rem;
-            }
+            .dashboard-header { flex-direction: column; align-items: flex-start; }
+            .dashboard-header h1 { font-size: 1.75rem; }
+            .quick-actions { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -329,110 +125,129 @@
 
     <main>
         <div class="dashboard-container">
-            <!-- Dashboard Header -->
-            <header class="dashboard-header">
+            <div class="dashboard-header">
                 <div>
                     <h1 id="welcome-message">Welcome back, ...</h1>
-                    <p>Tap on any card to navigate</p>
+                    <p class="text-muted">Here's your business snapshot for today.</p>
                 </div>
-            </header>
-
-            <!-- Mobile Navigation Grid (Visible on mobile only) -->
-            <div class="mobile-nav-grid">
-                <a href="#stats-section" class="mobile-nav-card">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                    <span>Live Stats & Figures</span>
-                    <svg class="nav-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                </a>
-                <a href="#ongoing-section" class="mobile-nav-card">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                    <span>Ongoing & Completed</span>
-                    <svg class="nav-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                </a>
-                <a href="business-setup.html" class="mobile-nav-card">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-                    <span>My Business</span>
-                    <svg class="nav-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                </a>
-                <a href="settings.html" class="mobile-nav-card">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    <span>Profile & Settings</span>
-                    <svg class="nav-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                </a>
-            </div>
-
-            <div class="mobile-divider-container">
-                <p>Manage your business operations, track earnings, and update your services all from this control center.</p>
-                <hr style="border: 0; border-top: 1px solid var(--border-color);">
-            </div>
-
-            <!-- Stat Cards -->
-            <div class="stat-cards-grid" id="stats-section">
-                <div class="stat-card">
-                    <div class="icon">
-                        <!-- Icon: Escrow -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <div class="header-actions">
+                    <div class="availability-toggle">
+                        <span>Accepting New Orders</span>
+                        <label class="switch">
+                            <input type="checkbox" id="availability-switch" checked>
+                            <span class="slider"></span>
+                        </label>
                     </div>
-                    <span class="value" id="in-escrow-value">...</span>
-                    <span class="label">In Escrow</span>
-                </div>
-                <div class="stat-card">
-                    <div class="icon">
-                        <!-- Icon: Profile Views -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                    </div>
-                    <span class="value" id="profile-views-value">...</span>
-                    <span class="label">Profile Views (30d)</span>
-                </div>
-                <div class="stat-card">
-                    <div class="icon">
-                        <!-- Icon: Earnings -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                    </div>
-                    <span class="value" id="monthly-earnings-value">...</span>
-                    <span class="label">Earnings this month</span>
-                    <span class="sub-value" id="all-time-earnings-value">All-time: ...</span>
-                </div>
-                <div class="stat-card">
-                    <div class="icon">
-                        <!-- Icon: Completed -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-                    </div>
-                    <span class="value" id="jobs-completed-value">...</span>
-                    <span class="label">Jobs Completed</span>
                 </div>
             </div>
 
-            <!-- Ongoing & Completed Section -->
-            <section class="dashboard-section" id="ongoing-section">
-                <div class="section-title-bar">
-                    <h2>Ongoing & Completed</h2>
-                    <div class="filter-bar">
-                        <button class="filter-btn active" id="ongoing-filter-btn">Ongoing (0)</button>
-                        <button class="filter-btn" id="completed-filter-btn">Completed (0)</button>
+            <!-- Setup Hero (Onboarding Module) -->
+            <div class="setup-hero" id="setup-hero-section">
+                <div class="setup-header">
+                    <h2>Complete Your Profile to Start Earning</h2>
+                    <div class="progress-info">
+                        <span>Profile Strength</span>
+                        <strong id="profile-strength-percent">25%</strong>
+                    </div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="profile-strength-bar" style="width: 25%;"></div>
+                </div>
+                <div class="setup-checklist">
+                    <div class="checklist-item complete">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        Create Your Account
+                    </div>
+                    <div class="checklist-item incomplete" id="verify-identity-item">
+                        <a href="settings.html#verification">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            Verify your Identity
+                        </a>
+                    </div>
+                    <div class="checklist-item incomplete" id="link-bank-item">
+                        <a href="settings.html#payouts">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            Link your Bank Account
+                        </a>
+                    </div>
+                    <div class="checklist-item incomplete" id="add-business-item">
+                        <a href="business-setup.html">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            Create your first Business
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Main Content Column -->
+                <div class="main-column">
+                    <!-- Operational Snapshot -->
+                    <div class="grid-item">
+                        <h2>Operational Snapshot</h2>
+                        <div class="snapshot-stats">
+                            <div class="mini-stat">
+                                <span class="label">Active Jobs</span>
+                                <span class="value" id="active-jobs-value">...</span>
+                            </div>
+                            <div class="mini-stat">
+                                <span class="label">New Leads (7d)</span>
+                                <span class="value" id="new-leads-value">...</span>
+                            </div>
+                            <div class="mini-stat">
+                                <span class="label">Profile Views (30d)</span>
+                                <span class="value" id="profile-views-value">...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Today's Tasks -->
+                    <div class="grid-item">
+                        <h2>Today's Tasks</h2>
+                        <div id="tasks-list-container">
+                            <p>Loading tasks...</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Job cards will be dynamically inserted here -->
-                <div id="jobs-list-container">
-                    <p>Loading jobs...</p>
-                </div>
-            </section>
+                <!-- Sidebar Column -->
+                <div class="sidebar-column">
+                    <!-- Financial Health -->
+                    <div class="grid-item">
+                        <h2>Financial Health</h2>
+                        <div class="financial-stat">
+                            <span class="label">This Month's Revenue</span>
+                            <p class="value" id="monthly-earnings-value">...</p>
+                        </div>
+                        <div class="financial-stat">
+                            <span class="label">Pending Payments (in Escrow)</span>
+                            <p class="value" id="in-escrow-value">...</p>
+                        </div>
+                        <div class="quick-actions">
+                            <button class="button-primary">Create Invoice</button>
+                            <button class="button-outline">Log Expense</button>
+                        </div>
+                    </div>
 
-            <!-- My Business Section -->
-            <section class="dashboard-section" id="business-section">
-                <div class="section-title-bar">
-                    <h2>My Business</h2>
-                    <div class="filter-bar">
-                        <a href="business-setup.html" class="button-primary">Set Up Business</a>
+                    <!-- Business Management -->
+                    <div class="grid-item">
+                        <h2>My Businesses</h2>
+                        <div id="businesses-list-container">
+                            <p>Loading businesses...</p>
+                        </div>
+                        <a href="business-setup.html" class="button-primary" style="width: 100%; margin-top: 1rem;">Manage Businesses</a>
+                    </div>
+
+                    <!-- Hustle Calendar -->
+                    <div class="grid-item">
+                        <h2>The Hustle Calendar</h2>
+                        <div class="calendar-widget" id="calendar-widget">
+                            <!-- Calendar will be rendered by JS -->
+                        </div>
                     </div>
                 </div>
-
-                <!-- Service/Product cards will be dynamically inserted here -->
-                <div id="services-list-container">
-                    <p>Loading your services...</p>
-                </div>
-            </section>
+            </div>
         </div>
     </main>
 
@@ -445,11 +260,12 @@
     <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/includes.js"></script>
     <script>
-        // Helper to format currency
+        // --- Helpers ---
         const formatCurrency = (amount) => {
             return new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', minimumFractionDigits: 0 }).format(amount);
         };
 
+        // --- Main Logic ---
         document.addEventListener('DOMContentLoaded', async () => {
             // 1. Check user session
             const { data: { session }, error: sessionError } = await supabase.auth.getSession();
@@ -469,7 +285,7 @@
 
             // 2. Verify Helpa profile exists
             const { data: helpaProfile } = await supabase
-                .from('helpas')
+                .from('profiles') // Assuming 'profiles' table holds basic user info
                 .select('id')
                 .eq('id', user.id)
                 .maybeSingle();
@@ -491,10 +307,10 @@
 
             // --- Fetch and Render Data Concurrently ---
             // This is more efficient than fetching one by one
-            Promise.all([
+            await Promise.all([
                 fetchAndRenderStats(user.id),
-                fetchAndRenderJobs(user.id),
-                fetchAndRenderServices(user.id)
+                fetchAndRenderTodaysTasks(user.id),
+                fetchAndRenderBusinesses(user.id)
             ]).catch(error => {
                 console.error("An error occurred while loading dashboard data:", error);
                 // You could show a general error message on the dashboard here
@@ -503,17 +319,17 @@
 
         async function renderWelcomeMessage(userId) {
             try {
-                const { data: helpa, error } = await supabase
-                    .from('helpas')
-                    .select('full_name')
+                const { data: profile, error } = await supabase
+                    .from('profiles')
+                    .select('first_name')
                     .eq('id', userId)
                     .single();
 
                 if (error) throw error;
 
                 const welcomeMessage = document.getElementById('welcome-message');
-                if (helpa && helpa.full_name) {
-                    const firstName = helpa.full_name.split(' ')[0];
+                if (profile && profile.first_name) {
+                    const firstName = profile.first_name;
                     welcomeMessage.textContent = `Welcome back, ${firstName}`;
                 }
             } catch (error) {
@@ -522,8 +338,6 @@
         }
 
         async function fetchAndRenderStats(userId) {
-            // NOTE: These queries are examples. You might need to adjust them
-            // based on your exact table structure and logic.
             try {
                 // Fetch jobs data for calculations
                 const { data: jobs, error: jobsError } = await supabase
@@ -534,14 +348,14 @@
 
                 // Fetch profile views (assuming a 'profile_views' column on the profiles table)
                 const { data: profile, error: profileError } = await supabase
-                    .from('profiles')
+                    .from('profiles') // This is an example, you might have a separate table for analytics
                     .select('profile_views')
                     .eq('id', userId)
                     .single();
                 if (profileError) throw profileError;
 
                 // Calculate stats
-                const inEscrow = jobs.filter(j => j.status === 'ongoing').reduce((sum, j) => sum + j.amount, 0);
+                const inEscrow = jobs.filter(j => j.status === 'ongoing' || j.status === 'in_progress').reduce((sum, j) => sum + j.amount, 0);
                 const jobsCompleted = jobs.filter(j => j.status === 'completed').length;
                 
                 const now = new Date();
@@ -550,148 +364,124 @@
                     .filter(j => j.status === 'completed' && new Date(j.created_at) >= firstDayOfMonth)
                     .reduce((sum, j) => sum + j.amount, 0);
 
-                const allTimeEarnings = jobs
-                    .filter(j => j.status === 'completed')
-                    .reduce((sum, j) => sum + j.amount, 0);
+                const activeJobs = jobs.filter(j => j.status === 'ongoing' || j.status === 'in_progress').length;
 
                 // Render stats
                 document.getElementById('in-escrow-value').textContent = formatCurrency(inEscrow);
                 document.getElementById('profile-views-value').textContent = profile?.profile_views || 0;
                 document.getElementById('monthly-earnings-value').textContent = formatCurrency(monthlyEarnings);
-                document.getElementById('jobs-completed-value').textContent = jobsCompleted;
-                document.getElementById('all-time-earnings-value').textContent = `All-time: ${formatCurrency(allTimeEarnings)}`;
+                document.getElementById('active-jobs-value').textContent = activeJobs;
+                document.getElementById('new-leads-value').textContent = '0'; // Placeholder
 
             } catch (error) {
                 console.error('Error fetching stats:', error.message);
-                // If fetching fails, set stat values to 0
+                // If fetching fails, set stat values to 0 or N/A
                 document.getElementById('in-escrow-value').textContent = formatCurrency(0);
                 document.getElementById('profile-views-value').textContent = '0';
                 document.getElementById('monthly-earnings-value').textContent = formatCurrency(0);
-                document.getElementById('jobs-completed-value').textContent = '0';
-                document.getElementById('all-time-earnings-value').textContent = 'All-time: N/A';
+                document.getElementById('active-jobs-value').textContent = '0';
+                document.getElementById('new-leads-value').textContent = '0';
             }
         }
 
-        async function fetchAndRenderJobs(userId) {
-            const container = document.getElementById('jobs-list-container');
+        async function fetchAndRenderTodaysTasks(userId) {
+            const container = document.getElementById('tasks-list-container');
             try {
                 const { data: jobs, error } = await supabase
                     .from('jobs')
-                    .select(`*, client:client_id ( first_name, last_name )`) // Assumes a relationship to profiles table aliased as 'client'
+                    .select(`id, title, status, client:client_id ( first_name, last_name )`)
                     .eq('helpa_id', userId)
-                    .in(['ongoing', 'completed']); // Fetch both
+                    .in('status', ['ongoing', 'in_progress']);
 
                 if (error) throw error;
 
-                let allJobs = jobs;
+                container.innerHTML = ''; // Clear loading message
 
-                const renderJobsByStatus = (status) => {
-                    sessionStorage.setItem('jobFilter', status); // Store active filter
-                    container.innerHTML = ''; // Clear current list
-                    const filteredJobs = allJobs.filter(j => j.status === status);
-
-                    if (filteredJobs.length === 0) {
-                        container.innerHTML = `<p>You have no ${status} jobs.</p>`;
-                    } else {
-                        filteredJobs.forEach(job => {
-                            const clientName = job.client ? `${job.client.first_name} ${job.client.last_name.charAt(0)}.` : 'N/A';
-                            const cardHTML = `
-                                <div class="job-card">
-                                    <div>
-                                        <h3>${job.title}</h3>
-                                        <div class="job-details">
-                                            <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> ${clientName}</span>
-                                            <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> ${job.location || 'N/A'}</span>
-                                            <span class="status-badge">${job.payment_status || job.status}</span>
-                                        </div>
-                                    </div>
-                                    <div class="job-actions">
-                                        <a href="job-details.html?id=${job.id}" class="button-primary">Details</a>
-                                    </div>
-                                </div>`;
-                            container.insertAdjacentHTML('beforeend', cardHTML);
-                        });
-                    }
-                };
-
-                const ongoingJobsCount = allJobs.filter(j => j.status === 'ongoing').length;
-                const completedJobsCount = allJobs.filter(j => j.status === 'completed').length;
-
-                const ongoingBtn = document.getElementById('ongoing-filter-btn');
-                const completedBtn = document.getElementById('completed-filter-btn');
-
-                ongoingBtn.textContent = `Ongoing (${ongoingJobsCount})`;
-                completedBtn.textContent = `Completed (${completedJobsCount})`;
-
-                // Check session storage for a previously set filter
-                const activeFilter = sessionStorage.getItem('jobFilter') || 'ongoing';
-                
-                // Set initial active state and render
-                if (activeFilter === 'completed') {
-                    completedBtn.classList.add('active');
-                    ongoingBtn.classList.remove('active');
-                    renderJobsByStatus('completed');
+                if (!jobs || jobs.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            <h3>All Clear!</h3>
+                            <p>You have no active jobs for today.</p>
+                        </div>`;
                 } else {
-                    ongoingBtn.classList.add('active');
-                    completedBtn.classList.remove('active');
-                    renderJobsByStatus('ongoing');
+                    jobs.forEach(job => {
+                        const clientName = job.client ? `${job.client.first_name} ${job.client.last_name.charAt(0)}.` : 'N/A';
+                        const taskHTML = `
+                            <div class="task-item">
+                                <div class="task-info">
+                                    <h3>${job.title}</h3>
+                                    <p>Client: ${clientName}</p>
+                                </div>
+                                <a href="job-details.html?id=${job.id}" class="button-outline" style="padding: 0.5rem 1rem; font-size: 0.9rem;">View</a>
+                            </div>`;
+                        container.insertAdjacentHTML('beforeend', taskHTML);
+                    });
                 }
-
-                // Add event listeners for filtering
-                ongoingBtn.addEventListener('click', () => {
-                    ongoingBtn.classList.add('active');
-                    completedBtn.classList.remove('active');
-                    renderJobsByStatus('ongoing');
-                });
-
-                completedBtn.addEventListener('click', () => {
-                    completedBtn.classList.add('active');
-                    ongoingBtn.classList.remove('active');
-                    renderJobsByStatus('completed');
-                });
-                
             } catch (error) {
                 console.error('Error fetching jobs:', error.message);
                 container.innerHTML = '<p class="error-text">Could not load your jobs at this time.</p>';
             }
         }
 
-        async function fetchAndRenderServices(userId) {
-            const container = document.getElementById('services-list-container');
+        async function fetchAndRenderBusinesses(userId) {
+            const container = document.getElementById('businesses-list-container');
             try {
-                const { data: services, error } = await supabase
-                    .from('services')
-                    .select('*')
+                const { data: businesses, error } = await supabase
+                    .from('businesses')
+                    .select('id, name, category')
                     .eq('helpa_id', userId);
                 
                 if (error) throw error;
 
                 container.innerHTML = ''; // Clear loading message
-                if (services.length === 0) {
-                    container.innerHTML = '<p>You have not added any services or products yet.</p>';
+                if (!businesses || businesses.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state" style="padding: 1rem; border: none;">
+                            <p style="margin-bottom: 1rem;">Create a business profile to start adding products and services.</p>
+                            <a href="business-setup.html" class="button-primary">Set Up Business</a>
+                        </div>`;
                 } else {
-                    services.forEach(service => {
-                        const cardHTML = `
-                            <div class="job-card">
-                                <div>
-                                    <h3>${service.name}</h3>
-                                    <div class="job-details">
-                                        <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg> ${service.type}</span>
-                                        ${service.is_active ? '<span class="status-badge">Active</span>' : '<span class="status-badge" style="background-color: #fee2e2; color: #991b1b;">Inactive</span>'}
-                                    </div>
+                    businesses.forEach(biz => {
+                        const bizHTML = `
+                            <div class="business-item">
+                                <div class="business-info">
+                                    <h3>${biz.name}</h3>
+                                    <p>${biz.category}</p>
                                 </div>
-                                <div class="job-actions">
-                                    <button class="button-outline" onclick="location.href='service-preview.html?id=${service.id}'" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Preview</button>
+                                <div class="actions">
+                                    <a href="add-product-service.html?business_id=${biz.id}" class="button-outline" style="padding: 0.5rem 1rem; font-size: 0.9rem;">+ Add Item</a>
                                 </div>
                             </div>`;
-                        container.insertAdjacentHTML('beforeend', cardHTML);
+                        container.insertAdjacentHTML('beforeend', bizHTML);
                     });
                 }
             } catch (error) {
-                console.error('Error fetching services:', error.message);
-                container.innerHTML = '<p class="error-text">Could not load your services at this time.</p>';
+                console.error('Error fetching businesses:', error.message);
+                container.innerHTML = '<p class="error-text">Could not load your businesses.</p>';
             }
         }
+
+        // --- UI Interactions ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Calendar rendering (static example)
+            const calendarWidget = document.getElementById('calendar-widget');
+            if (calendarWidget) {
+                let calendarHTML = '<div class="calendar-grid">';
+                const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+                days.forEach(day => calendarHTML += `<div class="calendar-header">${day}</div>`);
+                
+                const today = new Date().getDate();
+                for (let i = 1; i <= 31; i++) {
+                    let dayClass = 'calendar-day';
+                    if (i === today) dayClass += ' today';
+                    if (i === today + 2 || i === today + 3) dayClass += ' booked'; // Example booked days
+                    calendarHTML += `<div class="${dayClass}">${i}</div>`;
+                }
+                calendarHTML += '</div>';
+                calendarWidget.innerHTML = calendarHTML;
+            }
+        });
     </script>
 </body>
 </html>
