@@ -132,12 +132,61 @@
         .financial-stat .value { font-size: 2rem; font-weight: 700; }
         .quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 
-        /* Business Management */
-        .business-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background-color: var(--background-color); border-radius: 12px; margin-bottom: 0.75rem; }
-        .business-info h3 { font-size: 1rem; margin: 0; }
-        .business-info p { font-size: 0.85rem; color: var(--text-muted-color); margin: 0.25rem 0 0; }
-        .copy-link-btn { background: none; border: none; cursor: pointer; color: var(--primary-color); padding: 0.5rem; border-radius: 8px; }
-        .copy-link-btn:hover { background-color: rgba(var(--primary-color-rgb), 0.1); }
+        /* Business Management Section */
+        .business-list { display: flex; flex-direction: column; gap: 1rem; }
+        .business-card {
+            background-color: var(--background-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: all 0.2s ease;
+        }
+        .business-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+            border-color: var(--primary-color);
+        }
+        .business-header-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .business-icon-box {
+            width: 48px;
+            height: 48px;
+            background-color: rgba(5, 170, 22, 0.1);
+            color: var(--primary-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .business-details { flex: 1; }
+        .business-details h3 { font-size: 1.1rem; margin: 0 0 0.25rem 0; color: var(--text-heading-color); }
+        .business-details p { font-size: 0.85rem; color: var(--text-muted-color); margin: 0; }
+        
+        .business-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            border-top: 1px solid var(--border-color-light);
+            padding-top: 1rem;
+        }
+        .button-sm {
+            padding: 0.5rem;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+        }
 
         /* Calendar Widget */
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; text-align: center; }
@@ -339,11 +388,13 @@
 
                     <!-- Business Management -->
                     <div class="grid-item">
-                        <h2>My Businesses</h2>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                            <h2 style="margin: 0;">My Businesses</h2>
+                            <a href="business-setup.html" class="text-primary" style="font-size: 0.9rem; font-weight: 600; text-decoration: none;">+ New</a>
+                        </div>
                         <div id="businesses-list-container">
                             <p>Loading businesses...</p>
                         </div>
-                        <a href="business-setup.html" class="button-primary" style="width: 100%; margin-top: 1rem;">Manage Businesses</a>
                     </div>
 
                     <!-- Hustle Calendar -->
@@ -561,23 +612,40 @@
                 if (!businesses || businesses.length === 0) {
                     container.innerHTML = `
                         <div class="empty-state" style="padding: 1rem; border: none;">
+                            <div class="icon-bg" style="margin: 0 auto 1rem; background-color: rgba(5, 170, 22, 0.1); color: var(--primary-color);">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l18 0"></path><path d="M5 21l0 -14l8 -4l8 4l0 14"></path><path d="M9 10a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path></svg>
+                            </div>
                             <p style="margin-bottom: 1rem;">Create a business profile to start adding products and services.</p>
                             <a href="business-setup.html" class="button-primary">Set Up Business</a>
                         </div>`;
                 } else {
+                    const list = document.createElement('div');
+                    list.className = 'business-list';
                     businesses.forEach(biz => {
                         const bizHTML = `
-                            <div class="business-item">
-                                <div class="business-info">
-                                    <h3>${biz.name}</h3>
-                                    <p>${biz.category}</p>
+                            <div class="business-card">
+                                <div class="business-header-row">
+                                    <div class="business-icon-box">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l18 0"></path><path d="M5 21l0 -14l8 -4l8 4l0 14"></path><path d="M9 10a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path></svg>
+                                    </div>
+                                    <div class="business-details">
+                                        <h3>${biz.name}</h3>
+                                        <p>${biz.category || 'Service Business'}</p>
+                                    </div>
                                 </div>
-                                <div class="actions">
-                                    <a href="add-product-service.html?business_id=${biz.id}" class="button-outline" style="padding: 0.5rem 1rem; font-size: 0.9rem;">+ Add Item</a>
+                                <div class="business-actions">
+                                    <a href="add-product-service.html?business_id=${biz.id}" class="button-primary button-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                        Add Service
+                                    </a>
+                                    <a href="business-setup.html?id=${biz.id}" class="button-outline button-sm">
+                                        Manage
+                                    </a>
                                 </div>
                             </div>`;
-                        container.insertAdjacentHTML('beforeend', bizHTML);
+                        list.insertAdjacentHTML('beforeend', bizHTML);
                     });
+                    container.appendChild(list);
                 }
             } catch (error) {
                 console.error('Error fetching businesses:', error.message);
