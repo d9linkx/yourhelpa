@@ -68,9 +68,16 @@ function initializeLoginPage() {
                 setLoadingState(true, 'Redirecting to Helpa Dashboard...');
                 window.location.href = 'helpa-dashboard.html';
             } else {
-                await sb.auth.signOut();
-                show_error('Account not found. Please <a href="signup.html" style="text-decoration: underline;">sign up</a> or check your password.');
-                setLoadingState(false, 'Login');
+                // If not found in helpas, check if it's an admin or regular user
+                const role = user.user_metadata?.role;
+                if (role === 'admin') {
+                    setLoadingState(true, 'Redirecting to Admin Dashboard...');
+                    window.location.href = 'dashboard-admin.html';
+                } else {
+                    // Default to user dashboard for customers or users without specific role
+                    setLoadingState(true, 'Redirecting...');
+                    window.location.href = 'dashboard-user.html';
+                }
             }
 
         } catch (innerErr) {

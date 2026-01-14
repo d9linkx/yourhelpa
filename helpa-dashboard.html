@@ -68,10 +68,54 @@
         .grid-item h2 { font-size: 1.25rem; margin-top: 0; margin-bottom: 1.5rem; }
 
         /* Snapshot Stats */
-        .snapshot-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
-        .mini-stat { background-color: var(--background-color); padding: 1rem; border-radius: 12px; }
-        .mini-stat .label { font-size: 0.85rem; color: var(--text-muted-color); margin-bottom: 0.25rem; display: block; }
-        .mini-stat .value { font-size: 1.75rem; font-weight: 700; }
+        .snapshot-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        .mini-stat-card {
+            background-color: var(--background-color);
+            padding: 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid var(--border-color);
+        }
+        .mini-stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+        .mini-stat-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .icon-bg {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .icon-bg svg { width: 24px; height: 24px; }
+        .stat-info .label { font-size: 0.9rem; color: var(--text-muted-color); margin-bottom: 0.25rem; display: block; }
+        .stat-info .value { font-size: 2rem; font-weight: 700; }
+        .stat-details {
+            display: none;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color-light);
+        }
+        .mini-stat-card.active .stat-details { display: block; }
+
+        /* Icon Colors */
+        .mini-stat-card:nth-child(1) .icon-bg { background-color: rgba(245, 158, 11, 0.1); } .mini-stat-card:nth-child(1) .icon-bg svg { color: #f59e0b; }
+        .mini-stat-card:nth-child(2) .icon-bg { background-color: rgba(34, 197, 94, 0.1); } .mini-stat-card:nth-child(2) .icon-bg svg { color: #22c55e; }
+        .mini-stat-card:nth-child(3) .icon-bg { background-color: rgba(99, 102, 241, 0.1); } .mini-stat-card:nth-child(3) .icon-bg svg { color: #6366f1; }
+        .mini-stat-card:nth-child(4) .icon-bg { background-color: rgba(239, 68, 68, 0.1); } .mini-stat-card:nth-child(4) .icon-bg svg { color: #ef4444; }
+        .mini-stat-card:nth-child(5) .icon-bg { background-color: rgba(59, 130, 246, 0.1); } .mini-stat-card:nth-child(5) .icon-bg svg { color: #3b82f6; }
 
         /* Today's Tasks */
         .task-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--border-color); }
@@ -186,18 +230,81 @@
                     <!-- Operational Snapshot -->
                     <div class="grid-item">
                         <h2>Operational Snapshot</h2>
-                        <div class="snapshot-stats">
-                            <div class="mini-stat">
-                                <span class="label">Active Jobs</span>
-                                <span class="value" id="active-jobs-value">...</span>
+                        <div class="snapshot-stats" id="snapshot-stats-container">
+                            <!-- Ongoing Jobs -->
+                            <div class="mini-stat-card">
+                                <div class="mini-stat-header">
+                                    <div class="icon-bg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                                    </div>
+                                    <div class="stat-info">
+                                        <span class="label">Ongoing Jobs</span>
+                                        <span class="value" id="ongoing-jobs-value">...</span>
+                                    </div>
+                                </div>
+                                <div class="stat-details">
+                                    <p>Details about ongoing jobs will appear here.</p>
+                                </div>
                             </div>
-                            <div class="mini-stat">
-                                <span class="label">New Leads (7d)</span>
-                                <span class="value" id="new-leads-value">...</span>
+                            <!-- Completed Jobs -->
+                            <div class="mini-stat-card">
+                                <div class="mini-stat-header">
+                                    <div class="icon-bg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                    </div>
+                                    <div class="stat-info">
+                                        <span class="label">Completed Jobs</span>
+                                        <span class="value" id="completed-jobs-value">...</span>
+                                    </div>
+                                </div>
+                                <div class="stat-details">
+                                    <p>Details about completed jobs will appear here.</p>
+                                </div>
                             </div>
-                            <div class="mini-stat">
-                                <span class="label">Profile Views (30d)</span>
-                                <span class="value" id="profile-views-value">...</span>
+                            <!-- Profile Views -->
+                            <div class="mini-stat-card">
+                                <div class="mini-stat-header">
+                                    <div class="icon-bg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                    </div>
+                                    <div class="stat-info">
+                                        <span class="label">Profile Views (30d)</span>
+                                        <span class="value" id="profile-views-value">...</span>
+                                    </div>
+                                </div>
+                                <div class="stat-details">
+                                    <p>Details about profile views will appear here.</p>
+                                </div>
+                            </div>
+                            <!-- New Leads -->
+                            <div class="mini-stat-card">
+                                <div class="mini-stat-header">
+                                    <div class="icon-bg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="17" y1="11" x2="23" y2="11"></line></svg>
+                                    </div>
+                                    <div class="stat-info">
+                                        <span class="label">New Leads (7d)</span>
+                                        <span class="value" id="new-leads-value">...</span>
+                                    </div>
+                                </div>
+                                <div class="stat-details">
+                                    <p>Details about new leads will appear here.</p>
+                                </div>
+                            </div>
+                            <!-- Recurring Customers -->
+                            <div class="mini-stat-card">
+                                <div class="mini-stat-header">
+                                    <div class="icon-bg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2.1l4 4-4 4"></path><path d="M3 12.6v-2.6a4 4 0 0 1 4-4h14"></path><path d="M7 21.9l-4-4 4-4"></path><path d="M21 11.4v2.6a4 4 0 0 1-4 4H3"></path></svg>
+                                    </div>
+                                    <div class="stat-info">
+                                        <span class="label">Recurring Customers</span>
+                                        <span class="value" id="recurring-customers-value">...</span>
+                                    </div>
+                                </div>
+                                <div class="stat-details">
+                                    <p>Details about recurring customers will appear here.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -285,7 +392,7 @@
 
             // 2. Verify Helpa profile exists
             const { data: helpaProfile } = await supabase
-                .from('profiles') // Assuming 'profiles' table holds basic user info
+                .from('helpas') // Assuming 'helpas' table holds basic user info
                 .select('id')
                 .eq('id', user.id)
                 .maybeSingle();
@@ -320,16 +427,16 @@
         async function renderWelcomeMessage(userId) {
             try {
                 const { data: profile, error } = await supabase
-                    .from('profiles')
-                    .select('first_name')
+                    .from('helpas')
+                    .select('full_name')
                     .eq('id', userId)
                     .single();
 
                 if (error) throw error;
 
                 const welcomeMessage = document.getElementById('welcome-message');
-                if (profile && profile.first_name) {
-                    const firstName = profile.first_name;
+                if (profile && profile.full_name) {
+                    const firstName = profile.full_name.split(' ')[0];
                     welcomeMessage.textContent = `Welcome back, ${firstName}`;
                 }
             } catch (error) {
@@ -342,45 +449,61 @@
                 // Fetch jobs data for calculations
                 const { data: jobs, error: jobsError } = await supabase
                     .from('jobs')
-                    .select('status, amount, created_at')
+                    .select('status, amount, created_at, client_id') // Added client_id
                     .eq('helpa_id', userId);
                 if (jobsError) throw jobsError;
 
-                // Fetch profile views (assuming a 'profile_views' column on the profiles table)
+                // Fetch profile views
                 const { data: profile, error: profileError } = await supabase
-                    .from('profiles') // This is an example, you might have a separate table for analytics
+                    .from('helpas')
                     .select('profile_views')
                     .eq('id', userId)
                     .single();
                 if (profileError) throw profileError;
 
-                // Calculate stats
+                // --- Calculate Operational Snapshot stats ---
+                const ongoingJobs = jobs.filter(j => j.status === 'ongoing' || j.status === 'in_progress').length;
+                const completedJobs = jobs.filter(j => j.status === 'completed').length;
+
+                // Calculate recurring customers by counting clients with more than one completed job
+                const completedJobsByClient = jobs
+                    .filter(j => j.status === 'completed' && j.client_id)
+                    .reduce((acc, job) => {
+                        acc[job.client_id] = (acc[job.client_id] || 0) + 1;
+                        return acc;
+                    }, {});
+                const recurringCustomers = Object.values(completedJobsByClient).filter(count => count > 1).length;
+
+                // --- Calculate Financial Health stats ---
                 const inEscrow = jobs.filter(j => j.status === 'ongoing' || j.status === 'in_progress').reduce((sum, j) => sum + j.amount, 0);
-                const jobsCompleted = jobs.filter(j => j.status === 'completed').length;
-                
                 const now = new Date();
                 const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
                 const monthlyEarnings = jobs
                     .filter(j => j.status === 'completed' && new Date(j.created_at) >= firstDayOfMonth)
                     .reduce((sum, j) => sum + j.amount, 0);
 
-                const activeJobs = jobs.filter(j => j.status === 'ongoing' || j.status === 'in_progress').length;
-
-                // Render stats
-                document.getElementById('in-escrow-value').textContent = formatCurrency(inEscrow);
+                // --- Render all stats ---
+                // Operational Snapshot
+                document.getElementById('ongoing-jobs-value').textContent = ongoingJobs;
+                document.getElementById('completed-jobs-value').textContent = completedJobs;
                 document.getElementById('profile-views-value').textContent = profile?.profile_views || 0;
-                document.getElementById('monthly-earnings-value').textContent = formatCurrency(monthlyEarnings);
-                document.getElementById('active-jobs-value').textContent = activeJobs;
                 document.getElementById('new-leads-value').textContent = '0'; // Placeholder
+                document.getElementById('recurring-customers-value').textContent = recurringCustomers;
+
+                // Financial Health
+                document.getElementById('in-escrow-value').textContent = formatCurrency(inEscrow);
+                document.getElementById('monthly-earnings-value').textContent = formatCurrency(monthlyEarnings);
 
             } catch (error) {
                 console.error('Error fetching stats:', error.message);
                 // If fetching fails, set stat values to 0 or N/A
-                document.getElementById('in-escrow-value').textContent = formatCurrency(0);
+                document.getElementById('ongoing-jobs-value').textContent = '0';
+                document.getElementById('completed-jobs-value').textContent = '0';
                 document.getElementById('profile-views-value').textContent = '0';
-                document.getElementById('monthly-earnings-value').textContent = formatCurrency(0);
-                document.getElementById('active-jobs-value').textContent = '0';
                 document.getElementById('new-leads-value').textContent = '0';
+                document.getElementById('recurring-customers-value').textContent = '0';
+                document.getElementById('in-escrow-value').textContent = formatCurrency(0);
+                document.getElementById('monthly-earnings-value').textContent = formatCurrency(0);
             }
         }
 
@@ -464,6 +587,28 @@
 
         // --- UI Interactions ---
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Snapshot Card Click Interaction ---
+            const snapshotContainer = document.getElementById('snapshot-stats-container');
+            if (snapshotContainer) {
+                snapshotContainer.addEventListener('click', (e) => {
+                    const clickedCard = e.target.closest('.mini-stat-card');
+                    if (!clickedCard) return;
+
+                    // Check if the clicked card is already active
+                    const isAlreadyActive = clickedCard.classList.contains('active');
+
+                    // Deactivate all cards
+                    snapshotContainer.querySelectorAll('.mini-stat-card').forEach(card => {
+                        card.classList.remove('active');
+                    });
+
+                    // If it wasn't active, activate it now
+                    if (!isAlreadyActive) {
+                        clickedCard.classList.add('active');
+                    }
+                });
+            }
+
             // Calendar rendering (static example)
             const calendarWidget = document.getElementById('calendar-widget');
             if (calendarWidget) {
