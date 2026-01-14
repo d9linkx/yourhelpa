@@ -1,4 +1,9 @@
+import { supabase } from './js/supabase-client.js';
+
 function initializeLoginPage() {
+    if (window.loginPageInitialized) return;
+    window.loginPageInitialized = true;
+
     console.log('Initializing Login Page - v' + new Date().toISOString());
     const loginForm = document.getElementById('login-form');
     if (!loginForm) {
@@ -45,10 +50,9 @@ function initializeLoginPage() {
 
     // --- Logic to Verify Role and Redirect ---
     const verifyAndRedirect = async (user) => {
-        const sb = window.supabase;
         setLoadingState(true, 'Verifying account...');
         try {
-            const { data: helpaProfile, error: profileError } = await sb
+            const { data: helpaProfile, error: profileError } = await supabase
                 .from('helpas')
                 .select('*')
                 .eq('id', user.id)
@@ -76,7 +80,7 @@ function initializeLoginPage() {
                 } else {
                     // Default to user dashboard for customers or users without specific role
                     setLoadingState(true, 'Redirecting...');
-                    window.location.href = 'helpa-dashboard.html';
+                    window.location.href = 'index.html';
                 }
             }
 
@@ -97,16 +101,14 @@ function initializeLoginPage() {
         const password = passwordInput.value;
 
         try {
-            // Guard: ensure the Supabase auth client is available
-            const sb = window.supabase;
-            if (!sb || !sb.auth || typeof sb.auth.signInWithPassword !== 'function') {
-                console.error('Supabase auth is not available', sb);
+            if (!supabase || !supabase.auth) {
+                console.error('Supabase auth is not available');
                 show_error('Authentication service not available. Check console for initialization errors.');
                 setLoadingState(false, 'Login');
                 return;
             }
 
-            const { data, error } = await sb.auth.signInWithPassword({
+            const { data, error } = await supabase.auth.signInWithPassword({
                 email: email,
                 password: password,
             });
@@ -147,4 +149,8 @@ function initializeLoginPage() {
 // Initialize when DOM is ready
 // Expose to window so includes.js can call it
 window.initializeLoginPage = initializeLoginPage;
-document.addEventListener('DOMContentLoaded', initializeLoginPage);
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeLoginPage);
+} else {
+    initializeLoginPage();
+}
