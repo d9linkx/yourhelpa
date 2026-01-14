@@ -307,7 +307,7 @@
                                     </div>
                                     <div class="stat-info">
                                         <span class="label">Ongoing Jobs</span>
-                                        <span class="value" id="ongoing-jobs-value">...</span>
+                                        <span class="value" id="ongoing-jobs-value">0</span>
                                     </div>
                                 </div>
                                 <div class="stat-details">
@@ -322,7 +322,7 @@
                                     </div>
                                     <div class="stat-info">
                                         <span class="label">Completed Jobs</span>
-                                        <span class="value" id="completed-jobs-value">...</span>
+                                        <span class="value" id="completed-jobs-value">0</span>
                                     </div>
                                 </div>
                                 <div class="stat-details">
@@ -337,7 +337,7 @@
                                     </div>
                                     <div class="stat-info">
                                         <span class="label">Profile Views (30d)</span>
-                                        <span class="value" id="profile-views-value">...</span>
+                                        <span class="value" id="profile-views-value">0</span>
                                     </div>
                                 </div>
                                 <div class="stat-details">
@@ -352,7 +352,7 @@
                                     </div>
                                     <div class="stat-info">
                                         <span class="label">New Leads (7d)</span>
-                                        <span class="value" id="new-leads-value">...</span>
+                                        <span class="value" id="new-leads-value">0</span>
                                     </div>
                                 </div>
                                 <div class="stat-details">
@@ -367,7 +367,7 @@
                                     </div>
                                     <div class="stat-info">
                                         <span class="label">Recurring Customers</span>
-                                        <span class="value" id="recurring-customers-value">...</span>
+                                        <span class="value" id="recurring-customers-value">0</span>
                                     </div>
                                 </div>
                                 <div class="stat-details">
@@ -433,29 +433,38 @@
                 return;
             }
 
-            const user = session.user;
+            // 2. Fetch the complete Helpa profile to verify the user and get their data
+            const { data: helpaProfile, error: profileError } = await supabase
+                .from('helpas')
+                .select('*') // Fetch all data at once
+                .eq('id', session.user.id)
+                .single(); // Use single() because a helpa MUST have a profile
 
-            // 2. Verify Helpa profile exists
-            const { data: helpaProfile } = await supabase
-                .from('helpas') // Assuming 'helpas' table holds basic user info
-                .select('id')
-                .eq('id', user.id)
-                .maybeSingle();
+            // 3. Handle profile loading outcomes
+            if (profileError && !helpaProfile) {
+                // This case handles potential database permission errors (like RLS)
+                console.error('Error fetching helpa profile:', profileError.message);
+                alert('Could not verify your Helpa account. Please contact support.');
+                await supabase.auth.signOut();
+                window.location.href = 'login.html';
+                return;
+            }
 
             if (!helpaProfile) {
+                // This case means the query succeeded but found no matching row.
                 await supabase.auth.signOut();
                 alert('Account not found. Please sign up to access the Helpa Dashboard.');
                 window.location.href = 'signup.html';
                 return;
             }
 
-            // 3. Fetch all dashboard data in parallel
-            loadDashboardData(user);
+            // 4. If successful, pass the fetched profile to the load function
+            loadDashboardData(session.user, helpaProfile);
         });
 
-        async function loadDashboardData(user) {
+        async function loadDashboardData(user, helpaProfile) {
             // --- Render Welcome Message ---
-            renderWelcomeMessage(user.id);
+            renderWelcomeMessage(helpaProfile);
 
             // --- Fetch and Render Data Concurrently ---
             // This is more efficient than fetching one by one
@@ -464,27 +473,14 @@
                 fetchAndRenderBusinesses(user.id)
             ]).catch(error => {
                 console.error("An error occurred while loading dashboard data:", error);
-                // You could show a general error message on the dashboard here
             });
         }
 
-        async function renderWelcomeMessage(userId) {
-            try {
-                const { data: profile, error } = await supabase
-                    .from('helpas')
-                    .select('full_name')
-                    .eq('id', userId)
-                    .single();
-
-                if (error) throw error;
-
-                const welcomeMessage = document.getElementById('welcome-message');
-                if (profile && profile.full_name) {
-                    const firstName = profile.full_name.split(' ')[0];
-                    welcomeMessage.textContent = `Welcome back, ${firstName}`;
-                }
-            } catch (error) {
-                console.error('Error fetching helpa profile:', error.message);
+        function renderWelcomeMessage(profile) {
+            const welcomeMessage = document.getElementById('welcome-message');
+            if (profile && profile.full_name) {
+                const firstName = profile.full_name.split(' ')[0];
+                welcomeMessage.textContent = `Welcome back, ${firstName}`;
             }
         }
 
@@ -528,7 +524,12 @@
 
             } catch (error) {
                 console.error('Error fetching stats:', error.message);
-                // Handle error state in UI
+                // Handle error state in UI - ensure zeros are displayed
+                document.getElementById('ongoing-jobs-value').textContent = '0';
+                document.getElementById('completed-jobs-value').textContent = '0';
+                document.getElementById('profile-views-value').textContent = '0';
+                document.getElementById('new-leads-value').textContent = '0';
+                document.getElementById('recurring-customers-value').textContent = '0';
             }
         }
 
@@ -537,6 +538,7 @@
             const { data: businesses } = await supabase.from('businesses').select('id, name').eq('helpa_id', userId);
             const bizSelect = document.getElementById('stats-business');
             if (businesses && bizSelect) {
+                bizSelect.innerHTML = '<option value="all">All Businesses</option>';
                 businesses.forEach(b => {
                     const opt = document.createElement('option');
                     opt.value = b.id;
@@ -546,9 +548,10 @@
             }
 
             // Fetch Services (Assuming a services table exists)
-            const { data: services } = await supabase.from('services').select('id, title').eq('helpa_id', userId);
+            const { data: services } = await supabase.from('services').select('id, title').eq('provider_id', userId);
             const servSelect = document.getElementById('stats-service');
             if (services && servSelect) {
+                servSelect.innerHTML = '<option value="all">All Services</option>';
                 services.forEach(s => {
                     const opt = document.createElement('option');
                     opt.value = s.id;
@@ -625,10 +628,13 @@
             // Calculate New Leads from the stats table
             const newLeads = filteredStats.reduce((sum, item) => sum + (item.new_leads || 0), 0);
 
+            // Calculate Profile Views from the stats table to respect filters
+            const profileViews = filteredStats.reduce((sum, item) => sum + (item.profile_views || 0), 0);
+
             // Update UI
             document.getElementById('ongoing-jobs-value').textContent = ongoingJobs;
             document.getElementById('completed-jobs-value').textContent = completedJobs;
-            document.getElementById('profile-views-value').textContent = helpaProfileData?.profile_views || 0;
+            document.getElementById('profile-views-value').textContent = profileViews;
             document.getElementById('new-leads-value').textContent = newLeads;
             document.getElementById('recurring-customers-value').textContent = recurringCustomers;
         }
