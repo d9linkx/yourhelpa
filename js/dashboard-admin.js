@@ -23,7 +23,7 @@ async function checkAdminAccess() {
     if (user.user_metadata?.role !== 'admin') {
         alert('Access Denied. You do not have administrator privileges.');
         // Redirect to their appropriate dashboard
-        window.location.href = user.user_metadata?.role === 'helpa' ? 'helpa-dashboard.html' : 'dashboard-user.html';
+        window.location.href = user.user_metadata?.role === 'helpa' ? 'helpa-dashboard.html' : 'index.html';
         return null;
     }
     return user;

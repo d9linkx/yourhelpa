@@ -76,7 +76,7 @@ function initializeLoginPage() {
                 } else {
                     // Default to user dashboard for customers or users without specific role
                     setLoadingState(true, 'Redirecting...');
-                    window.location.href = 'dashboard-user.html';
+                    window.location.href = 'helpa-dashboard.html';
                 }
             }
 
@@ -147,3 +147,4 @@ function initializeLoginPage() {
 // Initialize when DOM is ready
 // Expose to window so includes.js can call it
 window.initializeLoginPage = initializeLoginPage;
+document.addEventListener('DOMContentLoaded', initializeLoginPage);

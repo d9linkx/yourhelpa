@@ -25,7 +25,7 @@ async function getHelpaUser() {
 
     if (userRole !== 'helpa') {
         alert('Access denied. You are not a Helpa.');
-        window.location.href = 'dashboard-user.html'; // or login.html
+        window.location.href = 'login.html'; // Redirect to login
         return null;
     }
 
