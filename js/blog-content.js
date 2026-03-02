@@ -3,7 +3,7 @@ const blogPosts = {
         title: '🚀 YourHelpa Launch Guide: Your First 5 Steps to Success as a Helpa Provider',
         category: 'For Helpas',
         date: 'Oct 26, 2023',
-        imageSrc: 'https://placehold.co/800x450/2d402f/FFFFFF?text=Helpa+Success+Guide',
+        imageSrc: 'https://placehold.co/800x450/3d40ff/FFFFFF?text=Helpa+Success+Guide',
         imageAlt: 'A Nigerian service provider smiling while checking their YourHelpa dashboard on a smartphone.',
         metaDescription: 'Your complete guide to getting started on YourHelpa. Learn how to set up your profile, create services, and use our platform to get guaranteed job payments in Nigeria.',
         content: `
@@ -12,7 +12,7 @@ const blogPosts = {
             
             <h2>Step 1: Complete Your Provider Profile (The Trust Factor)</h2>
             <p>Your profile is your digital storefront. Customers are highly motivated by trust and professionalism, so treat this section with care. A complete, verified profile is the single biggest factor in winning jobs.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=Verified+Profile" alt="A verified user profile with a green checkmark.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=Verified+Profile" alt="A verified user profile with a green checkmark.">
             <h3>What to Focus On:</h3>
             <ul>
                 <li><strong>Professional Photo:</strong> Use a clear, friendly photo of yourself or a high-quality logo if you are a larger business. Avoid blurry or low-resolution images.</li>
@@ -22,7 +22,7 @@ const blogPosts = {
 
             <h2>Step 2: Set Up and Link Your WhatsApp Business Account</h2>
             <p>YourHelpa is built on instant, reliable communication. We use your connected <strong>WhatsApp Business</strong> number as the primary routing mechanism for all direct customer inquiries, quote requests, and job details.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=WhatsApp+Integration" alt="A smartphone showing a WhatsApp chat for business.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=WhatsApp+Integration" alt="A smartphone showing a WhatsApp chat for business.">
             <h3>Why this is Critical:</h3>
             <ul>
                 <li><strong>Speed:</strong> Instant communication helps you secure the job before your competitors. Studies show that providers who respond within 5 minutes are significantly more likely to be hired.</li>
@@ -32,7 +32,7 @@ const blogPosts = {
 
             <h2>Step 3: Create Your First Service (Your Offering)</h2>
             <p>This is the core of your business on YourHelpa. Think of each service as a specific product listing in your catalog. You should be as detailed and specific as possible to attract the right customer.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=Create+a+Service" alt="A user creating a new service listing on the YourHelpa platform.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=Create+a+Service" alt="A user creating a new service listing on the YourHelpa platform.">
             <h3>How to List Your Service Effectively:</h3>
             <ul class="value-list">
                 <li><strong>Title and Category:</strong> Be clear. Instead of "Plumbing," use "Emergency Leak Repair" or "Water Heater Installation." This specificity makes you rank higher in search results.</li>
@@ -43,7 +43,7 @@ const blogPosts = {
 
             <h2>Step 4: Master Your Financial Dashboard Metrics</h2>
             <p>The dashboard's <strong>Stats Overview</strong> provides real-time health checks on your business. Use these metrics to make informed decisions about your workload and pricing.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=Financial+Dashboard" alt="A dashboard showing earnings, pending payments, and completed jobs.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=Financial+Dashboard" alt="A dashboard showing earnings, pending payments, and completed jobs.">
             <h3>Key Metrics and What They Mean:</h3> 
             <ul>
                 <li><strong>Total Earnings:</strong> The total revenue you have generated on the platform from completed jobs. Use this to track your monthly growth.</li>
@@ -70,7 +70,7 @@ const blogPosts = {
         title: '5 Reasons Hiring a Verified Helpa is Safer Than Informal Referrals',
         category: 'For Customers',
         date: 'Oct 22, 2023',
-        imageSrc: 'https://placehold.co/800x450/2d402f/FFFFFF?text=Safer+Hiring',
+        imageSrc: 'https://placehold.co/800x450/3d40ff/FFFFFF?text=Safer+Hiring',
         imageAlt: 'A shield icon overlaying a house, symbolizing safety.',
         metaDescription: 'Discover the key security advantages of using YourHelpa, from payment protection with escrow to identity verification, over informal hiring methods.',
         content: `
@@ -78,27 +78,27 @@ const blogPosts = {
  
             <h2>1. Guaranteed Payment Protection with Escrow</h2>
             <p><strong>The Risk with Informal Hiring:</strong> You pay a deposit, and the artisan disappears. Or, you pay in full, and the job is done poorly, leaving you with no leverage.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=Escrow+Protection" alt="A diagram showing money being held securely in escrow.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=Escrow+Protection" alt="A diagram showing money being held securely in escrow.">
             <p><strong>The YourHelpa Solution:</strong> Our Escrow system is your financial safety net. You fund the agreed-upon amount before work begins, but the money is held securely by YourHelpa. The Helpa only gets paid after you confirm via WhatsApp that the job is completed to your satisfaction. This eliminates the risk of losing your money to unfinished or poor-quality work.</p>
 
             <h2>2. Verified Identity and Credentials</h2>
             <p><strong>The Risk with Informal Hiring:</strong> You are letting a complete stranger into your home. You have no way of knowing if they are who they say they are, or if they have a criminal record.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=ID+Verification" alt="A graphic showing an ID card being verified with a checkmark."> 
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=ID+Verification" alt="A graphic showing an ID card being verified with a checkmark."> 
             <p><strong>The YourHelpa Solution:</strong> Every Helpa on our platform undergoes a mandatory verification process. We check their national identification (NIN, Driver's License, etc.) to confirm their identity. This accountability is a powerful deterrent against misconduct and gives you peace of mind.</p>
 
             <h2>3. A Digital Trail for Accountability</h2>
             <p><strong>The Risk with Informal Hiring:</strong> Agreements are made verbally. When a dispute arises, it becomes a "he-said, she-said" situation with no proof.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=Digital+Chat+History" alt="An illustration of a chat history providing a clear record of an agreement.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=Digital+Chat+History" alt="An illustration of a chat history providing a clear record of an agreement.">
             <p><strong>The YourHelpa Solution:</strong> All communication, from the initial quote to the final agreement, happens within your WhatsApp chat history. This creates an unchangeable digital record of the job scope, price, and timeline. In the rare case of a dispute, our support team uses this history as objective evidence to ensure a fair resolution.</p>
 
             <h2>4. Reputation and Reviews You Can Trust</h2>
             <p><strong>The Risk with Informal Hiring:</strong> A referral from a friend might be based on a single good experience. You have no broader picture of the artisan's consistency, professionalism, or reliability.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=5-Star+Reviews" alt="A user profile showing a 5-star rating and positive customer reviews."> 
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=5-Star+Reviews" alt="A user profile showing a 5-star rating and positive customer reviews."> 
             <p><strong>The YourHelpa Solution:</strong> Every Helpa has a public profile with ratings and reviews from previous customers on our platform. You can see their average rating, read detailed feedback, and make an informed decision based on a track record of performance, not just one person's opinion.</p>
 
             <h2>5. Professional Support and Mediation</h2>
             <p><strong>The Risk with Informal Hiring:</strong> If something goes wrong, you are on your own. There is no one to call for help or to mediate a disagreement.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=Customer+Support" alt="An icon of a support agent with a headset, ready to help.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=Customer+Support" alt="An icon of a support agent with a headset, ready to help.">
             <p><strong>The YourHelpa Solution:</strong> We have a dedicated support team. If you have an issue with a Helpa, you can initiate a dispute directly in the chat. A neutral third party from YourHelpa will step in to review the situation and help find a fair solution, backed by the security of the funds held in Escrow.</p>
 
             <h3>Conclusion: Choose Security Over Chance</h3>
@@ -109,7 +109,7 @@ const blogPosts = {
         title: 'Are You Underpaid? The Brutally Honest Guide to Pricing Your Services',
         category: 'For Helpas',
         date: 'Oct 20, 2023',
-        imageSrc: 'https://placehold.co/800x450/2d402f/FFFFFF?text=Pricing+Strategy',
+        imageSrc: 'https://placehold.co/800x450/3d40ff/FFFFFF?text=Pricing+Strategy',
         imageAlt: 'A calculator and a Naira sign, representing pricing strategy.',
         metaDescription: 'Stop undervaluing your work. A no-nonsense guide for Nigerian professionals on how to price your services competitively and profitably.',
         content: `
@@ -119,7 +119,7 @@ const blogPosts = {
 
             <h2>First, Let’s Name the Enemy: The Three Pricing Demons</h2>
             <p>Before you can set the right price, you have to understand what’s forcing you to set the wrong one. It’s usually one of these three demons:</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=Know+Your+Enemy" alt="Three shadowy figures representing Fear, Ignorance, and Laziness.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=Know+Your+Enemy" alt="Three shadowy figures representing Fear, Ignorance, and Laziness.">
             <ul>
                 <li><strong>Fear:</strong> The fear that if you charge more, the client will say no and you’ll lose the job entirely.</li>
                 <li><strong>Ignorance:</strong> You honestly don’t know what to charge because you’ve never broken down your actual costs.</li>
@@ -132,7 +132,7 @@ const blogPosts = {
 
             <h3>Step 1: Calculate Your Baseline (The Survival Number)</h3>
             <p>This is the absolute minimum you must charge to not lose money. Most people never do this. You will.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=Calculate+Your+Costs" alt="A notepad with a list of costs: materials, transport, time.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=Calculate+Your+Costs" alt="A notepad with a list of costs: materials, transport, time.">
             <p>For any job, calculate:</p>
             <ul>
                 <li><strong>Material Costs:</strong> Everything you have to buy for the job.</li>
@@ -146,7 +146,7 @@ const blogPosts = {
 
             <h3>Step 3: Define Your Value (Why You Cost More)</h3>
             <p>This is the most important step. You can only charge a premium if you offer a premium service. What makes you better than the cheap guy?</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=Define+Your+Value" alt="A graphic showing a 5-star rating, a guarantee seal, and a clock for speed.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=Define+Your+Value" alt="A graphic showing a 5-star rating, a guarantee seal, and a clock for speed.">
             <p>Is it your:</p>
             <ul class="value-list">
                 <li><strong>Speed?</strong> (You finish jobs faster.)</li>
@@ -159,7 +159,7 @@ const blogPosts = {
  
             <h2>Your New Superpower: The Tiered Offer</h2>
             <p>Stop giving one price. It’s a “yes” or “no” question that invites negotiation. Instead, offer three tiers: Good, Better, Best.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=Good+Better+Best" alt="Three cards showing different service packages: Basic, Standard, and Premium.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=Good+Better+Best" alt="Three cards showing different service packages: Basic, Standard, and Premium.">
             <p>For a painting job, it could be:</p>
             <ul>
                 <li><strong>Basic (Good):</strong> One coat of standard paint. ₦30,000.</li>
@@ -178,7 +178,7 @@ const blogPosts = {
         title: 'What if They Run with Your Money? A Guide to Never Being Cheated Again.',
         category: 'For Customers',
         date: 'Oct 18, 2023',
-        imageSrc: 'https://placehold.co/800x450/2d402f/FFFFFF?text=Escrow+Explained',
+        imageSrc: 'https://placehold.co/800x450/3d40ff/FFFFFF?text=Escrow+Explained',
         imageAlt: 'A lock and a hand shaking icon, symbolizing a secure agreement.',
         metaDescription: 'Learn how YourHelpa\'s Escrow system acts as your financial bodyguard, protecting you from scams and ensuring you only pay for work you approve.',
         content: `
@@ -224,7 +224,7 @@ const blogPosts = {
         title: 'The End of Hustle: How to Turn One-Off Gigs into a Predictable, High-Paying Business',
         category: 'For Helpas',
         date: 'Oct 15, 2023',
-        imageSrc: 'https://placehold.co/800x450/2d402f/FFFFFF?text=Build+Loyalty',
+        imageSrc: 'https://placehold.co/800x450/3d40ff/FFFFFF?text=Build+Loyalty',
         imageAlt: 'A person receiving a 5-star review, symbolizing customer loyalty.',
         metaDescription: 'Stop the feast-or-famine cycle. Learn the system for turning single jobs into loyal, repeat customers who provide predictable income.',
         content: `
@@ -234,12 +234,12 @@ const blogPosts = {
 
             <h2>Step 1: Destroy the "One and Done" Mindset</h2>
             <p>The biggest thing holding you back is the belief that a job is over when you get paid. That’s a lie. The job is just the beginning. It’s your audition for the next job, and the one after that.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=The+Audition" alt="A spotlight shining on a single completed job.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=The+Audition" alt="A spotlight shining on a single completed job.">
             <p>Every client is not a one-time transaction. They are a potential lifetime asset. They have friends. They have family. They have other problems you can solve. The moment you see every ₦10,000 job as a potential ₦100,000 relationship, your entire approach will change.</p>
 
             <h2>Step 2: Engineer the "Wow" Experience</h2>
             <p>Doing a good job is the minimum requirement. It’s what they paid for. It’s expected. To build loyalty, you have to be memorable. You have to deliver a “wow.”</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=The+Wow+Experience" alt="A customer with a surprised and happy expression.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=The+Wow+Experience" alt="A customer with a surprised and happy expression.">
             <p>A “wow” doesn’t have to be expensive. It just has to be unexpected. Here are some ideas:</p> 
             <ul>
                 <li><strong>The Clean-Up:</strong> If you’re a plumber or electrician, don’t just fix the problem. Wipe down the area. Leave it cleaner than you found it. This simple act is shockingly rare and incredibly impressive.</li>
@@ -250,7 +250,7 @@ const blogPosts = {
 
             <h2>Step 3: The 3-Part Follow-Up System That Guarantees They Remember You</h2>
             <p>Most artisans disappear after they’re paid. You won’t. You’re going to install a simple system that keeps you top-of-mind, turning you into their go-to person for life.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=The+Follow-Up+System" alt="A calendar with reminders for follow-up messages.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=The+Follow-Up+System" alt="A calendar with reminders for follow-up messages.">
              
             <h3>Part 1: The 3-Day Check-In</h3>
             <p>Three days after the job, send this simple WhatsApp message: <em>“Hi [Client Name], just wanted to quickly check in and make sure everything with the [service] is still working perfectly. Hope you’re having a great week!”</em> This takes 10 seconds. It shows you care about the quality of your work, not just the payment.</p>
@@ -272,7 +272,7 @@ const blogPosts = {
         title: 'Stop Getting Ghosted: The No-BS Guide to Writing a Job Request That Gets You the Best Help, Fast.',
         category: 'For Customers',
         date: 'Oct 12, 2023',
-        imageSrc: 'https://placehold.co/800x450/2d402f/FFFFFF?text=Perfect+Request',
+        imageSrc: 'https://placehold.co/800x450/3d40ff/FFFFFF?text=Perfect+Request',
         imageAlt: 'A checklist on a clipboard, representing a perfect job request.',
         metaDescription: 'Tired of vague quotes and unreliable artisans? Learn the formula for writing a job request that attracts top professionals and gets you accurate prices instantly.',
         content: `
@@ -282,7 +282,7 @@ const blogPosts = {
 
             <h2>Step 1: Your Title Is a Weapon, Not a Whisper</h2>
             <p>Stop posting whispers. Start posting commands. A professional’s time is their most valuable asset. Your title needs to tell them instantly if they are the right person for the job. It must answer two questions: What is the problem, and where is it?</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=A+Clear+Title" alt="A phone screen showing a clear, specific job title.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=A+Clear+Title" alt="A phone screen showing a clear, specific job title.">
             <ul>
                 <li><strong>Weak Title:</strong> “Generator problem”</li>
                 <li><strong>Powerful Title:</strong> “Generator won’t start - Ikorodu”</li>
@@ -293,7 +293,7 @@ const blogPosts = {
 
             <h2>Step 2: The Details Are Your Professionalism Test</h2>
             <p>Once you’ve hooked them with the title, the body of your request proves you’re a serious client. This is where you give them the information they need to give you an accurate quote. The more detail you provide, the more respect you command.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=Show,+Don't+Tell" alt="A person taking a clear photo of a leaking pipe under a sink.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=Show,+Don't+Tell" alt="A person taking a clear photo of a leaking pipe under a sink.">
             <p>Your request must include:</p> 
             <ul>
                 <li><strong>The Symptoms:</strong> Don’t just say “AC not working.” Say “AC unit is on, but it’s blowing warm air.”</li>
@@ -304,7 +304,7 @@ const blogPosts = {
 
             <h2>Step 3: The Magic Question That Unmasks Amateurs</h2>
             <p>This is the most important part of your request. End your post with this exact question: <strong>“In your reply, please briefly explain how you would approach this job.”</strong></p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=The+Magic+Question" alt="A chat bubble showing a professional response vs an amateur one.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=The+Magic+Question" alt="A chat bubble showing a professional response vs an amateur one.">
             <p>Why is this magic? Because it forces them to prove they’ve actually read your request. It’s a test.</p>
             <ul>
                 <li><strong>The Amateur replies:</strong> “I can do it. DM me.” (Delete. They failed the test.)</li>
@@ -322,7 +322,7 @@ const blogPosts = {
         title: 'Your WhatsApp Is Costing You Money. Here’s How to Fix It.',
         category: 'For Helpas',
         date: 'Oct 10, 2023',
-        imageSrc: 'https://placehold.co/800x450/2d402f/FFFFFF?text=WhatsApp+Tips',
+        imageSrc: 'https://placehold.co/800x450/3d40ff/FFFFFF?text=WhatsApp+Tips',
         imageAlt: 'A WhatsApp chat bubble with a Naira sign inside.',
         metaDescription: 'Your chat is your first impression. Learn the dos and don\'ts of WhatsApp business communication to build trust, close deals faster, and stop losing clients.',
         content: `
@@ -332,7 +332,7 @@ const blogPosts = {
 
             <h2>1. The First Reply: Your 60-Second Job Interview</h2>
             <p>A new lead comes in. You’re busy, so you’ll reply later. Bad idea. The client has already messaged three other people. Speed isn’t just a suggestion; it’s a weapon. The first professional reply often wins the job.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=The+First+Reply" alt="A phone showing a professional automated greeting message on WhatsApp.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=The+First+Reply" alt="A phone showing a professional automated greeting message on WhatsApp.">
             <p>But you can’t always be fast. So, be smart. Use WhatsApp Business and set up an automated Greeting Message. Not a lazy one, a professional one.</p>
             <ul>
                 <li><strong>Weak Greeting:</strong> “Hi, I’ll get back to you.”</li>
@@ -342,7 +342,7 @@ const blogPosts = {
 
             <h2>2. Stop Sounding Like a Teenager. Start Sounding Like a Pro.</h2>
             <p>“K.” “Seen.” “No p.” Your casual chat habits are killing your credibility. A client is trusting you with their home, their project, their money. They need to see a professional, not a friend from down the street.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=Professional+vs+Amateur" alt="A chat comparison showing a professional reply versus a lazy, one-word reply.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=Professional+vs+Amateur" alt="A chat comparison showing a professional reply versus a lazy, one-word reply.">
             <p>The rules are simple:</p> 
             <ul>
                 <li><strong>Use Full Sentences.</strong> Always.</li>
@@ -354,7 +354,7 @@ const blogPosts = {
 
             <h2>3. The Quote Is a Proposal, Not a Price Tag</h2>
             <p>Never, ever just send a number. “₦25,000.” That’s not a quote; it’s an invitation to haggle. It reduces your skill to a commodity. A professional provides a solution, not just a price.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=The+Value+Quote" alt="A quote that breaks down cost, timeline, and includes a guarantee.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=The+Value+Quote" alt="A quote that breaks down cost, timeline, and includes a guarantee.">
             <p>Your quote should be a mini-proposal, a key part of your <a href="blog-post.html?post=pricing-strategy">overall pricing strategy</a>:</p>
             <ul>
                 <li><strong>Restate the Problem:</strong> “For the repair of the leaking kitchen sink…” (Shows you listened).</li>
@@ -366,7 +366,7 @@ const blogPosts = {
 
             <h2>4. The Follow-Up: The Difference Between a Single Gig and a Loyal Client</h2>
             <p>The job is done. The client has confirmed. Your payment is released. Most artisans disappear at this point. This is your biggest opportunity.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=The+Follow-Up" alt="A calendar reminder to send a follow-up message to a past client.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=The+Follow-Up" alt="A calendar reminder to send a follow-up message to a past client.">
             <p>Three days later, send this message: <em>“Hi [Client Name], just a quick follow-up to ensure the [service] is still working perfectly. It was a pleasure working with you.”</em> This is a core part of the system for <a href="blog-post.html?post=building-loyalty">building a loyal customer base</a>.</p>
             <p>This final, simple act of professionalism does more than you can imagine. It cements you in their mind as the reliable, trustworthy professional. The one they will call next time. The one they will recommend to their friends.</p>
 
@@ -379,7 +379,7 @@ const blogPosts = {
         title: 'You\'re Drowning in a To-Do List You Shouldn\'t Be Doing. Here\'s How to Get Your Life Back.',
         category: 'For Customers',
         date: 'Oct 07, 2023',
-        imageSrc: 'https://placehold.co/800x450/2d402f/FFFFFF?text=Reclaim+Your+Time',
+        imageSrc: 'https://placehold.co/800x450/3d40ff/FFFFFF?text=Reclaim+Your+Time',
         imageAlt: 'A person relaxing while their to-do list is being checked off in the background.',
         metaDescription: 'Stop wasting your most valuable asset—your time. Discover the tasks you can and should be outsourcing to reclaim your weekends and your sanity.',
         content: `
@@ -390,7 +390,7 @@ const blogPosts = {
 
             <h2>1. The Time Vampires: Tasks That Steal Your Weekends</h2>
             <p>These are the recurring, necessary evils. They’re not hard, but they are relentless. They suck hours from your life every single week, leaving you drained before Monday even begins.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=Time+Vampires" alt="A clock with its hands turning into fangs, sucking the life out of a weekend.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=Time+Vampires" alt="A clock with its hands turning into fangs, sucking the life out of a weekend.">
             <p>Examples:</p>
             <ul>
                 <li><strong>Market Runs & Grocery Shopping:</strong> The traffic, the haggling, the carrying. You can hire a trusted Helpa to be your personal shopper and delivery person. Send a list, and have everything appear at your door.</li>
@@ -401,7 +401,7 @@ const blogPosts = {
 
             <h2>2. The Frustration Factories: Tasks You Aren’t Good At</h2>
             <p>Admit it. You’re not a structural engineer. The instructions for that flat-pack wardrobe look like a foreign language. You’re going to spend four hours on it, end up with a wobbly piece of furniture and a sore back, and you’ll probably have a few screws left over.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=Frustration+Factories" alt="A person looking frustrated while trying to assemble complicated furniture.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=Frustration+Factories" alt="A person looking frustrated while trying to assemble complicated furniture.">
             <p>Examples:</p> 
             <ul>
                 <li><strong>Furniture Assembly:</strong> A professional can assemble it perfectly in a fraction of the time.</li>
@@ -412,7 +412,7 @@ const blogPosts = {
 
             <h2>3. The Soul Drainers: Tasks You Simply Hate</h2>
             <p>These are the tasks you procrastinate on for weeks. The ones that hang over your head and fill you with dread. They drain your mental energy more than your physical energy.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=Soul+Drainers" alt="A person looking relieved as a cleaning professional tackles a dirty bathroom.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=Soul+Drainers" alt="A person looking relieved as a cleaning professional tackles a dirty bathroom.">
             <p>Examples:</p> 
             <ul>
                 <li><strong>Deep Cleaning:</strong> The bathroom, the oven, the storeroom. Hire someone to do a deep clean once a month and feel the weight lift off your shoulders.</li>
@@ -431,7 +431,7 @@ const blogPosts = {
         title: 'Your Profile Is a Joke. Here’s How to Turn It into a Money-Making Machine.',
         category: 'For Helpas',
         date: 'Oct 04, 2023',
-        imageSrc: 'https://placehold.co/800x450/2d402f/FFFFFF?text=Winning+Profile',
+        imageSrc: 'https://placehold.co/800x450/3d40ff/FFFFFF?text=Winning+Profile',
         imageAlt: 'A professional profile with a 5-star rating and a green verified checkmark.',
         metaDescription: 'Stop getting ignored. This guide shows you how to transform your YourHelpa profile from a liability into your most powerful tool for attracting high-paying clients.',
         content: `
@@ -441,7 +441,7 @@ const blogPosts = {
 
             <h2>1. Your Photo: The 3-Second Trust Test</h2>
             <p>Before a client reads a single word, they see your face. And in three seconds, they decide if you’re trustworthy or not. That blurry, poorly-lit photo taken at a party? It’s costing you thousands.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=The+Right+Photo" alt="A split image showing a bad, blurry profile photo vs a good, clear professional one.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=The+Right+Photo" alt="A split image showing a bad, blurry profile photo vs a good, clear professional one.">
             <p>The rules are not negotiable:</p>
             <ul>
                 <li><strong>Clear and Well-Lit:</strong> Stand in front of a window or a plain wall. No shadows. No darkness.</li>
@@ -452,7 +452,7 @@ const blogPosts = {
 
             <h2>2. Your Bio: The "Why You" Statement</h2>
             <p>“I am a good graphic designer.” Nobody cares. That’s a feature, not a benefit. Your bio needs to answer the client’s only question: “Why should I choose you over everyone else?”</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=The+Powerful+Bio" alt="A bio that highlights experience, specialization, and a guarantee.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=The+Powerful+Bio" alt="A bio that highlights experience, specialization, and a guarantee.">
             <p>Use this formula: <strong>[Experience] + [Specialization] + [Benefit].</strong> This is a core part of <a href="blog-post.html?post=pricing-strategy">justifying a higher price</a>.</p>
             <ul>
                 <li><strong>Weak Bio:</strong> “I do AC repair.”</li>
@@ -462,7 +462,7 @@ const blogPosts = {
 
             <h2>3. Your Portfolio: The Undeniable Proof</h2>
             <p>You can talk all you want, but clients believe what they see. An empty portfolio is a red flag. It screams “I have no experience.” You must show your work.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=Show+Your+Work" alt="A gallery of high-quality before-and-after photos of completed jobs.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=Show+Your+Work" alt="A gallery of high-quality before-and-after photos of completed jobs.">
             <p>Don’t have professional photos? Not an excuse.</p> 
             <ul>
                 <li><strong>Cleaners:</strong> Take before-and-after photos of a dirty vs. sparkling kitchen.</li>
@@ -474,7 +474,7 @@ const blogPosts = {
 
             <h2>4. Your Verification Status: The Ultimate Trust Signal</h2>
             <p>On YourHelpa, there’s one thing that separates the pros from the pack: the green “Verified” badge. It’s not just a nice-to-have; it’s essential. It tells the client that we’ve checked your ID and confirmed you are who you say you are.</p>
-            <img src="https://placehold.co/800x400/2d402f/FFFFFF?text=The+Verified+Badge" alt="A close-up of the green 'Verified' badge on a profile.">
+            <img src="https://placehold.co/800x400/3d40ff/FFFFFF?text=The+Verified+Badge" alt="A close-up of the green 'Verified' badge on a profile.">
             <p>An unverified profile is a profile that clients will skip. They are paying for security and peace of mind. If you haven’t completed the verification process, you are telling them you can’t be bothered with the most basic step of building trust. Go to your dashboard and complete it. Now.</p>
 
             <h3>Your Profile Is Your Employee</h3>

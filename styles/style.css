@@ -5,8 +5,8 @@
 /* --- CSS Variables --- */
 :root {
     /* Futuristic White/Grey Palette */
-    --primary-color: #05aa16; /* Keep a strong accent color */
-    --primary-hover: #028a10;
+    --primary-color: #3d40ff; /* Keep a strong accent color */
+    --primary-hover: #2a2dd6;
     --background-color: #ffffff;
     --surface-color: #f8f9fa;
     --surface-color-translucent: rgba(255, 255, 255, 0.6);
@@ -117,7 +117,7 @@ p {
 
 /* Set the color for the text part of the logo */
 .logo span {
-    color: #324d35;
+    color: #0c4a6e;
 }
 
 .header-actions {
@@ -145,7 +145,6 @@ p {
 /* This ensures the desktop navigation links are not bold and have the correct color. */
 .main-header #main-nav ul li a {
     color: #0A0A0A;
-    font-weight: lighter;
 }
 
 /* This targets the mobile menu links specifically. */
@@ -224,7 +223,7 @@ p {
 
 /* Special CTA link in nav */
 .nav-cta {
-    background-color: rgba(5, 170, 22, 0.1);
+    background-color: rgba(61, 64, 255, 0.1);
     color: var(--primary-color) !important;
     padding: 0.5rem 1rem !important;
     border-radius: 50px;
@@ -232,7 +231,7 @@ p {
 }
 
 .nav-cta:hover {
-    background-color: rgba(5, 170, 22, 0.2);
+    background-color: rgba(61, 64, 255, 0.2);
     color: var(--primary-hover) !important;
 }
 
@@ -453,7 +452,7 @@ select {
 input:focus, textarea:focus, select:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(5, 170, 22, 0.1);
+    box-shadow: 0 0 0 3px rgba(61, 64, 255, 0.1);
 }
 
 textarea {
@@ -508,7 +507,7 @@ main {
     margin-bottom: 1rem;
     padding: 0.5rem 1rem;
     border-radius: 50px;
-    background-color: rgba(5, 170, 22, 0.1);
+    background-color: rgba(61, 64, 255, 0.1);
     color: var(--primary-color);
     font-weight: 600;
 }
@@ -966,7 +965,7 @@ main {
 }
 
 .step-card {
-    background-color: #324d35;
+    background-color: #3d40ff;
     color: #f8f9fa; /* Light text for paragraphs */
     padding: 2.5rem;
     border-radius: 16px;
@@ -1016,7 +1015,7 @@ main {
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    border: 2px solid #324d35; /* Match new card background */
+    border: 2px solid #3d40ff; /* Match new card background */
 }
 
 .categories {
@@ -1056,7 +1055,7 @@ main {
 }
 
 .service-card {
-    background-color: var(--background-color);
+    background-color: #3d40ff;
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid var(--border-color-light);
@@ -1145,7 +1144,7 @@ main {
 }
 
 .testimonial-card {
-    background-color: var(--background-color);
+    background-color: #3d40ff;
     padding: 2.5rem;
     border-radius: 16px;
     text-align: center;
@@ -1217,7 +1216,7 @@ main {
 }
 
 /* Additional styles for the new design */
-:root { --primary-color: #05aa16; --primary-hover: #028a10; } /* Amber/Gold Theme */
+:root { --primary-color: #3d40ff; --primary-hover: #2a2dd6; } /* Updated Theme */
 .hero { padding: 4rem 1.5rem; }
 .hero .container { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; }
 @media (min-width: 992px) { 
@@ -1409,7 +1408,7 @@ main {
 }
 
 .value-block { 
-    background-color: #05aa16; /* Brand primary color */
+    background-color: #3d40ff; /* Brand primary color */
     padding: 3rem; border-radius: 16px; 
     border: 1px solid transparent; 
 }
@@ -1467,13 +1466,13 @@ main {
 }
 .value-block:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 30px -10px rgba(2, 138, 16, 0.2);
+    box-shadow: 0 20px 30px -10px rgba(61, 64, 255, 0.2);
     border-color: var(--primary-color);
 }
 .value-block-icon {
     display: inline-flex;
     padding: 0.75rem;
-    background-color: rgba(45, 64, 47, 0.1);
+    background-color: rgba(61, 64, 255, 0.1);
     border-radius: 50%;
     margin-bottom: 1rem;
     color: var(--primary-color);
@@ -1491,7 +1490,7 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #05aa16; /* Brand primary color */
+    background-color: #3d40ff; /* Brand primary color */
     padding: 1.5rem;
     border-radius: 12px;
     border: 1px solid transparent;
@@ -1508,7 +1507,7 @@ main {
     border-color: var(--border-color);
 }
 .category-item:hover .category-icon {
-    background-color: rgba(5, 170, 22, 0.1);
+    background-color: rgba(61, 64, 255, 0.1);
     color: var(--primary-color);
 }
 .category-item .category-icon {
@@ -1557,7 +1556,7 @@ main {
 .cta-glass-card {
     position: relative;
     z-index: 2;
-    background: #324d35; /* Solid brand color */
+    background: #1a1b66; /* Solid brand color */
     border: 1px solid rgba(255, 255, 255, 0.2); /* A subtle light border */
     border-radius: 24px;
     padding: 3rem;
@@ -1608,8 +1607,8 @@ main {
     100% { transform: translate(0, 0); }
 }
 @keyframes pulse-glow {
-    0%, 100% { box-shadow: 0 0 20px -5px rgba(5, 170, 22, 0.3), 0 0 80px rgba(0,0,0,0.5); }
-    50% { box-shadow: 0 0 35px 0px rgba(5, 170, 22, 0.5), 0 0 80px rgba(0,0,0,0.5); }
+    0%, 100% { box-shadow: 0 0 20px -5px rgba(61, 64, 255, 0.3), 0 0 80px rgba(0,0,0,0.5); }
+    50% { box-shadow: 0 0 35px 0px rgba(61, 64, 255, 0.5), 0 0 80px rgba(0,0,0,0.5); }
 }
 
 /* Trusted By Section Styles */
