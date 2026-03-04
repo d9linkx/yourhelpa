@@ -5,8 +5,9 @@
 /* --- CSS Variables --- */
 :root {
     /* Futuristic White/Grey Palette */
-    --primary-color: #05aa16; /* Keep a strong accent color */
-    --primary-hover: #028a10;
+    /* Brand color changed to YourHelpa brand blue */
+    --primary-color: #3d40ff; /* YourHelpa brand blue */
+    --primary-hover: #3433e6;
     --background-color: #ffffff;
     --surface-color: #f8f9fa;
     --surface-color-translucent: rgba(255, 255, 255, 0.6);
@@ -23,6 +24,14 @@
     --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -4px rgba(0, 0, 0, 0.07);
     --shadow-lg: 0 20px 25px -5px rgba(33, 37, 41, 0.1), 0 8px 10px -6px rgba(33, 37, 41, 0.1);
+}
+
+/* Mobile-only: reduce H1 size for small screens */
+@media (max-width: 767px) {
+    h1 {
+        font-size: 1.6rem !important;
+        line-height: 1.15;
+    }
 }
 
 /* --- Basic Reset & Body --- */
@@ -117,7 +126,7 @@ p {
 
 /* Set the color for the text part of the logo */
 .logo span {
-    color: #324d35;
+    color: var(--primary-color);
 }
 
 .header-actions {
@@ -224,15 +233,16 @@ p {
 
 /* Special CTA link in nav */
 .nav-cta {
-    background-color: rgba(5, 170, 22, 0.1);
+    background-color: rgba(61, 64, 255, 0.08);
     color: var(--primary-color) !important;
     padding: 0.5rem 1rem !important;
     border-radius: 50px;
     font-weight: 600 !important;
+    border: 1px solid rgba(61,64,255,0.12);
 }
 
 .nav-cta:hover {
-    background-color: rgba(5, 170, 22, 0.2);
+    background-color: rgba(61, 64, 255, 0.14);
     color: var(--primary-hover) !important;
 }
 
@@ -380,17 +390,17 @@ p {
 
 .button-secondary {
     display: inline-block;
-    background-color: #324d35;
-    color: #ffffff;
+    background-color: #ffffff; /* white background with brand-blue border */
+    color: var(--primary-color);
     padding: 0.5rem 1rem;
     border-radius: 8px;
     font-weight: 600;
-    border: 1px solid transparent;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    border: 1px solid var(--primary-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
 }
 
 .button-secondary:hover {
-    background-color: #2a402c; /* A slightly darker shade of the green */
+    background-color: var(--primary-color);
     color: #ffffff;
     transform: translateY(-2px);
     box-shadow: var(--shadow-sm);
@@ -398,16 +408,6 @@ p {
 .button-primary.large, .button-secondary.large {
     padding: 1rem 2rem;
     font-size: 1.1rem;
-}
-
-/* Mobile / Tablet specific tweaks */
-@media (max-width: 991px) {
-    /* Reduce H1 size across all pages on mobile/tablet for better readability */
-    h1 {
-        /* Use a comfortable mobile size while keeping line-height */
-        font-size: 1.8rem !important;
-        line-height: 1.2 !important;
-    }
 }
 
 .text-primary {
@@ -1639,13 +1639,4 @@ main {
 .trusted-logos img:hover {
     filter: grayscale(0%) opacity(1);
 }
-
-/* Mobile / Tablet specific tweaks */
-@media (max-width: 991px) {
-    /* Reduce H1 size across all pages on mobile/tablet for better readability */
-    h1 {
-        /* Use a comfortable mobile size while keeping line-height */
-        font-size: 1.8rem !important;
-        line-height: 1.2 !important;
-    }
-}
+ 
