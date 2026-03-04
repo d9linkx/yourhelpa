@@ -139,6 +139,53 @@ window.initializeMain = async function() {
     }
 }
 
+// Inject a mobile/tablet-only theme-color meta tag so the browser UI above the page
+// (status bar / address bar area) matches the site's primary brand color on small screens.
+(function injectThemeColorForMobile() {
+    try {
+        const MOBILE_MAX = 991; // matches the site's mobile/tablet breakpoint
+
+        const getBrandColor = () => {
+            // Read the computed --primary-color; fall back to a sensible blue if not set
+            const cs = getComputedStyle(document.documentElement);
+            const val = (cs.getPropertyValue('--primary-color') || '').trim();
+            return val || '#3d40ff';
+        };
+
+        const applyMeta = () => {
+            const existing = document.querySelector('meta[name="theme-color"][data-injected="true"]');
+            if (window.innerWidth <= MOBILE_MAX) {
+                const color = getBrandColor();
+                if (existing) {
+                    existing.setAttribute('content', color);
+                } else {
+                    const m = document.createElement('meta');
+                    m.name = 'theme-color';
+                    m.content = color;
+                    m.setAttribute('data-injected', 'true');
+                    document.head.appendChild(m);
+                }
+            } else {
+                if (existing) existing.remove();
+            }
+        };
+
+        // debounce helper
+        let rAF; const debouncedApply = () => { cancelAnimationFrame(rAF); rAF = requestAnimationFrame(applyMeta); };
+
+        // Apply on load and on resize/orientation changes
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', applyMeta);
+        } else {
+            applyMeta();
+        }
+        window.addEventListener('resize', debouncedApply);
+        window.addEventListener('orientationchange', debouncedApply);
+    } catch (e) {
+        console.warn('injectThemeColorForMobile error', e);
+    }
+})();
+
 // Image optimizations applied at runtime:
 // - set loading="lazy" for non-critical images
 // - set decoding="async" to avoid render-blocking

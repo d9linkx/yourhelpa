@@ -5,8 +5,8 @@
 /* --- CSS Variables --- */
 :root {
     /* Futuristic White/Grey Palette */
-    --primary-color: #3d40ff; /* Keep a strong accent color */
-    --primary-hover: #2a2dd6;
+    --primary-color: #05aa16; /* Keep a strong accent color */
+    --primary-hover: #028a10;
     --background-color: #ffffff;
     --surface-color: #f8f9fa;
     --surface-color-translucent: rgba(255, 255, 255, 0.6);
@@ -117,7 +117,7 @@ p {
 
 /* Set the color for the text part of the logo */
 .logo span {
-    color: #0c4a6e;
+    color: #324d35;
 }
 
 .header-actions {
@@ -145,6 +145,7 @@ p {
 /* This ensures the desktop navigation links are not bold and have the correct color. */
 .main-header #main-nav ul li a {
     color: #0A0A0A;
+    font-weight: lighter;
 }
 
 /* This targets the mobile menu links specifically. */
@@ -223,7 +224,7 @@ p {
 
 /* Special CTA link in nav */
 .nav-cta {
-    background-color: rgba(61, 64, 255, 0.1);
+    background-color: rgba(5, 170, 22, 0.1);
     color: var(--primary-color) !important;
     padding: 0.5rem 1rem !important;
     border-radius: 50px;
@@ -231,7 +232,7 @@ p {
 }
 
 .nav-cta:hover {
-    background-color: rgba(61, 64, 255, 0.2);
+    background-color: rgba(5, 170, 22, 0.2);
     color: var(--primary-hover) !important;
 }
 
@@ -366,7 +367,7 @@ p {
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
     box-shadow: var(--shadow-sm);
 }
 
@@ -379,18 +380,18 @@ p {
 
 .button-secondary {
     display: inline-block;
-    background-color: transparent;
-    color: var(--text-heading-color);
+    background-color: #324d35;
+    color: #ffffff;
     padding: 0.5rem 1rem;
     border-radius: 8px;
     font-weight: 600;
-    border: 1px solid var(--border-color);
-    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 .button-secondary:hover {
-    background-color: var(--surface-color);
-    border-color: var(--text-heading-color);
+    background-color: #2a402c; /* A slightly darker shade of the green */
+    color: #ffffff;
     transform: translateY(-2px);
     box-shadow: var(--shadow-sm);
 }
@@ -399,40 +400,13 @@ p {
     font-size: 1.1rem;
 }
 
-/* --- Mobile tweaks: smaller h1 and brand top bar --- */
+/* Mobile / Tablet specific tweaks */
 @media (max-width: 991px) {
-    /* Reduce primary heading size for mobile to improve readability */
+    /* Reduce H1 size across all pages on mobile/tablet for better readability */
     h1 {
+        /* Use a comfortable mobile size while keeping line-height */
         font-size: 1.8rem !important;
-        line-height: 1.15;
-        margin-bottom: 0.75rem;
-    }
-
-    /* Create a thin branded bar above the header (brand blue) while keeping the header itself the same surface color */
-    body::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 40px; /* height of the top branded strip */
-        background: var(--primary-color);
-        z-index: 999; /* sit below the header (header uses z-index:1000) */
-    }
-
-    /* Push the fixed header down so it sits below the branded strip */
-    .main-header {
-        top: 40px;
-        /* keep the existing header background (surface) so the blue is only above it */
-        background-color: var(--surface-color);
-    }
-
-    /* Ensure page content and anchor scrolling account for the extra top space on mobile */
-    html {
-        scroll-padding-top: calc(70px + 40px);
-    }
-    body {
-        padding-top: calc(70px + 40px);
+        line-height: 1.2 !important;
     }
 }
 
@@ -489,7 +463,7 @@ select {
 input:focus, textarea:focus, select:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(61, 64, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(5, 170, 22, 0.1);
 }
 
 textarea {
@@ -544,7 +518,7 @@ main {
     margin-bottom: 1rem;
     padding: 0.5rem 1rem;
     border-radius: 50px;
-    background-color: rgba(61, 64, 255, 0.1);
+    background-color: rgba(5, 170, 22, 0.1);
     color: var(--primary-color);
     font-weight: 600;
 }
@@ -673,8 +647,7 @@ main {
         max-width: 320px;
         background-color: var(--background-color);
         z-index: 1001;
-        padding: 0.1rem 2rem 20rem;
-        padding-top: 100px;
+        padding: 6rem 2rem 2rem;
         box-shadow: var(--shadow-lg);
         transform: translateX(100%);
         flex-direction: column;
@@ -1002,7 +975,7 @@ main {
 }
 
 .step-card {
-    background-color: #3d40ff;
+    background-color: #324d35;
     color: #f8f9fa; /* Light text for paragraphs */
     padding: 2.5rem;
     border-radius: 16px;
@@ -1010,8 +983,8 @@ main {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .step-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 30px -10px rgba(50, 77, 53, 0.4);
 }
 .step-card h3 {
     margin-top: 1.5rem;
@@ -1052,7 +1025,7 @@ main {
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    border: 2px solid #3d40ff; /* Match new card background */
+    border: 2px solid #324d35; /* Match new card background */
 }
 
 .categories {
@@ -1092,7 +1065,7 @@ main {
 }
 
 .service-card {
-    background-color: #3d40ff;
+    background-color: var(--background-color);
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid var(--border-color-light);
@@ -1181,7 +1154,7 @@ main {
 }
 
 .testimonial-card {
-    background-color: #3d40ff;
+    background-color: var(--background-color);
     padding: 2.5rem;
     border-radius: 16px;
     text-align: center;
@@ -1253,7 +1226,7 @@ main {
 }
 
 /* Additional styles for the new design */
-:root { --primary-color: #3d40ff; --primary-hover: #2a2dd6; } /* Updated Theme */
+:root { --primary-color: #05aa16; --primary-hover: #028a10; } /* Amber/Gold Theme */
 .hero { padding: 4rem 1.5rem; }
 .hero .container { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; }
 @media (min-width: 992px) { 
@@ -1310,11 +1283,10 @@ main {
     position: relative;
     width: 300px; /* A bit wider than the image for the frame */
     flex-shrink: 0; /* Prevent frames from shrinking in the flex container */
-    background-color: #1c1c1e; /* Sleek dark frame */
-    padding: 8px; /* Thinner bezel */
-    border-radius: 48px; /* Modern rounded corners */
-    box-shadow: none;
-    border: 4px solid #000; /* Inner black border */
+    background-color: #333; /* Dark grey frame */
+    padding: 12px;
+    border-radius: 40px; /* Rounded corners for the phone body */
+    box-shadow: 0 15px 30px -10px rgba(0,0,0,0.3), inset 0 2px 2px rgba(255,255,255,0.1);
 }
 .hero-visual {
     overflow: hidden; /* Hide the overflowing carousel items */
@@ -1329,8 +1301,8 @@ main {
 }
 .screen-logo {
     position: absolute;
-    top: 20px; /* Adjust vertical position */
-    left: 25px; /* Adjust horizontal position */
+    top: 30px; /* Adjust vertical position */
+    left: 30px; /* Adjust horizontal position */
     z-index: 10;
 }
 .screen-logo img {
@@ -1340,9 +1312,9 @@ main {
 .smartphone-screen {
     background-color: #FFFFFF;
     color: #0A0A0A;
-    border-radius: 38px; /* Match outer curve */
-    padding: 45px 20px 30px; /* Top padding for notch */
-    min-height: 580px; /* Taller aspect ratio */
+    border-radius: 28px; /* Match inner radius */
+    padding: 20px;
+    min-height: 530px; /* Approximate height of a phone screen */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1350,8 +1322,6 @@ main {
     text-align: center;
     /* Added for horizontal arrangement */
     position: relative; /* For positioning the logo inside */
-    overflow: hidden; /* Clip content */
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.02);
 }
 .testimonial-headshot {
     width: 80px;
@@ -1366,43 +1336,27 @@ main {
     line-height: 1.6;
 }
 
-/* Dynamic Island / Notch */
-.smartphone-screen::before {
-    content: '';
-    position: absolute;
-    top: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90px;
-    height: 26px;
-    background-color: #000;
-    border-radius: 14px;
-    z-index: 20;
-}
-
 /* Side buttons */
-.smartphone-frame::before { /* Volume */
+.smartphone-frame::before,
+.smartphone-frame::after {
     content: '';
     position: absolute;
-    left: -2px;
+    background-color: #444; /* Slightly lighter for buttons */
+    border-radius: 4px;
+}
+/* Volume buttons */
+.smartphone-frame::before {
+    left: -4px;
     top: 100px;
     width: 4px;
-    height: 50px;
-    background: #2a2a2a;
-    border-radius: 4px 0 0 4px;
-    box-shadow: inset -1px 0 1px rgba(0,0,0,0.3);
+    height: 60px;
 }
-
-.smartphone-frame::after { /* Power */
-    content: '';
-    position: absolute;
-    right: -2px;
-    top: 130px;
+/* Power button */
+.smartphone-frame::after {
+    right: -4px;
+    top: 120px;
     width: 4px;
-    height: 80px;
-    background: #2a2a2a;
-    border-radius: 0 4px 4px 0;
-    box-shadow: inset 1px 0 1px rgba(0,0,0,0.3);
+    height: 35px;
 }
 .trust-item { display: flex; align-items: center; gap: 0.75rem; font-weight: 500; color: var(--text-muted-color); }
 .trust-item {
@@ -1417,11 +1371,11 @@ main {
 .trust-item:hover { background-color: var(--primary-color); color: white; }
 .trust-item:hover svg { color: white; }
 .dual-value-prop { 
-    background-color: var(--text-heading-color); 
-    color: #f8f9fa;
+    background-color: #324d35; 
+    color: #f8f9fa; /* Light text color for readability on dark background */
 }
 .dual-value-prop h2, .dual-value-prop .value-block h4 {
-    color: #fff;
+    color: #fff; /* White for main headings */
 }
 .dual-value-prop p { color: #dee2e6; } /* Lighter grey for paragraphs */
 .dual-value-prop .container {
@@ -1445,7 +1399,7 @@ main {
 }
 
 .value-block { 
-    background-color: #3d40ff; /* Brand primary color */
+    background-color: #05aa16; /* Brand primary color */
     padding: 3rem; border-radius: 16px; 
     border: 1px solid transparent; 
 }
@@ -1459,9 +1413,9 @@ main {
     background-color: rgba(255, 255, 255, 0.15);
     color: #ffffff;
 }
-.value-block h4 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.05em; color: #fff; }
-.final-cta { background-color: var(--text-heading-color); color: #fff; text-align: center; }
-.final-cta h2 { color: #fff; font-size: clamp(2rem, 5vw, 3rem); }
+.value-block h4 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary-color); }
+.final-cta { background: linear-gradient(145deg, var(--primary-color), var(--primary-hover)); color: #0A0A0A; text-align: center; }
+.final-cta h2 { color: #0A0A0A; font-size: clamp(2rem, 5vw, 3rem); }
 .fomo-notification { position: fixed; bottom: 1.5rem; left: 1.5rem; background-color: var(--surface-color); color: var(--text-color); padding: 1rem 1.5rem; border-radius: 12px; box-shadow: var(--shadow-lg); z-index: 1001; opacity: 0; transform: translateY(20px); transition: opacity 0.5s, transform 0.5s; font-size: 0.9rem; border: 1px solid var(--border-color); }
 .fomo-notification.visible { opacity: 1; transform: translateY(0); }
 .location-reminder { text-align: center; padding: 1rem; background-color: var(--surface-color); font-weight: 600; color: var(--primary-color); }
@@ -1503,13 +1457,13 @@ main {
 }
 .value-block:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 30px -10px rgba(61, 64, 255, 0.2);
+    box-shadow: 0 20px 30px -10px rgba(2, 138, 16, 0.2);
     border-color: var(--primary-color);
 }
 .value-block-icon {
     display: inline-flex;
     padding: 0.75rem;
-    background-color: rgba(61, 64, 255, 0.1);
+    background-color: rgba(45, 64, 47, 0.1);
     border-radius: 50%;
     margin-bottom: 1rem;
     color: var(--primary-color);
@@ -1527,7 +1481,7 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #3d40ff; /* Brand primary color */
+    background-color: #05aa16; /* Brand primary color */
     padding: 1.5rem;
     border-radius: 12px;
     border: 1px solid transparent;
@@ -1544,7 +1498,7 @@ main {
     border-color: var(--border-color);
 }
 .category-item:hover .category-icon {
-    background-color: rgba(61, 64, 255, 0.1);
+    background-color: rgba(5, 170, 22, 0.1);
     color: var(--primary-color);
 }
 .category-item .category-icon {
@@ -1593,7 +1547,7 @@ main {
 .cta-glass-card {
     position: relative;
     z-index: 2;
-    background: #1a1b66; /* Solid brand color */
+    background: #324d35; /* Solid brand color */
     border: 1px solid rgba(255, 255, 255, 0.2); /* A subtle light border */
     border-radius: 24px;
     padding: 3rem;
@@ -1616,7 +1570,7 @@ main {
 .futuristic-cta .button-secondary,
 .futuristic-cta .button-primary,
 .dual-value-prop .button-secondary {
-    border: 1px solid #444;
+    border: 1px solid #05aa16;
 }
 
 /* Carousel Animation */
@@ -1644,8 +1598,13 @@ main {
     100% { transform: translate(0, 0); }
 }
 @keyframes pulse-glow {
-    0%, 100% { box-shadow: 0 0 20px -5px rgba(61, 64, 255, 0.3), 0 0 80px rgba(0,0,0,0.5); }
-    50% { box-shadow: 0 0 35px 0px rgba(61, 64, 255, 0.5), 0 0 80px rgba(0,0,0,0.5); }
+    0%, 100% { box-shadow: 0 0 20px -5px rgba(5, 170, 22, 0.3), 0 0 80px rgba(0,0,0,0.5); }
+    50% { box-shadow: 0 0 35px 0px rgba(5, 170, 22, 0.5), 0 0 80px rgba(0,0,0,0.5); }
+}
+
+/* Style for the first card in the carousel */
+.screens-wrapper .smartphone-frame:first-child {
+    background-color: grey;
 }
 
 /* Trusted By Section Styles */
@@ -1679,4 +1638,14 @@ main {
 }
 .trusted-logos img:hover {
     filter: grayscale(0%) opacity(1);
+}
+
+/* Mobile / Tablet specific tweaks */
+@media (max-width: 991px) {
+    /* Reduce H1 size across all pages on mobile/tablet for better readability */
+    h1 {
+        /* Use a comfortable mobile size while keeping line-height */
+        font-size: 1.8rem !important;
+        line-height: 1.2 !important;
+    }
 }
