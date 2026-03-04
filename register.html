@@ -61,6 +61,12 @@
         .value-block .price-desc { color: var(--text-muted-color); margin-bottom: 1.5rem; }
         .value-block .comparison { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); font-style: italic; }
 
+    /* Ensure paragraph color contrast inside dual-value-prop */
+    .dual-value-prop { color: #ffffff; }
+    .dual-value-prop p { color: #ffffff; }
+    /* But when content sits on a white background inside the blue area (e.g. .value-block), use brand dark grey for readability */
+    .dual-value-prop .value-block, .dual-value-prop .value-block p { color: var(--text-heading-color); }
+
         .objection-handling ul { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
         .objection-handling li { display: flex; align-items: flex-start; gap: 1rem; }
         .objection-handling svg { color: var(--primary-color); flex-shrink: 0; margin-top: 4px; }

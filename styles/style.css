@@ -7,7 +7,7 @@
     /* Futuristic White/Grey Palette */
     /* Brand color changed to YourHelpa brand blue */
     --primary-color: #3d40ff; /* YourHelpa brand blue */
-    --primary-hover: #080888;
+    --primary-hover: #080888; /* Ensure hover color is consistent */
     --background-color: #ffffff;
     --surface-color: #f8f9fa;
     --surface-color-translucent: rgba(255, 255, 255, 0.6);
@@ -242,8 +242,9 @@ p {
 }
 
 .nav-cta:hover {
-    background-color: rgba(61, 64, 255, 0.14);
-    color: var(--primary-hover) !important;
+    background-color: #080888; /* hover background for CTA buttons */
+    color: #ffffff !important; /* ensure contrast on hover */
+    border-color: #080888;
 }
 
 .desktop-actions {
@@ -382,7 +383,7 @@ p {
 }
 
 .button-primary:hover {
-    background-color: var(--primary-hover);
+    background-color: #080888; /* explicit hover color for primary buttons */
     color: white;
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
@@ -1226,7 +1227,7 @@ main {
 }
 
 /* Additional styles for the new design */
-:root { --primary-color: #3d40ff; --primary-hover: #3433e6; } /* Brand blue theme (normalized) */
+:root { --primary-color: #3d40ff; --primary-hover: #080888; } /* Brand blue theme (normalized) */
 .hero { padding: 4rem 1.5rem; }
 .hero .container { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; }
 @media (min-width: 992px) { 
