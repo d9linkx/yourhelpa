@@ -298,14 +298,27 @@ window.callGoogleSheet = async function(action, data = {}) {
         console.error("Google Script URL not set in js/config.js");
         throw new Error("Configuration Error: Google Script URL missing");
     }
-    
-    const response = await fetch(window.GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify({ action, ...data })
-    });
-    const result = await response.json();
-    if (!result.success) {
-        throw new Error(result.message || "Operation failed");
+    try {
+        const response = await fetch(window.GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ action, ...data })
+        });
+
+        if (!response.ok) {
+            const text = await response.text();
+            throw new Error(`Network error: ${response.status} ${response.statusText} - ${text}`);
+        }
+
+        const result = await response.json();
+        if (!result || result.success === false) {
+            throw new Error(result?.message || "Operation failed");
+        }
+        return result;
+    } catch (err) {
+        console.error('callGoogleSheet error:', err);
+        throw err;
     }
-    return result;
 };
