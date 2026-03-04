@@ -1,6 +1,6 @@
 const blogPosts = {
     'setup-guide': {
-        title: '🚀 YourHelpa Launch Guide: Your First 5 Steps to Success as a Helpa Provider',
+        title: 'YourHelpa Launch Guide: Your First 5 Steps to Success as a Helpa Provider',
         category: 'For Helpas',
         date: 'Oct 26, 2023',
         imageSrc: 'https://placehold.co/800x450/3d40ff/FFFFFF?text=Helpa+Success+Guide',
