@@ -10,7 +10,7 @@
         body {
             background-color: #f8fafc;
         }
-        :root { --primary-color: #0ea5e9; --primary-hover: #0284c7; --primary-color-rgb: 14, 165, 233; }
+        :root {  --primary-color: #3d40ff; --primary-hover: #080888; --primary-color-rgb: 61, 64, 255; }
         :root.dark-mode body {
             background-color: #0c131a;
         }
@@ -33,6 +33,20 @@
         .dashboard-header h1 { font-size: 2rem; font-weight: 700; margin: 0; }
         .dashboard-header .text-muted { color: var(--text-muted-color); font-size: 1rem; margin-top: 0.25rem; }
         .header-actions { display: flex; align-items: center; gap: 1rem; }
+
+        /* Make availability toggle visible on tablet & mobile (override global header hide) */
+        @media (max-width: 991px) {
+            .header-actions {
+                display: flex !important;
+                position: relative;
+                z-index: 1002; /* ensure it sits above any slide-out nav */
+            }
+            .header-actions .availability-toggle {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+        }
 
         /* Availability Toggle */
         .availability-toggle { display: flex; align-items: center; gap: 0.75rem; font-weight: 500; }

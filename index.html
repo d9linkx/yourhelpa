@@ -20,6 +20,12 @@
     <style>
         /* Override global styles for the primary theme */
         :root { --primary-color: #3d40ff; --primary-hover: #080888; }
+
+        /* Ensure paragraph color contrast inside dual-value-prop */
+        .dual-value-prop { color: #ffffff; }
+        .dual-value-prop p { color: #ffffff; }
+        /* But when content sits on a white background inside the blue area (e.g. .value-block), use brand dark grey for readability */
+        .dual-value-prop .value-block, .dual-value-prop .value-block p { color: var(--text-heading-color); }
     </style>
 </head>
 <body>
@@ -388,7 +394,7 @@
             <div class="container">
                 <div class="section-header">
                     <h2>Have any products or services to sell? <span class="swell-text">Become a Helpa</span></h2>
-                    <p style="font: #ffffff;">Stop wasting time on unpaid invoices and uncertain clients. YourHelpa ensures your pay is guaranteed even before you provide that service or sell anything.</p>
+                    <p>Stop wasting time on unpaid invoices and uncertain clients. YourHelpa ensures your pay is guaranteed even before you provide that service or sell anything.</p>
                     <a href="register.html" class="button-secondary large">Join the Helpa Network</a>
                 </div>
                 <div class="value-block">
