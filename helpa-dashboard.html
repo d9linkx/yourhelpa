@@ -424,7 +424,6 @@
     <script type="module" src="js/config.js"></script>
     <script type="module" src="js/supabase-client.js"></script>
     <script type="module" src="js/main.js"></script>
-    <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/includes.js"></script>
     <script>
         // --- Helpers ---
@@ -435,66 +434,35 @@
         // --- Main Logic ---
         document.addEventListener('DOMContentLoaded', async () => {
             // 1. Check user session
-            const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-
-            if (sessionError) {
-                console.error('Error getting session:', sessionError.message);
-                return;
-            }
-
-            if (!session) {
-                // If no user is logged in, redirect to the login page
+            const userStr = localStorage.getItem('helpa_user');
+            if (!userStr) {
                 window.location.href = 'login.html';
                 return;
             }
-
-            // 2. Fetch the complete Helpa profile to verify the user and get their data
-            const { data: helpaProfile, error: profileError } = await supabase
-                .from('helpas')
-                .select('*') // Fetch all data at once
-                .eq('id', session.user.id)
-                .single(); // Use single() because a helpa MUST have a profile
-
-            // 3. Handle profile loading outcomes
-            if (profileError && !helpaProfile) {
-                // This case handles potential database permission errors (like RLS)
-                console.error('Error fetching helpa profile:', profileError.message);
-                alert('Could not verify your Helpa account. Please contact support.');
-                await supabase.auth.signOut();
-                window.location.href = 'login.html';
-                return;
-            }
-
-            if (!helpaProfile) {
-                // This case means the query succeeded but found no matching row.
-                await supabase.auth.signOut();
-                alert('Account not found. Please sign up to access the Helpa Dashboard.');
-                window.location.href = 'signup.html';
-                return;
-            }
-
-            // 4. If successful, pass the fetched profile to the load function
-            loadDashboardData(session.user, helpaProfile);
+            const user = JSON.parse(userStr);
+            
+            // Load data
+            loadDashboardData(user);
         });
 
-        async function loadDashboardData(user, helpaProfile) {
+        async function loadDashboardData(user) {
             // --- Render Welcome Message ---
-            renderWelcomeMessage(helpaProfile);
+            renderWelcomeMessage(user);
 
             // --- Fetch and Render Data Concurrently ---
             // This is more efficient than fetching one by one
             await Promise.all([
-                fetchAndRenderStats(user.id),
-                fetchAndRenderBusinesses(user.id)
+                fetchAndRenderStats(user.id || user.email),
+                fetchAndRenderBusinesses(user.id || user.email)
             ]).catch(error => {
                 console.error("An error occurred while loading dashboard data:", error);
             });
         }
 
-        function renderWelcomeMessage(profile) {
+        function renderWelcomeMessage(user) {
             const welcomeMessage = document.getElementById('welcome-message');
-            if (profile && profile.full_name) {
-                const firstName = profile.full_name.split(' ')[0];
+            if (user && user.full_name) {
+                const firstName = user.full_name.split(' ')[0];
                 welcomeMessage.textContent = `Welcome back, ${firstName}`;
             }
         }
@@ -502,34 +470,15 @@
         // Global state for stats to allow filtering without re-fetching
         let allJobsData = [];
         let allStatsData = [];
-        let helpaProfileData = null;
 
         async function fetchAndRenderStats(userId) {
             try {
-                // Fetch jobs data with business and service info
-                const { data: jobs, error: jobsError } = await supabase
-                    .from('jobs')
-                    .select('status, amount, created_at, client_id, business_id, service_id') 
-                    .eq('helpa_id', userId);
-                if (jobsError) throw jobsError;
-
-                // Fetch historical stats from the new table
-                const { data: stats, error: statsError } = await supabase
-                    .from('helpa_statistics')
-                    .select('*')
-                    .eq('helpa_id', userId);
+                // Fetch stats from Google Sheet
+                const result = await window.callGoogleSheet('get_stats', { userId });
                 
-                // Fetch profile views
-                const { data: profile, error: profileError } = await supabase
-                    .from('helpas')
-                    .select('profile_views')
-                    .eq('id', userId)
-                    .single();
-                if (profileError) throw profileError;
-                
-                allJobsData = jobs || [];
-                allStatsData = stats || [];
-                helpaProfileData = profile;
+                allJobsData = result.jobs || [];
+                allStatsData = result.stats || [];
+                const profileViews = result.profileViews || 0;
 
                 // Populate Filters
                 await populateStatsFilters(userId);
@@ -549,8 +498,11 @@
         }
 
         async function populateStatsFilters(userId) {
-            // Fetch Businesses
-            const { data: businesses } = await supabase.from('businesses').select('id, name').eq('helpa_id', userId);
+            // Fetch Businesses & Services from Google Sheet
+            const result = await window.callGoogleSheet('get_filters', { userId });
+            const businesses = result.businesses || [];
+            const services = result.services || [];
+
             const bizSelect = document.getElementById('stats-business');
             if (businesses && bizSelect) {
                 bizSelect.innerHTML = '<option value="all">All Businesses</option>';
@@ -562,8 +514,6 @@
                 });
             }
 
-            // Fetch Services (Assuming a services table exists)
-            const { data: services } = await supabase.from('services').select('id, title').eq('provider_id', userId);
             const servSelect = document.getElementById('stats-service');
             if (services && servSelect) {
                 servSelect.innerHTML = '<option value="all">All Services</option>';
@@ -577,11 +527,11 @@
 
             // Add Event Listeners
             ['stats-period', 'stats-business', 'stats-service'].forEach(id => {
-                document.getElementById(id)?.addEventListener('change', renderStatsCalculations);
+                document.getElementById(id)?.addEventListener('change', () => renderStatsCalculations());
             });
         }
 
-        function renderStatsCalculations() {
+        function renderStatsCalculations(initialProfileViews = 0) {
             const period = document.getElementById('stats-period').value;
             const businessId = document.getElementById('stats-business').value;
             const serviceId = document.getElementById('stats-service').value;
@@ -644,7 +594,11 @@
             const newLeads = filteredStats.reduce((sum, item) => sum + (item.new_leads || 0), 0);
 
             // Calculate Profile Views from the stats table to respect filters
-            const profileViews = filteredStats.reduce((sum, item) => sum + (item.profile_views || 0), 0);
+            // If filtering, use stats table. If not, use the total from profile (passed as initialProfileViews if available)
+            let profileViews = filteredStats.reduce((sum, item) => sum + (item.profile_views || 0), 0);
+            if (period === 'all' && businessId === 'all' && serviceId === 'all' && initialProfileViews > 0) {
+                profileViews = initialProfileViews;
+            }
 
             // Update UI
             document.getElementById('ongoing-jobs-value').textContent = ongoingJobs;
@@ -657,12 +611,8 @@
         async function fetchAndRenderBusinesses(userId) {
             const container = document.getElementById('businesses-list-container');
             try {
-                const { data: businesses, error } = await supabase
-                    .from('businesses')
-                    .select('id, name, category')
-                    .eq('helpa_id', userId);
-                
-                if (error) throw error;
+                const result = await window.callGoogleSheet('get_businesses', { userId });
+                const businesses = result.businesses || [];
 
                 container.innerHTML = ''; // Clear loading message
                 if (!businesses || businesses.length === 0) {

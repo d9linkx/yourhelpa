@@ -1,9 +1,4 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    if (typeof supabase === 'undefined') {
-        console.error('Supabase client is not loaded. Ensure supabase-client.js is included before signup.js.'); // Corrected typo
-        return;
-    }
-
     const signupForm = document.getElementById('helpa-signup-form');
     // If the form is not found, it means we are not on the signup page.
     // This prevents errors on other pages that might include signup.js.
@@ -13,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const successMessageDiv = document.getElementById('success-message');
     const submitBtn = document.getElementById('submit-btn');
     const emailInput = document.getElementById('email');
-    const emailFeedback = document.getElementById('email-feedback');
+    // const emailFeedback = document.getElementById('email-feedback'); // Removed as it might not exist in HTML yet, handled dynamically if needed or added to HTML
     const passwordInput = document.getElementById('password');
     const togglePassword = document.getElementById('toggle-password');
 
@@ -36,6 +31,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     let isEmailAvailable = false; // Track email availability
 
     const checkEmailAvailability = async () => {
+        const emailFeedback = document.getElementById('email-feedback');
+        if (!emailFeedback) return;
         if (!emailInput) return; // Ensure emailInput exists
         const email = emailInput.value.trim();
         if (!/^\S+@\S+\.\S+$/.test(email)) {
@@ -48,19 +45,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         emailFeedback.style.color = 'var(--text-muted-color)';
 
         try {
-            // We check the public 'helpas' table. This is a reasonable approach
-            // as auth.users is not directly queryable from the client.
-            const { data, error } = await supabase
-                .from('helpas')
-                .select('email')
-                .eq('email', email)
-                .single();
+            // Check email availability via Google Sheet
+            const result = await window.callGoogleSheet('check_email', { email });
+            const exists = result.exists;
 
-            if (error && error.code !== 'PGRST116' && error.code !== '406') { // PGRST116 = 'No rows found', 406 = 'No rows found' for older PostgREST
-                throw error;
-            }
-
-            if (data) {
+            if (exists) {
                 emailFeedback.textContent = 'Email is already registered. Please login.';
                 emailFeedback.style.color = 'var(--error-color)';
                 isEmailAvailable = false;
@@ -77,7 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
-    if (emailInput && emailFeedback) {
+    if (emailInput) {
         emailInput.addEventListener('input', () => {
             clearTimeout(emailCheckTimeout);
             emailCheckTimeout = setTimeout(checkEmailAvailability, 500); // Debounce for 500ms
@@ -175,7 +164,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        if (!isEmailAvailable) {
+        // Only block if we explicitly checked and found it unavailable
+        const emailFeedback = document.getElementById('email-feedback');
+        if (emailFeedback && emailFeedback.style.color === 'var(--error-color)') {
             show_error('Please use an available email address to register.');
             setLoadingState(false);
             emailInput.focus();
@@ -183,31 +174,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         try {
-            // --- Step 1: Create Auth User ---
-            setLoadingState(true, 'Creating account...');
-            const { data: authData, error: authError } = await createAuthUser(data);
-
-            if (authError) {
-                handleAuthError(authError);
-                setLoadingState(false);
-                return;
-            }
-
-            // --- Step 2: Insert Public Profile ---
-            setLoadingState(true, 'Saving profile...');
-            const { error: profileError } = await insertHelpaProfile(authData.user.id, data);
-
-            if (profileError) {
-                // IMPORTANT: In a production environment, you should not attempt to delete the user
-                // from the client-side as it requires admin privileges. This is a security risk.
-                // The best practice is to use a Supabase Edge Function triggered by a webhook
-                // or a database trigger to clean up orphaned auth users if profile creation fails.
-                console.error('Profile insertion failed:', profileError);
-                show_error(`Profile creation failed: ${profileError.message}. Please contact support.`);
-                setLoadingState(false);
-                // The user will have an auth account but no profile. They should contact support.
-                return;
-            }
+            // --- Step 1: Register User in Google Sheet ---
+            setLoadingState(true, 'Registering...');
+            
+            // Send data to Google Sheet
+            // The script should handle password hashing (if any) or storage
+            await window.callGoogleSheet('signup', data);
 
             // --- Step 3: Success ---
             showSuccessState(data.email);
@@ -221,34 +193,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // --- Data & API Functions ---
-
-    function createAuthUser(formData) {
-        return supabase.auth.signUp({
-            email: formData.email,
-            password: formData.password,
-            options: {
-                data: {
-                    full_name: formData['full-name'], // This maps to full_name in auth.users.user_metadata
-                    whatsapp_number: formData['phone-number'],
-                    role: 'helpa' // Assign the 'helpa' role
-                }
-            }
-        });
-    }
-
-    function insertHelpaProfile(userId, formData, skill) {
-        return supabase
-            .from('helpas')
-            .insert({
-                id: userId,
-                full_name: formData['full-name'],
-                phone_number: formData['whatsapp-number'],
-                email: formData.email,
-                primary_skill: formData['service-name'], // Use the new service-name field
-                location: formData.location,
-                status: 'pending_verification'
-            });
-    }
 
     function handleAuthError(error) {
         if (error.message.includes("already registered")) {
@@ -265,7 +209,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         signupForm.style.display = 'none';
         successMessageDiv.innerHTML = `
             <h4>Registration Complete! Check Your Email.</h4>
-            <p>Welcome to YourHelpa! We've sent a confirmation link to <strong>${email}</strong>. Please click the link in that email to activate your account.</p>
+            <p>Welcome to YourHelpa! Your account has been created. Please <a href="login.html">login</a> to continue.</p>
         `;
         if (successMessageDiv) successMessageDiv.style.display = 'block';
         window.scrollTo({ top: 0, behavior: 'smooth' });

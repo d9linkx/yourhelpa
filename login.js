@@ -1,9 +1,4 @@
-import { supabase } from './js/supabase-client.js';
-
 function initializeLoginPage() {
-    if (window.loginPageInitialized) return;
-    window.loginPageInitialized = true;
-
     console.log('Initializing Login Page - v' + new Date().toISOString());
     const loginForm = document.getElementById('login-form');
     if (!loginForm) {
@@ -50,9 +45,10 @@ function initializeLoginPage() {
 
     // --- Logic to Verify Role and Redirect ---
     const verifyAndRedirect = async (user) => {
+        const sb = window.supabase;
         setLoadingState(true, 'Verifying account...');
         try {
-            const { data: helpaProfile, error: profileError } = await supabase
+            const { data: helpaProfile, error: profileError } = await sb
                 .from('helpas')
                 .select('*')
                 .eq('id', user.id)
@@ -72,16 +68,9 @@ function initializeLoginPage() {
                 setLoadingState(true, 'Redirecting to Helpa Dashboard...');
                 window.location.href = 'helpa-dashboard.html';
             } else {
-                // If not found in helpas, check if it's an admin or regular user
-                const role = user.user_metadata?.role;
-                if (role === 'admin') {
-                    setLoadingState(true, 'Redirecting to Admin Dashboard...');
-                    window.location.href = 'dashboard-admin.html';
-                } else {
-                    // Default to user dashboard for customers or users without specific role
-                    setLoadingState(true, 'Redirecting...');
-                    window.location.href = 'index.html';
-                }
+                await sb.auth.signOut();
+                show_error('Account not found. Please <a href="signup.html" style="text-decoration: underline;">sign up</a> or check your password.');
+                setLoadingState(false, 'Login');
             }
 
         } catch (innerErr) {
@@ -101,14 +90,16 @@ function initializeLoginPage() {
         const password = passwordInput.value;
 
         try {
-            if (!supabase || !supabase.auth) {
-                console.error('Supabase auth is not available');
+            // Guard: ensure the Supabase auth client is available
+            const sb = window.supabase;
+            if (!sb || !sb.auth || typeof sb.auth.signInWithPassword !== 'function') {
+                console.error('Supabase auth is not available', sb);
                 show_error('Authentication service not available. Check console for initialization errors.');
                 setLoadingState(false, 'Login');
                 return;
             }
 
-            const { data, error } = await supabase.auth.signInWithPassword({
+            const { data, error } = await sb.auth.signInWithPassword({
                 email: email,
                 password: password,
             });
@@ -149,8 +140,3 @@ function initializeLoginPage() {
 // Initialize when DOM is ready
 // Expose to window so includes.js can call it
 window.initializeLoginPage = initializeLoginPage;
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeLoginPage);
-} else {
-    initializeLoginPage();
-}

@@ -79,6 +79,7 @@
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+                        <small id="email-feedback" style="display: block; margin-top: 0.25rem; font-size: 0.85rem;"></small>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
@@ -142,231 +143,52 @@
     <script type="module" src="js/supabase-client.js"></script>
     <script type="module" src="js/main.js"></script>
     <script type="module" src="js/includes.js"></script>
+    <script type="module" src="js/signup.js"></script>
     <script src="https://api.geoapify.com/v1/api.js"></script>
     <script>
+        // Inline script removed. Logic moved to js/signup.js
+        // UI logic for radio buttons is handled in js/signup.js or can be inline if purely UI
+        // For simplicity, let's keep the UI toggle logic here or ensure js/signup.js handles it.
+        // js/signup.js handles form submission but maybe not the radio toggle visibility.
+        // Let's add the radio toggle logic back here briefly or ensure js/signup.js has it.
+        // Looking at js/signup.js provided, it does NOT have the updateOfferingVisibility logic.
+        // So we should keep the UI logic here or add it to js/signup.js.
+        // Adding it to js/signup.js is cleaner. I will add it to js/signup.js in the previous step.
+        // Wait, I didn't add it to js/signup.js in the previous step. Let me correct js/signup.js diff.
+    </script>
+    <script>
+        // Re-adding UI logic for radio buttons as it was missing from js/signup.js
+        document.addEventListener('DOMContentLoaded', () => {
+            const offeringTypeServiceRadio = document.getElementById('offering-type-service');
+            const offeringTypeProductRadio = document.getElementById('offering-type-product');
+            const primaryServiceGroup = document.getElementById('primary-service-group');
+            const primaryProductGroup = document.getElementById('primary-product-group');
+            const primaryServiceInput = document.getElementById('primary-service');
+            const primaryProductInput = document.getElementById('primary-product');
 
-        // Signup Logic
-        const form = document.getElementById('helpa-signup-form');
-        const submitButton = document.getElementById('submit-btn');
-        const errorMessageDiv = document.getElementById('error-message');
-        const successMessageDiv = document.getElementById('success-message');
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-        const togglePassword = document.getElementById('toggle-password');
-        const offeringTypeServiceRadio = document.getElementById('offering-type-service');
-        const offeringTypeProductRadio = document.getElementById('offering-type-product');
-        const primaryServiceGroup = document.getElementById('primary-service-group');
-        const primaryProductGroup = document.getElementById('primary-product-group');
-        const primaryServiceInput = document.getElementById('primary-service');
-        const primaryProductInput = document.getElementById('primary-product');
-        const locationInput = document.getElementById('location');
-        const locationSelectedInput = document.getElementById('location-selected');
-
-        // --- Password Toggle Logic ---
-        if (togglePassword && passwordInput) {
-            togglePassword.addEventListener('click', () => {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                togglePassword.querySelector('.eye-icon').style.display = type === 'password' ? 'block' : 'none';
-                togglePassword.querySelector('.eye-off-icon').style.display = type === 'password' ? 'none' : 'block';
-            });
-        }
-
-        // --- Offering Type Toggle Logic ---
-        const updateOfferingVisibility = () => {
-            if (offeringTypeServiceRadio.checked) {
-                primaryServiceGroup.style.display = 'block';
-                primaryServiceInput.setAttribute('required', 'true');
-                primaryProductInput.value = ''; // Clear other field
-                primaryProductGroup.style.display = 'none';
-                primaryProductInput.removeAttribute('required');
-            } else if (offeringTypeProductRadio.checked) {
-                primaryProductGroup.style.display = 'block';
-                primaryProductInput.setAttribute('required', 'true');
-                primaryServiceInput.value = ''; // Clear other field
-                primaryServiceGroup.style.display = 'none';
-                primaryServiceInput.removeAttribute('required');
-            } else {
-                primaryServiceInput.value = '';
-                primaryProductInput.value = '';
-                primaryServiceGroup.style.display = 'none';
-                primaryServiceInput.removeAttribute('required');
-                primaryProductGroup.style.display = 'none';
-                primaryProductInput.removeAttribute('required');
-            }
-        };
-
-        offeringTypeServiceRadio.addEventListener('change', updateOfferingVisibility);
-        offeringTypeProductRadio.addEventListener('change', updateOfferingVisibility);
-
-        const resetSubmitButton = (message = 'Complete Registration') => {
-            submitButton.disabled = false;
-            submitButton.textContent = message;
-        };
-
-
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-            const displayError = (message) => {
-                errorMessageDiv.innerHTML = message; // Use innerHTML to allow for links
-                errorMessageDiv.style.display = 'block';
-                resetSubmitButton();
+            const updateOfferingVisibility = () => {
+                if (offeringTypeServiceRadio.checked) {
+                    primaryServiceGroup.style.display = 'block';
+                    primaryServiceInput.setAttribute('required', 'true');
+                    primaryProductInput.value = ''; 
+                    primaryProductGroup.style.display = 'none';
+                    primaryProductInput.removeAttribute('required');
+                } else if (offeringTypeProductRadio.checked) {
+                    primaryProductGroup.style.display = 'block';
+                    primaryProductInput.setAttribute('required', 'true');
+                    primaryServiceInput.value = ''; 
+                    primaryServiceGroup.style.display = 'none';
+                    primaryServiceInput.removeAttribute('required');
+                }
             };
 
-            // Clear previous messages and disable button
-            errorMessageDiv.style.display = 'none';
-            successMessageDiv.style.display = 'none';
-            submitButton.disabled = true;
-            submitButton.textContent = 'Processing...';
-
-            // --- Validation ---
-            // Validate password length
-            if (passwordInput.value.length < 6) {
-                return displayError('Password must be at least 6 characters long.');
-            }
-
-            // Validate offering type and primary service/product
-            const offeringType = document.querySelector('input[name="offering_type"]:checked');
-            if (!offeringType) {
-                return displayError('Please select what you offer (Service or Product).');
-            }
-
-            if (offeringType.value === 'service' && !primaryServiceInput.value.trim()) {
-                return displayError('Please enter your primary service.');
-            }
-
-            if (offeringType.value === 'product' && !primaryProductInput.value.trim()) {
-                return displayError('Please enter your primary product.');
-            }
-
-            // Get form data
-            const formData = new FormData(form);
-            const email = formData.get('email');
-            const password = formData.get('password');
-            const fullName = formData.get('full-name');
-            const phoneNumber = formData.get('phone-number');
-            const location = formData.get('location');
-            const selectedOfferingType = formData.get('offering_type');
-            const primaryService = formData.get('primary_service');
-            const primaryProduct = formData.get('primary_product');
-
-            // --- STEP 1: Sign up the user (fast) ---
-            // We only sign up with email and password first for a quick response.
-            const { data: authData, error: authError } = await supabase.auth.signUp({
-                email: email,
-                password: password,
-            });
-
-            if (authError) {
-                // Provide more user-friendly error messages
-                let friendlyMessage = `<strong>Registration failed.</strong> An unexpected error occurred: ${authError.message}`;
-                if (authError.message.includes("User already registered")) {
-                    friendlyMessage = `<strong>This email is already registered.</strong> Please <a href="login.html" class="text-primary">log in</a> instead.`;
-                } else if (authError.message.toLowerCase().includes("password")) {
-                    friendlyMessage = `<strong>There's an issue with your password.</strong> Please ensure it meets the requirements (e.g., minimum length).`;
-                }
-
-                displayError(friendlyMessage);
-                return; // Stop execution if auth fails
-            }
-
-            // --- STEP 2: Insert profile data into 'helpas' table (runs after signup succeeds) ---
-            // This assumes you have a table named 'helpas' with RLS policies that allow a newly signed-up user to insert their own profile.
-            // The 'id' column in 'helpas' should be a foreign key to 'auth.users.id'.
-            if (authData.user) {
-                const { error: profileError } = await supabase
-                    .from('helpas')
-                    .insert({ 
-                        id: authData.user.id, // Link to the user in auth.users
-                        email: email,
-                        full_name: fullName,
-                        phone_number: phoneNumber,
-                        location: location,
-                        offering_type: selectedOfferingType,
-                        primary_service: selectedOfferingType === 'service' ? primaryService : null,
-                        primary_product: selectedOfferingType === 'product' ? primaryProduct : null,
-                     });
-
-                if (profileError) {
-                    // If profile insertion fails, the user is still signed up.
-                    // We should inform them but also log the error for debugging.
-                    console.error("Critical: User was created but profile insertion failed:", profileError);
-                    
-                    // Check for a unique phone number violation
-                    if (profileError.message.includes('duplicate key value') && profileError.message.includes('phone_number')) {
-                        displayError(`<strong>This phone number is already registered.</strong> Please use a different number or log in if you already have an account.`);
-                    } else {
-                        displayError(`<strong>Your account was created, but we couldn't save your profile details.</strong> Please contact support. Error: ${profileError.message}`);
-                    }
-                    return;
-                }
-            }
-            
-            if (authData.user) {
-                // --- Success ---
-                // This part only runs if both signup and profile insertion succeed.
-                form.style.display = 'none';
-                successMessageDiv.innerHTML = `
-                    <h4>Registration Complete. Check Your Email.</h4>
-                    <p>Welcome to YourHelpa. We've sent a confirmation link to <strong>${email}</strong>. Please click the link in that email to activate your account.</p>
-                `;
-                successMessageDiv.style.display = 'block';
-                localStorage.removeItem('helpaSignupFormData'); // Clear saved form data
-            } else {
-                // This case should ideally not be reached if authError is handled, but it's good practice.
-                displayError('<strong>Registration failed.</strong> Could not create user account.');
+            if(offeringTypeServiceRadio && offeringTypeProductRadio) {
+                offeringTypeServiceRadio.addEventListener('change', updateOfferingVisibility);
+                offeringTypeProductRadio.addEventListener('change', updateOfferingVisibility);
+                // Initial check
+                updateOfferingVisibility();
             }
         });
-
-        const localStorageKey = 'helpaSignupFormData';
-        const saveFormData = () => {
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData.entries());
-            // Manually handle radio buttons and conditional fields for persistence
-            data.offering_type = document.querySelector('input[name="offering_type"]:checked')?.value || '';
-            data.primary_service = primaryServiceInput.value;
-            data.primary_product = primaryProductInput.value;
-            // Do not save password
-            delete data.password;
-            localStorage.setItem(localStorageKey, JSON.stringify(data));
-        };
-
-        const loadFormData = () => {
-            const savedData = localStorage.getItem(localStorageKey);
-            if (savedData) {
-                try {
-                    const data = JSON.parse(savedData);
-                    for (const key in data) {
-                        const element = form.elements[key];
-                        if (!element) continue;
-
-                        if (element.type === 'radio' && element.name === 'offering_type') {
-                            element.checked = (element.value === data[key]);
-                        } else if (element.type !== 'radio') {
-                            element.value = data[key];
-                        }
-                    }
-                    // After loading, update visibility for offering type
-                    if (data.offering_type) {
-                        updateOfferingVisibility(); // Call to show/hide groups based on loaded radio state
-                    }
-                } catch (e) {
-                    console.error("Error loading form data from localStorage:", e);
-                    localStorage.removeItem(localStorageKey); // Clear corrupted data
-                }
-            }
-        };
-
-        // Add event listeners for persistence
-        form.addEventListener('input', (e) => {
-            if (e.target.type !== 'password') { // Don't save password
-                saveFormData();
-            }});
-
-        // Load any saved data when the page loads
-        document.addEventListener('DOMContentLoaded', loadFormData);
-
     </script>
 </body>
 </html>

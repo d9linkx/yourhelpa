@@ -79,64 +79,53 @@ window.initializeMain = async function() {
     initializeScrollInAnimations();
 
     // --- Header Auth State Logic ---
-    const sb = window.supabase;
-    if (sb) {
-        // This function updates the UI based on login state.
-        const updateHeaderUI = (session) => {
-            const isLoggedIn = !!session;
+    // Modified to work with localStorage for Google Sheets auth simulation
+    const updateHeaderUI = () => {
+        const user = JSON.parse(localStorage.getItem('helpa_user') || 'null');
+        const isLoggedIn = !!user;
 
-            // Get all relevant elements for auth state
-            const guestActions = document.getElementById('desktop-guest-actions');
-            const helpaActions = document.getElementById('desktop-helpa-actions');
-            const desktopLogoutBtn = document.getElementById('desktop-logout-btn');
+        // Get all relevant elements for auth state
+        const guestActions = document.getElementById('desktop-guest-actions');
+        const helpaActions = document.getElementById('desktop-helpa-actions');
+        const desktopLogoutBtn = document.getElementById('desktop-logout-btn');
 
-            const mobileGuestActions = document.getElementById('mobile-guest-actions');
-            const mobileHelpaActions = document.getElementById('mobile-helpa-actions');
-            const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+        const mobileGuestActions = document.getElementById('mobile-guest-actions');
+        const mobileHelpaActions = document.getElementById('mobile-helpa-actions');
+        const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
 
-            // Centralized logout handler
-            const handleLogout = async (e) => {
-                e.preventDefault();
-                e.target.textContent = 'Logging out...';
-                await sb.auth.signOut();
-                window.location.href = 'login.html';
-            };
-
-            if (isLoggedIn) {
-                // Show Helpa menu, hide guest buttons
-                if (guestActions) guestActions.style.display = 'none';
-                if (helpaActions) helpaActions.style.display = 'flex';
-                if (mobileGuestActions) mobileGuestActions.style.display = 'none';
-                if (mobileHelpaActions) mobileHelpaActions.style.display = 'block';
-
-                // Configure desktop dropdown logout button
-                if (desktopLogoutBtn) {
-                    desktopLogoutBtn.onclick = handleLogout;
-                }
-                // Configure mobile dropdown logout button
-                if (mobileLogoutBtn) {
-                    mobileLogoutBtn.onclick = handleLogout;
-                }
-            } else {
-                // Show guest buttons, hide Helpa menu
-                if (guestActions) guestActions.style.display = 'flex';
-                if (helpaActions) helpaActions.style.display = 'none';
-                if (mobileGuestActions) mobileGuestActions.style.display = 'block';
-                if (mobileHelpaActions) mobileHelpaActions.style.display = 'none';
-            }
+        // Centralized logout handler
+        const handleLogout = (e) => {
+            e.preventDefault();
+            e.target.textContent = 'Logging out...';
+            localStorage.removeItem('helpa_user');
+            window.location.href = 'login.html';
         };
 
-        // 1. Update UI on initial page load
-        const { data: { session } } = await sb.auth.getSession();
-        updateHeaderUI(session);
+        if (isLoggedIn) {
+            // Show Helpa menu, hide guest buttons
+            if (guestActions) guestActions.style.display = 'none';
+            if (helpaActions) helpaActions.style.display = 'flex';
+            if (mobileGuestActions) mobileGuestActions.style.display = 'none';
+            if (mobileHelpaActions) mobileHelpaActions.style.display = 'block';
 
-        // 2. Listen for future auth changes (e.g., login/logout in other tabs)
-        sb.auth.onAuthStateChange((_event, session) => {
-            updateHeaderUI(session);
-        });
-    } else {
-        console.warn('Supabase client not found in initializeMain.');
-    }
+            // Configure desktop dropdown logout button
+            if (desktopLogoutBtn) {
+                desktopLogoutBtn.onclick = handleLogout;
+            }
+            // Configure mobile dropdown logout button
+            if (mobileLogoutBtn) {
+                mobileLogoutBtn.onclick = handleLogout;
+            }
+        } else {
+            // Show guest buttons, hide Helpa menu
+            if (guestActions) guestActions.style.display = 'flex';
+            if (helpaActions) helpaActions.style.display = 'none';
+            if (mobileGuestActions) mobileGuestActions.style.display = 'block';
+            if (mobileHelpaActions) mobileHelpaActions.style.display = 'none';
+        }
+    };
+
+    updateHeaderUI();
 
     // --- Mobile/Tablet theme-color meta handling ---
     // Ensure the browser UI (mobile address bar / status bar area) uses the brand blue on small screens.
@@ -302,3 +291,21 @@ function initializeScrollInAnimations() {
         observer.observe(el);
     });
 }
+
+// Helper for Google Sheets API calls
+window.callGoogleSheet = async function(action, data = {}) {
+    if (!window.GOOGLE_SCRIPT_URL) {
+        console.error("Google Script URL not set in js/config.js");
+        throw new Error("Configuration Error: Google Script URL missing");
+    }
+    
+    const response = await fetch(window.GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action, ...data })
+    });
+    const result = await response.json();
+    if (!result.success) {
+        throw new Error(result.message || "Operation failed");
+    }
+    return result;
+};
