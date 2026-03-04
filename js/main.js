@@ -137,6 +137,44 @@ window.initializeMain = async function() {
     } else {
         console.warn('Supabase client not found in initializeMain.');
     }
+
+    // --- Mobile/Tablet theme-color meta handling ---
+    // Ensure the browser UI (mobile address bar / status bar area) uses the brand blue on small screens.
+    if (typeof setMobileThemeColor === 'function') {
+        setMobileThemeColor();
+    }
+}
+
+// When on mobile/tablet devices we set a <meta name="theme-color"> so the browser UI above the page
+// (address bar / status bar) uses the brand color. On larger screens we set it to white for contrast.
+function setMobileThemeColor() {
+    try {
+        let meta = document.querySelector('meta[name="theme-color"]');
+        if (!meta) {
+            meta = document.createElement('meta');
+            meta.setAttribute('name', 'theme-color');
+            document.head.appendChild(meta);
+        }
+
+        const apply = () => {
+            const width = window.innerWidth || document.documentElement.clientWidth;
+            // Tablet and below breakpoint (<=1024px)
+            if (width <= 1024) {
+                // Use the CSS variable if available, otherwise fallback to the brand hex
+                const computed = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim() || '#3d40ff';
+                meta.setAttribute('content', computed);
+            } else {
+                // For larger screens keep a neutral / white top chrome
+                meta.setAttribute('content', '#ffffff');
+            }
+        };
+
+        // Apply immediately and on resize (throttled by browser)
+        apply();
+        window.addEventListener('resize', apply);
+    } catch (e) {
+        console.warn('setMobileThemeColor failed', e);
+    }
 }
 
 // Image optimizations applied at runtime:
