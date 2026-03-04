@@ -1641,3 +1641,50 @@ main {
     filter: grayscale(0%) opacity(1);
 }
  
+/* --- Tighter, user-friendly spacing for section headers (mobile + desktop) --- */
+/* Makes h2, p and CTAs sit closer together while keeping comfortable margins from surrounding sections */
+.section-header {
+    /* keep center alignment by default for current layout */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;            /* compact vertical gap between elements */
+    margin-bottom: 2.5rem;  /* slightly reduced space below the header */
+}
+
+.section-header h2 {
+    margin: 0;              /* remove double margins so gap governs spacing */
+    line-height: 1.08;
+}
+
+.section-header p {
+    margin: 0;              /* rely on gap for spacing */
+    max-width: 820px;       /* prevent very wide copy on large screens */
+    color: var(--text-muted-color);
+}
+
+.section-header .swell-text {
+    margin-left: 0.25rem;   /* small breathing room for inline accent text */
+}
+
+.section-header .button-secondary,
+.section-header .button-primary {
+    margin-top: 0.75rem;    /* keep CTA close but separated */
+}
+
+@media (min-width: 768px) {
+    .section-header {
+        gap: 0.8rem;        /* slightly larger gap on tablet/desktop */
+        margin-bottom: 3.5rem; /* restore a bit more spacing below */
+    }
+    .section-header p { font-size: 1rem; }
+}
+
+@media (max-width: 420px) {
+    .section-header {
+        gap: 0.45rem;       /* extra-tight on very small screens */
+        margin-bottom: 1.75rem;
+    }
+    .section-header h2 { font-size: 1.4rem; }
+}
