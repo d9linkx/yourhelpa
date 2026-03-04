@@ -20,6 +20,15 @@
     <style>
         /* Override global styles for the primary theme */
         :root { --primary-color: #3d40ff; --primary-hover: #3d40ff; }
+
+        /* Page-specific: reduce hero H1 on mobile only */
+        @media (max-width: 767px) {
+            .hero h1 {
+                font-size: 1.6rem; /* smaller on phones */
+                line-height: 1.2;
+                margin-bottom: 0.5rem;
+            }
+        }
     </style>
 </head>
 <body>
