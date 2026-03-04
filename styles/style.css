@@ -7,7 +7,7 @@
     /* Futuristic White/Grey Palette */
     /* Brand color changed to YourHelpa brand blue */
     --primary-color: #3d40ff; /* YourHelpa brand blue */
-    --primary-hover: #3433e6;
+    --primary-hover: #080888;
     --background-color: #ffffff;
     --surface-color: #f8f9fa;
     --surface-color-translucent: rgba(255, 255, 255, 0.6);
@@ -29,7 +29,7 @@
 /* Mobile-only: reduce H1 size for small screens */
 @media (max-width: 767px) {
     h1 {
-        font-size: 1.6rem !important;
+        font-size: 2.3rem !important;
         line-height: 1.15;
     }
 }
@@ -400,7 +400,7 @@ p {
 }
 
 .button-secondary:hover {
-    background-color: var(--primary-color);
+    background-color: #080888;
     color: #ffffff;
     transform: translateY(-2px);
     box-shadow: var(--shadow-sm);
@@ -961,7 +961,7 @@ main {
     margin-bottom: 4rem;
 }
 .section-header h2 {
-    margin-bottom: 0.5rem;
+    margin-bottom: -20px;
 }
 
 .how-it-works {
@@ -1381,7 +1381,7 @@ main {
 .dual-value-prop .container {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 1rem;
     align-items: center; /* Vertically align items */
 }
 @media (min-width: 992px) {
@@ -1400,8 +1400,9 @@ main {
 
 .value-block { 
     background-color: var(--primary-color); /* Brand primary color */
-    padding: 3rem; border-radius: 16px; 
-    border: 1px solid transparent; 
+    padding: 1.5rem; /* Add padding */
+    border-radius: 12px; /* Rounded corners */
+    border: 1px solid #ffffff; 
 }
 .dual-value-prop .value-block h4 {
     color: #ffffff;
