@@ -1,4 +1,4 @@
-import { supabase } from '../supabase-client.js';
+import { supabase } from './supabase-client.module.js';
 
 // Handle logout
 const logoutButton = document.getElementById('logout-button');

@@ -41,3 +41,8 @@ if (libAvailable) {
 		}
 	};
 }
+
+// Export the initialized client for module-style imports (keeps backward compatibility with window.supabase)
+// Some pages use ES modules and import the client directly (e.g. login.js). Export a named and default export.
+// Note: do not export here to keep this file usable as a non-module script tag.
+// Module-friendly wrapper is provided in `js/supabase-client.module.js`.
