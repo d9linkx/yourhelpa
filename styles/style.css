@@ -399,6 +399,43 @@ p {
     font-size: 1.1rem;
 }
 
+/* --- Mobile tweaks: smaller h1 and brand top bar --- */
+@media (max-width: 991px) {
+    /* Reduce primary heading size for mobile to improve readability */
+    h1 {
+        font-size: 1.8rem !important;
+        line-height: 1.15;
+        margin-bottom: 0.75rem;
+    }
+
+    /* Create a thin branded bar above the header (brand blue) while keeping the header itself the same surface color */
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 40px; /* height of the top branded strip */
+        background: var(--primary-color);
+        z-index: 999; /* sit below the header (header uses z-index:1000) */
+    }
+
+    /* Push the fixed header down so it sits below the branded strip */
+    .main-header {
+        top: 40px;
+        /* keep the existing header background (surface) so the blue is only above it */
+        background-color: var(--surface-color);
+    }
+
+    /* Ensure page content and anchor scrolling account for the extra top space on mobile */
+    html {
+        scroll-padding-top: calc(70px + 40px);
+    }
+    body {
+        padding-top: calc(70px + 40px);
+    }
+}
+
 .text-primary {
     color: var(--primary-color);
 }
