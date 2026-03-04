@@ -68,49 +68,27 @@ h1, h2, h3, h4 {
 
 h1 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; }
 
-/* Stylish underline for highlighted keywords inside H1s.
+/* Highlighted keyword styling for H1s.
    Usage: wrap the keyword in an h1 with <span class="h1-underline">Keyword</span>
-   This creates a soft, modern underline using a subtle gradient and hover grow effect. */
+   This applies a constant brand-blue background shade behind the keyword (always visible, non-animated). */
 .h1-underline {
-    position: relative;
     display: inline-block;
-    color: inherit; /* inherit h1 color */
-    padding-bottom: 0.12em; /* breathing room for the underline */
+    color: inherit; /* keep heading text color */
+    background-color: rgb(231, 197, 255); /* brand blue shade */
+    padding: 0.12rem 0.32rem; /* horizontal padding for readable pill */
+    border-radius: 8px;
+    box-decoration-break: clone; /* ensure background wraps when line-wrapping */
+    -webkit-box-decoration-break: clone;
 }
 
-/* Modern gradient underline using a pseudo-element. It slides in on hover/focus and has a soft blur for depth. */
-.h1-underline::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0.02em;
-    width: 100%;
-    height: 6px; /* underline thickness */
-    border-radius: 999px;
-    background: linear-gradient(90deg, #3d40ff 0%, #080888 50%, #3d40ff 100%);
-    transform: scaleX(0);
-    transform-origin: left center;
-    transition: transform 360ms cubic-bezier(.2,.9,.3,1), opacity 240ms ease;
-    opacity: 0.95;
-    filter: blur(6px);
-    will-change: transform;
+/* Accessibility: visible focus ring when keyboard-focused */
+.h1-underline:focus {
+    outline: 3px solid rgba(8, 8, 136, 0.14);
+    outline-offset: 3px;
 }
-.h1-underline:hover::after,
-.h1-underline:focus::after,
-.h1-underline:focus-within::after {
-    transform: scaleX(1);
-}
-.h1-underline::selection { background: rgba(61,64,255,0.12); }
 
-/* Optional: make the underline animate in on page load for elements with .h1-underline.animate */
-.h1-underline.animate::after {
-    animation: underlineIn 900ms cubic-bezier(.2,.9,.3,1) both;
-}
-@keyframes underlineIn {
-    0% { transform: scaleX(0); opacity: 0; }
-    60% { transform: scaleX(1.05); opacity: 1; }
-    100% { transform: scaleX(1); opacity: 1; }
-}
+/* Selection color inside highlighted spans */
+.h1-underline::selection { background: rgba(61,64,255,0.22); color: inherit; }
 h2 { font-size: clamp(2rem, 4vw, 2.75rem); line-height: 1.2; }
 h3 { font-size: 1.75rem; }
 h4 { font-size: 1.25rem; }
