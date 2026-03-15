@@ -551,7 +551,7 @@ main {
     /* Your signature bend */
     border-radius: 2rem 10rem;
     
-    padding: 6rem 2rem;
+    padding: 6rem 2rem 3rem;
     text-align: center;
 }
 
@@ -559,7 +559,7 @@ main {
 @media (max-width: 1024px) {
     .hero {
         max-width: 90%; /* Tablet view */
-        padding: 4rem 2rem;
+        padding: 4rem 2rem 29rem;
     }
 }
 
@@ -572,7 +572,6 @@ main {
         max-width: 95%;
         margin-top: 10px;
         border-radius: 2rem 4rem; /* Simpler corners for small screens */
-        
     }
 }
 
@@ -1648,7 +1647,7 @@ main {
 .value-block h4 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary-color); }
 .final-cta { background: linear-gradient(145deg, var(--primary-color), var(--primary-hover)); color: #0A0A0A; text-align: center; }
 .final-cta h2 { color: #0A0A0A; font-size: clamp(2rem, 5vw, 3rem); }
-.fomo-notification { position: fixed; bottom: 1.5rem; left: 1.5rem; background-color: var(--surface-color); color: var(--text-color); padding: 1rem 1.5rem; border-radius: 12px; box-shadow: var(--shadow-lg); z-index: 1001; opacity: 0; transform: translateY(20px); transition: opacity 0.5s, transform 0.5s; font-size: 0.9rem; border: 1px solid var(--border-color); }
+.fomo-notification { position: fixed; bottom: 1.5rem; left: 1.5rem; background-color: #ffdf3e; color: var(--text-color); padding: 1rem 1rem; border-radius: 22px 10px; var(--shadow-lg); z-index: 1001; opacity: 0; transform: translateY(20px); transition: opacity 0.5s, transform 0.5s; font-size: 0.9rem; border: 2px solid #ffdf3e; }
 .fomo-notification.visible { opacity: 1; transform: translateY(0); }
 
 @media (max-width: 767px) {

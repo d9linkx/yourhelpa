@@ -433,14 +433,28 @@
 
         // --- Main Logic ---
         document.addEventListener('DOMContentLoaded', async () => {
-            // 1. Check user session
-            const userStr = localStorage.getItem('helpa_user');
-            if (!userStr) {
+            // 1. Securely check for an active Supabase user session
+            const { data: { session }, error } = await supabase.auth.getSession();
+
+            if (error) {
+                console.error('Error getting session:', error.message);
                 window.location.href = 'login.html';
                 return;
             }
-            const user = JSON.parse(userStr);
+
+            if (!session) {
+                // No active session, redirect to login
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // User is authenticated, proceed to load dashboard data
+            const user = session.user;
             
+            // Store user data in localStorage for other parts of the app that might use it.
+            // This is for compatibility, but the dashboard now relies on the secure session check.
+            localStorage.setItem('helpa_user', JSON.stringify(user));
+
             // Load data
             loadDashboardData(user);
         });
