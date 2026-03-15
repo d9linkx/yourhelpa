@@ -8,6 +8,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitBtn = loginForm.querySelector('button[type="submit"]');
     const togglePassword = document.getElementById('toggle-password');
 
+    const show_error = (message) => {
+        errorMessageDiv.innerHTML = message;
+        errorMessageDiv.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const setLoadingState = (isLoading, message = 'Login') => {
+        if (submitBtn) {
+            submitBtn.disabled = isLoading;
+            submitBtn.textContent = message;
+        }
+    };
+
     // Password toggle logic
     if (togglePassword && passwordInput) {
         togglePassword.addEventListener('click', () => {
@@ -23,24 +36,45 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         errorMessageDiv.style.display = 'none';
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Logging in...';
+        setLoadingState(true, 'Logging in...');
 
         const email = emailInput.value;
         const password = passwordInput.value;
 
         try {
-            const result = await window.callGoogleSheet('login', { email, password });
-            
-            // Store user session in localStorage (Simple simulation)
-            localStorage.setItem('helpa_user', JSON.stringify(result.user));
-            
-            window.location.href = 'helpa-dashboard.html';
+            if (!window.supabase) {
+                throw new Error('Authentication service is not available.');
+            }
+
+            const { data, error } = await window.supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
+
+            if (error) {
+                if (error.message.includes("Invalid login credentials")) {
+                    show_error("Invalid email or password. Please try again.");
+                } else if (error.message.includes("Email not confirmed")) {
+                    show_error('Please verify your email address before logging in. Check your inbox for a verification link.');
+                } else {
+                    show_error(error.message);
+                }
+                setLoadingState(false, 'Login');
+                return;
+            }
+
+            if (data.user) {
+                setLoadingState(true, 'Redirecting...');
+                window.location.href = 'helpa-dashboard.html';
+            } else {
+                show_error('Login failed. Please check your credentials.');
+                setLoadingState(false, 'Login');
+            }
+
         } catch (error) {
-            errorMessageDiv.textContent = error.message || 'Invalid login credentials.';
-            errorMessageDiv.style.display = 'block';
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Login';
+            console.error('Login error:', error);
+            show_error(error.message || 'An unexpected error occurred. Please try again.');
+            setLoadingState(false, 'Login');
         }
     });
 });
