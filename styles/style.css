@@ -6,20 +6,19 @@
 :root {
     /* Futuristic White/Grey Palette */
     /* Brand color changed to YourHelpa brand blue */
-    --primary-color: #3d40ff; /* YourHelpa brand blue */
-    --primary-hover: #080888; /* Ensure hover color is consistent */
-    --background-color: #ffffff;
-    --surface-color: #f8f9fa;
+    --primary-color: #3c3c3c; /* YourHelpa brand blue */
+    --primary-hover: #000000; /* Ensure hover color is consistent */
+    --background-color: #fffdea;
     --surface-color-translucent: rgba(255, 255, 255, 0.6);
     --border-color: #dee2e6;
     --border-color-light: #f1f3f5;
-    --text-heading-color: #212529;
+    --text-heading-color: #3c3c3c;
     --text-color: #495057;
     --text-muted-color: #868e96;
     --error-color: #ef4444;
 
-    --font-body: 'Inter', sans-serif;
-    --font-heading: 'Plus Jakarta Sans', sans-serif;
+    --font-body: 'canva sans', sans-serif;
+    --font-heading: 'montserrat', sans-serif;
 
     --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -4px rgba(0, 0, 0, 0.07);
@@ -74,7 +73,7 @@ h1 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; }
 .h1-underline {
     display: inline-block;
     color: inherit; /* keep heading text color */
-    background-color: rgb(231, 197, 255); /* brand blue shade */
+    background-color: #ffdf3e; /* brand blue shade */
     padding: 0.12rem 0.32rem; /* horizontal padding for readable pill */
     border-radius: 8px;
     box-decoration-break: clone; /* ensure background wraps when line-wrapping */
@@ -110,7 +109,7 @@ p {
 
 /* --- Futuristic Header (Glassmorphism) --- */
 .main-header {
-    background-color: var(--surface-color);
+    background-color: #fffdea;
     border-bottom: 1px solid var(--border-color-light);
     padding: 0 1.5rem;
     position: fixed;
@@ -256,7 +255,7 @@ p {
 /* Special CTA link in nav */
 .nav-cta {
     background-color: rgba(61, 64, 255, 0.08);
-    color: var(--primary-color) !important;
+    color: #3c3c3c;
     padding: 0.5rem 1rem !important;
     border-radius: 50px;
     font-weight: 600 !important;
@@ -264,7 +263,7 @@ p {
 }
 
 .nav-cta:hover {
-    background-color: #080888; /* hover background for CTA buttons */
+    background-color: #3c3c3c; /* hover background for CTA buttons */
     color: #ffffff !important; /* ensure contrast on hover */
     border-color: #080888;
 }
@@ -405,7 +404,7 @@ p {
 }
 
 .button-primary:hover {
-    background-color: #080888; /* explicit hover color for primary buttons */
+    background-color: #3c3c3c; /* explicit hover color for primary buttons */
     color: white;
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
@@ -413,7 +412,7 @@ p {
 
 .button-secondary {
     display: inline-block;
-    background-color: #ffffff; /* white background with brand-blue border */
+    background-color: #ffdf3e; /* white background with brand-blue border */
     color: var(--primary-color);
     padding: 0.5rem 1rem;
     border-radius: 8px;
@@ -423,8 +422,8 @@ p {
 }
 
 .button-secondary:hover {
-    background-color: #080888;
-    color: #ffffff;
+    background-color: #e6c001;
+    color: #3c3c3c;
     transform: translateY(-2px);
     box-shadow: var(--shadow-sm);
 }
@@ -525,14 +524,67 @@ main {
     padding-top: 70px; /* Offset for fixed header */
 }
 
+.hero-wrapper {
+    perspective: 1200px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Changed from center to start to control top gap */
+    
+    /* This creates the gap from your header */
+    margin-top: 60px; 
+    
+    padding: 2rem;
+    width: 100%;
+    overflow: visible; /* Allows the 'bent' corners to pop out if needed */
+}
+
 .hero {
+    /* UI/UX standard width for a modern hero card */
+    max-width: 95%; 
+    
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #f4f2da;
+    border: 1px solid rgba(123, 123, 123, 0.4);
+    
+    /* Your signature bend */
+    border-radius: 4rem 2rem;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.08);
+    
+    padding: 6rem 2rem;
     text-align: center;
-    padding: 6rem 1.5rem 8rem;
-    background: radial-gradient(ellipse at 50% -20%, var(--surface-color), transparent 70%);
+    
+    /* The 3D Bend */
+    transform: rotateX(6deg) rotateY(-4deg);
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .hero {
+        max-width: 90%; /* Tablet view */
+        padding: 4rem 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-wrapper {
+        margin-top: 30px; /* Smaller gap on mobile screens */
+        padding: 1rem;
+    }
+    .hero {
+        max-width: 95%;
+        margin-top: 10px;
+        border-radius: 2rem; /* Simpler corners for small screens */
+        transform: rotateX(3deg) rotateY(-2deg); /* Relaxed bend for readability */
+        
+    }
 }
 
 .hero-content {
-    max-width: 800px;
+    /* Ensure content doesn't hit the very edge of the card */
+    max-width: 650px; 
     margin: 0 auto;
 }
 
@@ -586,6 +638,73 @@ main {
 
 .hero-search input:focus {
     outline: none;
+}
+
+
+.trusted-by-section {
+    width: 100%;
+    max-width: 1100px; /* Aligns with your hero card width */
+    margin: 4rem auto; 
+    padding: 0 1.5rem;
+    text-align: center;
+}
+
+.trusted-by-heading {
+    font-size: 1rem;
+    color: #666; /* Subdued color so it doesn't compete with the hero */
+    font-weight: 500;
+    margin-bottom: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.trusted-logos {
+    display: flex;
+    flex-wrap: wrap; /* Wraps to new lines on mobile */
+    justify-content: center;
+    align-items: center;
+    gap: 3rem; /* Space between logos */
+    opacity: 0.8;
+}
+
+.trusted-logos img {
+    height: 45px; /* Consistent height is key for UI balance */
+    width: auto;
+    object-fit: contain;
+    
+    /* Professional touch: Grayscale by default, color on hover */
+    filter: grayscale(100%);
+    transition: all 0.3s ease;
+    opacity: 0.6;
+}
+
+.trusted-logos img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* --- Responsive View --- */
+
+@media (max-width: 768px) {
+    .trusted-by-section {
+        margin: 3rem auto;
+    }
+
+    .trusted-by-heading {
+        font-size: 0.85rem;
+        padding: 0 1rem;
+    }
+
+    .trusted-logos {
+        gap: 1.5rem; /* Tighter gap for small screens */
+    }
+
+    .trusted-logos img {
+        height: 35px; /* Slightly smaller logos on mobile */
+        opacity: 0.8; /* More visible by default on mobile since there's no hover */
+        filter: grayscale(0%); /* Keep color on mobile for better visibility */
+    }
 }
 
 .featured-listings {
@@ -1249,7 +1368,7 @@ main {
 }
 
 /* Additional styles for the new design */
-:root { --primary-color: #3d40ff; --primary-hover: #080888; } /* Brand blue theme (normalized) */
+:root { --primary-color: #3c3c3c; --primary-hover: #000000; } /* Brand blue theme (normalized) */
 .hero { padding: 4rem 1.5rem; }
 .hero .container { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; }
 @media (min-width: 992px) { 
