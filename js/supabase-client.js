@@ -1,6 +1,4 @@
-// These variables will be populated by the js/config.js file,
-// which is generated during the Vercel build process.
-const { SUPABASE_URL, SUPABASE_ANON_KEY } = window;
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
 
 // Defensive initialization: the CDN script should expose a global with a createClient function.
 const libAvailable = typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function';

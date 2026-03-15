@@ -9,6 +9,7 @@
     --primary-color: #ffdf3e; /* YourHelpa brand blue */
     --primary-hover: #3c3c3c; /* Ensure hover color is consistent */
     --background-color: #fffdea;
+    --surface-color: #ffffff;
     --surface-color-translucent: rgba(255, 255, 255, 0.6);
     --border-color: #dee2e6;
     --border-color-light: #f1f3f5;
