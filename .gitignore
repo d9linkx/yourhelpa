@@ -16,3 +16,5 @@ ftp-simple.json
 
 # Do not commit generated runtime config containing credentials
 /js/config.js
+
+.env.local

@@ -832,13 +832,24 @@
                 renderBusinessList();
             }
 
-            // Check if we need to open edit mode immediately (from business-view page)
-            const editId = sessionStorage.getItem('edit_business_id');
-            if (editId && businesses.length > 0) {
-                const index = businesses.findIndex(b => b.id === editId);
+            // Check for an ID in the URL to open edit mode directly
+            const urlParams = new URLSearchParams(window.location.search);
+            const editIdFromUrl = urlParams.get('id');
+
+            if (editIdFromUrl && businesses.length > 0) {
+                const index = businesses.findIndex(b => b.id === editIdFromUrl);
                 if (index !== -1) {
                     showBusinessForm(index);
-                    sessionStorage.removeItem('edit_business_id');
+                }
+            } else {
+                // Fallback for older navigation patterns (e.g., from business-view page)
+                const editIdFromSession = sessionStorage.getItem('edit_business_id');
+                if (editIdFromSession && businesses.length > 0) {
+                    const index = businesses.findIndex(b => b.id === editIdFromSession);
+                    if (index !== -1) {
+                        showBusinessForm(index);
+                        sessionStorage.removeItem('edit_business_id');
+                    }
                 }
             }
             

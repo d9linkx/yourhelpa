@@ -460,12 +460,12 @@
 
             // --- Fetch and Render Data Concurrently ---
             // This is more efficient than fetching one by one
-            await Promise.all([
-                fetchAndRenderStats(user.id || user.email),
-                fetchAndRenderBusinesses(user.id || user.email)
-            ]).catch(error => {
+            await fetchAndRenderBusinesses(user.id).catch(error => {
                 console.error("An error occurred while loading dashboard data:", error);
             });
+            
+            // We will implement stats fetching in a later step
+            fetchAndRenderStats(user.id);
         }
 
         function renderWelcomeMessage(user) {
@@ -483,23 +483,10 @@
         let allStatsData = [];
 
         async function fetchAndRenderStats(userId) {
-            try {
-                // Fetch stats from Google Sheet
-                const result = await window.callGoogleSheet('get_stats', { userId });
-                
-                allJobsData = result.jobs || [];
-                allStatsData = result.stats || [];
-                const profileViews = result.profileViews || 0;
-
-                // Populate Filters
-                await populateStatsFilters(userId);
-
-                // Initial Render
-                renderStatsCalculations();
-
-            } catch (error) {
-                console.error('Error fetching stats:', error.message);
-                // Handle error state in UI - ensure zeros are displayed
+            // TODO: Implement stats fetching from Supabase transactions table
+            console.log("Stats fetching is not yet implemented with Supabase.");
+            // Set default values to avoid errors
+            if (document.getElementById('ongoing-jobs-value')) {
                 document.getElementById('ongoing-jobs-value').textContent = '0';
                 document.getElementById('completed-jobs-value').textContent = '0';
                 document.getElementById('profile-views-value').textContent = '0';
@@ -509,37 +496,7 @@
         }
 
         async function populateStatsFilters(userId) {
-            // Fetch Businesses & Services from Google Sheet
-            const result = await window.callGoogleSheet('get_filters', { userId });
-            const businesses = result.businesses || [];
-            const services = result.services || [];
-
-            const bizSelect = document.getElementById('stats-business');
-            if (businesses && bizSelect) {
-                bizSelect.innerHTML = '<option value="all">All Businesses</option>';
-                businesses.forEach(b => {
-                    const opt = document.createElement('option');
-                    opt.value = b.id;
-                    opt.textContent = b.name;
-                    bizSelect.appendChild(opt);
-                });
-            }
-
-            const servSelect = document.getElementById('stats-service');
-            if (services && servSelect) {
-                servSelect.innerHTML = '<option value="all">All Services</option>';
-                services.forEach(s => {
-                    const opt = document.createElement('option');
-                    opt.value = s.id;
-                    opt.textContent = s.title;
-                    servSelect.appendChild(opt);
-                });
-            }
-
-            // Add Event Listeners
-            ['stats-period', 'stats-business', 'stats-service'].forEach(id => {
-                document.getElementById(id)?.addEventListener('change', () => renderStatsCalculations());
-            });
+            // TODO: Implement filter population from Supabase
         }
 
         function renderStatsCalculations(initialProfileViews = 0) {
@@ -622,8 +579,12 @@
         async function fetchAndRenderBusinesses(userId) {
             const container = document.getElementById('businesses-list-container');
             try {
-                const result = await window.callGoogleSheet('get_businesses', { userId });
-                const businesses = result.businesses || [];
+                const { data: businesses, error } = await supabase
+                    .from('businesses')
+                    .select('id, name, category')
+                    .eq('helpa_id', userId);
+
+                if (error) throw error;
 
                 container.innerHTML = ''; // Clear loading message
                 if (!businesses || businesses.length === 0) {

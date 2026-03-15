@@ -51,17 +51,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error("Registration succeeded but no user data was returned. Please try logging in.");
             }
 
-            // 2. Insert a corresponding profile into the 'helpas' table
+            // 2. Update the corresponding profile in the 'helpas' table (which was created by a trigger)
             const { error: profileError } = await window.supabase
                 .from('helpas')
-                .insert({
-                    id: authData.user.id, // Link to the auth user
-                    email: email,
-                    full_name: fullName,
-                    phone: phone,
+                .update({
+                    // The trigger already sets id, full_name, email, and phone.
+                    // We only need to add the extra fields from the form.
                     location: location,
-                    primary_service: service
-                });
+                    primary_service: service,
+                    updated_at: new Date().toISOString()
+                })
+                .eq('id', authData.user.id);
 
             if (profileError) {
                 // This is a tricky state. The user is created in auth, but profile failed.
