@@ -80,9 +80,13 @@ window.initializeMain = async function() {
 
     // --- Header Auth State Logic ---
     // Modified to work with localStorage for Google Sheets auth simulation
-    const updateHeaderUI = () => {
-        const user = JSON.parse(localStorage.getItem('helpa_user') || 'null');
-        const isLoggedIn = !!user;
+    const updateHeaderUI = async () => {
+        if (!window.supabase) {
+            console.warn("Supabase client not ready, skipping header UI update.");
+            return;
+        }
+        const { data: { session } } = await window.supabase.auth.getSession();
+        const isLoggedIn = !!session;
 
         // Get all relevant elements for auth state
         const guestActions = document.getElementById('desktop-guest-actions');
@@ -94,10 +98,10 @@ window.initializeMain = async function() {
         const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
 
         // Centralized logout handler
-        const handleLogout = (e) => {
+        const handleLogout = async (e) => {
             e.preventDefault();
             e.target.textContent = 'Logging out...';
-            localStorage.removeItem('helpa_user');
+            await window.supabase.auth.signOut();
             window.location.href = 'login.html';
         };
 
@@ -291,34 +295,3 @@ function initializeScrollInAnimations() {
         observer.observe(el);
     });
 }
-
-// Helper for Google Sheets API calls
-window.callGoogleSheet = async function(action, data = {}) {
-    if (!window.GOOGLE_SCRIPT_URL) {
-        console.error("Google Script URL not set in js/config.js");
-        throw new Error("Configuration Error: Google Script URL missing");
-    }
-    try {
-        const response = await fetch(window.GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ action, ...data })
-        });
-
-        if (!response.ok) {
-            const text = await response.text();
-            throw new Error(`Network error: ${response.status} ${response.statusText} - ${text}`);
-        }
-
-        const result = await response.json();
-        if (!result || result.success === false) {
-            throw new Error(result?.message || "Operation failed");
-        }
-        return result;
-    } catch (err) {
-        console.error('callGoogleSheet error:', err);
-        throw err;
-    }
-};

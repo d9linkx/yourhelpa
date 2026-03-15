@@ -448,13 +448,8 @@
                 return;
             }
 
-            // User is authenticated, proceed to load dashboard data
             const user = session.user;
             
-            // Store user data in localStorage for other parts of the app that might use it.
-            // This is for compatibility, but the dashboard now relies on the secure session check.
-            localStorage.setItem('helpa_user', JSON.stringify(user));
-
             // Load data
             loadDashboardData(user);
         });
@@ -475,9 +470,11 @@
 
         function renderWelcomeMessage(user) {
             const welcomeMessage = document.getElementById('welcome-message');
-            if (user && user.full_name) {
-                const firstName = user.full_name.split(' ')[0];
-                welcomeMessage.textContent = `Welcome back, ${firstName}`;
+            if (user && user.user_metadata && user.user_metadata.full_name) {
+                const firstName = user.user_metadata.full_name.split(' ')[0];
+                welcomeMessage.innerHTML = `Welcome back, <span class="h1-underline">${firstName}</span>`;
+            } else if (user) {
+                welcomeMessage.innerHTML = `Welcome back, <span class="h1-underline">Helpa</span>`;
             }
         }
 
