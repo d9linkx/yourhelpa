@@ -8,6 +8,10 @@ const configPath = path.join(__dirname, '..', 'js', 'config.js');
 const supabaseUrl = process.env.SUPABASE_URL ? process.env.SUPABASE_URL.trim() : '';
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY ? process.env.SUPABASE_ANON_KEY.trim() : '';
 
+// Log to the build console to verify the variables are being read.
+console.log(`Build-time SUPABASE_URL: ${supabaseUrl ? 'Loaded' : 'NOT FOUND'}`);
+console.log(`Build-time SUPABASE_ANON_KEY: ${supabaseAnonKey ? 'Loaded' : 'NOT FOUND'}`);
+
 // Check if the variables are set
 if (!supabaseUrl || !supabaseAnonKey) {
   console.error('Error: SUPABASE_URL and SUPABASE_ANON_KEY environment variables must be set.');
