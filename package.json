@@ -67,15 +67,8 @@
       },
       "scripts": {
             "dev": "vite",
-            "build": "rm -rf dist && mkdir -p dist && cp -r *.html *.js js styles assets dist/"
+            "build": "node scripts/create-config.js && vite build"
       }
-
-      {
-  "name": "yourhelpa-website",
-  "version": "1.0.0",
-  "scripts": {
-    "build": "node scripts/create-config.js"
-  }
 }
 
 
