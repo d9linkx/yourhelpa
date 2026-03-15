@@ -49,13 +49,51 @@
         }
 
         /* Availability Toggle */
-        .availability-toggle { display: flex; align-items: center; gap: 0.75rem; font-weight: 500; }
-        .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 28px; }
-        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--primary-color); }
-        input:checked + .slider:before { transform: translateX(22px); }
+        .availability-toggle { display: flex; align-items: center; gap: 0.75rem; }
+
+        .button-availability {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50px; /* Pill shape */
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            background-color: var(--surface-color);
+            color: var(--text-muted-color);
+            transition: all 0.2s ease;
+        }
+
+        .button-availability.active {
+            background-color: #ffdf3e;
+            color: #3c3c3c; /* Dark text for yellow background */
+            border-color: #e6c001;
+        }
+
+        .button-availability svg {
+            width: 8px;
+            height: 8px;
+            fill: currentColor;
+            border-radius: 50%;
+        }
+
+        /* Info icon and tooltip */
+        .tooltip-container { position: relative; display: flex; align-items: center; }
+        .info-icon { width: 20px; height: 20px; color: var(--text-muted-color); cursor: pointer; }
+        .tooltip-text {
+            visibility: hidden; width: 240px; background-color: #3c3c3c;
+            color: #fff; text-align: center; border-radius: 6px; padding: 10px;
+            position: absolute; z-index: 1; bottom: 140%; left: 50%;
+            margin-left: -120px; opacity: 0; transition: opacity 0.3s;
+            font-size: 0.85rem; font-weight: 400; box-shadow: var(--shadow-md);
+        }
+        .tooltip-text::after {
+            content: ""; position: absolute; top: 100%; left: 50%;
+            margin-left: -5px; border-width: 5px; border-style: solid;
+            border-color: #3c3c3c transparent transparent transparent;
+        }
+        .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; }
 
         /* Setup Hero (Onboarding) */
         .setup-hero { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; }
@@ -247,11 +285,14 @@
                 </div>
                 <div class="header-actions">
                     <div class="availability-toggle">
-                        <span>Accepting New Orders</span>
-                        <label class="switch">
-                            <input type="checkbox" id="availability-switch" checked>
-                            <span class="slider"></span>
-                        </label>
+                        <button id="availability-button" class="button-availability active">
+                            <svg viewBox="0 0 10 10" width="10" height="10" aria-hidden="true"><circle cx="5" cy="5" r="5"></circle></svg>
+                            <span>Available</span>
+                        </button>
+                        <div class="tooltip-container">
+                            <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span class="tooltip-text">When available, you will appear in search results for new job requests. Set to unavailable if you are busy.</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -452,6 +493,49 @@
             
             // Load data
             loadDashboardData(user);
+
+            // --- UI Interactions ---
+            const availabilityButton = document.getElementById('availability-button');
+            if (availabilityButton) {
+                availabilityButton.addEventListener('click', () => {
+                    const isActive = availabilityButton.classList.toggle('active');
+                    const textSpan = availabilityButton.querySelector('span');
+                    if (textSpan) {
+                        textSpan.textContent = isActive ? 'Available' : 'Unavailable';
+                    }
+                    // TODO: Add API call to update user's availability status in Supabase
+                    console.log(`Availability set to: ${isActive ? 'Available' : 'Unavailable'}`);
+                });
+            }
+
+            const snapshotContainer = document.getElementById('snapshot-stats-container');
+            if (snapshotContainer) {
+                snapshotContainer.addEventListener('click', (e) => {
+                    const clickedCard = e.target.closest('.mini-stat-card');
+                    if (!clickedCard) return;
+                    const isAlreadyActive = clickedCard.classList.contains('active');
+                    snapshotContainer.querySelectorAll('.mini-stat-card').forEach(card => card.classList.remove('active'));
+                    if (!isAlreadyActive) {
+                        clickedCard.classList.add('active');
+                    }
+                });
+            }
+
+            const calendarWidget = document.getElementById('calendar-widget');
+            if (calendarWidget) {
+                let calendarHTML = '<div class="calendar-grid">';
+                const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+                days.forEach(day => calendarHTML += `<div class="calendar-header">${day}</div>`);
+                const today = new Date().getDate();
+                for (let i = 1; i <= 31; i++) {
+                    let dayClass = 'calendar-day';
+                    if (i === today) dayClass += ' today';
+                    if (i === today + 2 || i === today + 3) dayClass += ' booked';
+                    calendarHTML += `<div class="${dayClass}">${i}</div>`;
+                }
+                calendarHTML += '</div>';
+                calendarWidget.innerHTML = calendarHTML;
+            }
         });
 
         async function loadDashboardData(user) {
@@ -631,48 +715,6 @@
             }
         }
 
-        // --- UI Interactions ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- Snapshot Card Click Interaction ---
-            const snapshotContainer = document.getElementById('snapshot-stats-container');
-            if (snapshotContainer) {
-                snapshotContainer.addEventListener('click', (e) => {
-                    const clickedCard = e.target.closest('.mini-stat-card');
-                    if (!clickedCard) return;
-
-                    // Check if the clicked card is already active
-                    const isAlreadyActive = clickedCard.classList.contains('active');
-
-                    // Deactivate all cards
-                    snapshotContainer.querySelectorAll('.mini-stat-card').forEach(card => {
-                        card.classList.remove('active');
-                    });
-
-                    // If it wasn't active, activate it now
-                    if (!isAlreadyActive) {
-                        clickedCard.classList.add('active');
-                    }
-                });
-            }
-
-            // Calendar rendering (static example)
-            const calendarWidget = document.getElementById('calendar-widget');
-            if (calendarWidget) {
-                let calendarHTML = '<div class="calendar-grid">';
-                const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-                days.forEach(day => calendarHTML += `<div class="calendar-header">${day}</div>`);
-                
-                const today = new Date().getDate();
-                for (let i = 1; i <= 31; i++) {
-                    let dayClass = 'calendar-day';
-                    if (i === today) dayClass += ' today';
-                    if (i === today + 2 || i === today + 3) dayClass += ' booked'; // Example booked days
-                    calendarHTML += `<div class="${dayClass}">${i}</div>`;
-                }
-                calendarHTML += '</div>';
-                calendarWidget.innerHTML = calendarHTML;
-            }
-        });
     </script>
 </body>
 </html>
