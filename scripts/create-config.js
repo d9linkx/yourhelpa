@@ -5,8 +5,8 @@ const path = require('path');
 const configPath = path.join(__dirname, '..', 'js', 'config.js');
 
 // Get values from environment variables
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+const supabaseUrl = process.env.SUPABASE_URL ? process.env.SUPABASE_URL.trim() : '';
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY ? process.env.SUPABASE_ANON_KEY.trim() : '';
 
 // Check if the variables are set
 if (!supabaseUrl || !supabaseAnonKey) {

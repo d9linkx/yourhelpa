@@ -6,7 +6,7 @@ const libAvailable = typeof window.supabase !== 'undefined' && typeof window.sup
 if (!libAvailable) {
     console.error('[supabase-client] Supabase library not available. Did the CDN script load before this file?');
     window.supabase = null;
-} else if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+} else if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL === "undefined" || SUPABASE_ANON_KEY === "undefined") {
     console.error('[supabase-client] Supabase credentials are not set. Make sure SUPABASE_URL and SUPABASE_ANON_KEY are defined in js/config.js. If this is a production environment, ensure your build process creates this file from environment variables.');
     window.supabase = null;
 } else {
