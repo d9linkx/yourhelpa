@@ -67,8 +67,6 @@
       },
       "scripts": {
             "dev": "vite",
-            "build": "node scripts/create-config.js && vite build"
+            "build": "vite build"
       }
 }
-
-

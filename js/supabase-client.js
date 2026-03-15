@@ -1,4 +1,5 @@
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 // Defensive initialization: the CDN script should expose a global with a createClient function.
 const libAvailable = typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function';
@@ -6,8 +7,8 @@ const libAvailable = typeof window.supabase !== 'undefined' && typeof window.sup
 if (!libAvailable) {
     console.error('[supabase-client] Supabase library not available. Did the CDN script load before this file?');
     window.supabase = null;
-} else if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL === "undefined" || SUPABASE_ANON_KEY === "undefined") {
-    console.error('[supabase-client] Supabase credentials are not set. Make sure SUPABASE_URL and SUPABASE_ANON_KEY are defined in js/config.js. If this is a production environment, ensure your build process creates this file from environment variables.');
+} else if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    console.error('[supabase-client] Supabase credentials are not set. Make sure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are defined in your .env file and your hosting provider.');
     window.supabase = null;
 } else {
     try {
