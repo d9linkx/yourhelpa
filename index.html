@@ -460,14 +460,8 @@
         <!-- Content will be injected by JS -->
     </div>
 
-    <!-- Supabase Client Library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- config.js must be loaded before supabase-client.js -->
-    <script type="module" src="js/config.js"></script> 
-    <script type="module" src="js/supabase-client.js"></script> 
-    <!-- Load logic modules first -->
-    <script type="module" src="js/main.js"></script> 
-    <!-- includes.js will execute the logic after loading HTML partials -->
-    <script type="module" src="js/includes.js"></script> 
+        <script type="module" src="js/supabase-client.js"></script>
+        <script type="module" src="js/main.js"></script>
+        <script type="module" src="js/includes.js"></script>
 </body>
 </html>
