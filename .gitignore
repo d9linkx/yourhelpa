@@ -18,3 +18,4 @@ ftp-simple.json
 /js/config.js
 
 .env
+.env.local

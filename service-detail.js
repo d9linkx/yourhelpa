@@ -1,4 +1,4 @@
-import { supabase } from './js/supabase-client.module.js';
+import { supabase } from './js/supabase-client.js';
 
 function getServiceId() {
     const params = new URLSearchParams(window.location.search);

@@ -1,5 +1,3 @@
-// Module wrapper that exports the initialized Supabase client. This file expects that
-// `js/supabase-client.js` (legacy script) has already run and populated `window.supabase`.
-
-export const supabase = window.supabase;
-export default window.supabase;
+// This file is no longer needed after refactoring the Supabase client initialization.
+// You can now import the client directly from './supabase-client.js' in all your modules.
+// This file can be deleted.

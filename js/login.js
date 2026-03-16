@@ -65,7 +65,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (data.user) {
                 setLoadingState(true, 'Redirecting...');
-                window.location.href = 'helpa-dashboard.html';
+                // Role-based redirection
+                const userRole = data.user.user_metadata?.role;
+                if (userRole === 'admin') {
+                    window.location.href = 'dashboard-admin.html';
+                } else if (userRole === 'helpa') {
+                    window.location.href = 'helpa-dashboard.html';
+                } else {
+                    // Default to user dashboard for 'customer' role or if role is not set
+                    window.location.href = 'dashboard-user.html';
+                }
             } else {
                 show_error('Login failed. Please check your credentials.');
                 setLoadingState(false, 'Login');
